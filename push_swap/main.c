@@ -42,6 +42,7 @@ int main(int argc, char **argv)
     printf("%d\n",a->top->next->next->next->value);
     // //알고리즘
     sort_fuc(a, b);
+    push_swap(a, b);
     }
     return(0);
 }

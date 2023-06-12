@@ -19,6 +19,7 @@
 
 typedef struct s_stack	t_stack;
 typedef struct s_node	t_node;
+typedef struct s_value	t_value;
 
 t_node *make_stack(int argc, char **argv, t_stack **stack);
 t_stack			*stack_init(void);
@@ -62,4 +63,8 @@ struct	s_node
 	t_node	*next;
 };
 
+struct	s_value
+{
+
+};
 #endif
