@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 13:21:52 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/06/08 21:39:57 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/06/12 20:46:28 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ void    rr(t_stack **a, t_stack **b);
 void    rra(t_stack **a);
 void    rrb(t_stack **b);
 void    rrr(t_stack **a, t_stack **b);
+void	push_swap(t_stack *a, t_stack *b);
+void select_pivot(int size, t_stack *stack, t_value *pivot);
+int    get_max_value(t_node *node, int size);
+int		get_min_value(t_node *node, int size);
 
 struct	s_stack
 {
@@ -65,6 +69,8 @@ struct	s_node
 
 struct	s_value
 {
-
+    int pivot_1;
+    int pivot_2;
 };
+
 #endif

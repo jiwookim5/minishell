@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 20:52:30 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/06/08 21:25:34 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/06/12 20:46:34 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int main(int argc, char **argv)
         //printf("debug\n");
         //b라는 스택을 만듬
         b = stack_init();
-        // while (a->size)
+        // while (a->size--)
         // {
         //     printf("%d\n",a->top->value);
         //     a->size--;
@@ -42,7 +42,7 @@ int main(int argc, char **argv)
     printf("%d\n",a->top->next->next->next->value);
     // //알고리즘
     sort_fuc(a, b);
-    push_swap(a, b);
+    push_swap(a,b);
     }
     return(0);
 }

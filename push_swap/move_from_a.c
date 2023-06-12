@@ -1,19 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.c                                         :+:      :+:    :+:   */
+/*   move_from_a.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/30 22:35:56 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/06/07 14:32:19 by jiwkim2          ###   ########seoul.kr  */
-/*                                                                            */
+/*   Created: 2023/06/12 19:30:35 by jiwkim2           #+#    #+#             */
+/*   Updated: 2023/06/12 20:13:50 by jiwkim2          ###   ########seoul.kr  */
+/*                                                                          */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	ft_error(void)
+void move_from_a(int size, t_stack *a, t_stack *b, t_value *pivot)
 {
-	write(1,"Error\n", 7);
-	exit(0);
+	int i;
+	
+	i = 0;
+	while (a->top >= pivot->pivot_1)
+	{
+		ra(&a);
+		i++;
+		a->top = a->top->next;
+	}
+	while (a->top < pivot->pivot_1)
+	{
+		pb(&a, &b);
+		i++;
+		
+	}
 }
