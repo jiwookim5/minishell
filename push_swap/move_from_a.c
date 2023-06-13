@@ -12,21 +12,75 @@
 
 #include "push_swap.h"
 
-void move_from_a(int size, t_stack *a, t_stack *b, t_value *pivot)
+int	move_from_a(t_stack *a, t_stack *b, t_value *pivot)
 {
 	int i;
-	
+
 	i = 0;
-	while (a->top >= pivot->pivot_1)
+	if (a->top->value >= pivot->pivot_1)
 	{
 		ra(&a);
 		i++;
-		a->top = a->top->next;
 	}
-	while (a->top < pivot->pivot_1)
+	else
 	{
 		pb(&a, &b);
-		i++;
-		
+		i++;	
 	}
+	return (i);
+}
+
+int	top_value_min(t_stack *a, int max, int i)
+{
+	if (a->top->next->value == max)
+	{
+		rra(&a);
+		sa(a);
+		i += 2;
+	}
+	return (i);
+}
+
+int	top_next_value_min(t_stack *a, int max, int i)
+{
+	if (a->top->next->next->value == max)
+	{
+		sa(a);
+		i++;
+	}
+	else
+	{
+		ra(&a);
+		i++;
+	}
+	return (i);
+}
+
+int	top_next_next_value_min(t_stack *a, int max, int i)
+{
+
+	if (a->top->value == max)
+	{
+		sa(a);
+		i++;
+	}
+	rra(&a);
+	i++;
+	return (i);
+}
+
+int	size_three(t_stack *a, int size, int i)
+{
+	int	min;
+	int	max;
+
+	min = get_min_value(a->top, size);
+	max = get_max_value(a->top, size);
+	if (a->top->value == min)
+		i = top_value_min(a, max, i);
+	else if (a->top->next->value == min)
+		i = top_next_value_min(a, max, i);
+	else if (a->top->next->next->value == min)
+		i = top_next_next_value_min(a, max, i);
+	return (i);
 }

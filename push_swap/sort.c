@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 14:29:59 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/06/12 20:46:32 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/06/13 18:46:59 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,24 +33,6 @@ void	ft_lstadd_back_two(t_node **lst, t_node *new)
 		*lst = new;
 	else
 		ft_lstlast_two(*lst)->next = new;
-}
-
-
-
-void    sort_fuc(t_stack *a, t_stack *b)
-{
-    //알고리즘
-    sa(a);
-    sb(b);
-    ss(a, b);
-	pa(&a, &b);
-    pb(&a, &b);
-    ra(&a);
-    rb(&b);
-    rr(&a, &b);
-    rra(&a);
-    rrb(&b);
-    rrr(&a, &b);
 }
 
 void    sa(t_stack *a)
@@ -104,7 +86,7 @@ void	pa(t_stack **a, t_stack **b)
         ft_lstadd_front_two(&((*a)->top), (*b)->top);
         (*b)->top = temp;
     }
-    printf("a == %d\n", (*a)->top->value);
+    // printf("a == %d\n", (*a)->top->value);
 
 }
 
@@ -118,11 +100,11 @@ void	pb(t_stack **a, t_stack **b)
         ft_lstadd_front_two(&((*b)->top), (*a)->top);
         (*a)->top = temp;
     }
-    printf("a1 == %d\n", (*a)->top->value);
-    printf("a2 == %d\n", (*a)->top->next->value);
-    printf("a3 == %d\n", (*a)->top->next->next->value);
-    printf("b1 == %d\n", (*b)->top->value);
-    printf("b2 == %d\n", (*b)->top->next->value);
+    // printf("a1 == %d\n", (*a)->top->value);
+    // printf("a2 == %d\n", (*a)->top->next->value);
+    // printf("a3 == %d\n", (*a)->top->next->next->value);
+    // printf("b1 == %d\n", (*b)->top->value);
+    // printf("b2 == %d\n", (*b)->top->next->value);
 }
 
 
@@ -137,10 +119,10 @@ void    ra(t_stack **a)
     first->next = NULL;
     (*a)->top = second;
 
-    printf("a1 == %d\n", (*a)->top->value);
-    printf("a2 == %d\n", (*a)->top->next->value);
-    printf("a3 == %d\n", (*a)->top->next->next->value);
-    printf("a4 == %d\n", (*a)->top->next->next->next->value);
+    // printf("a1 == %d\n", (*a)->top->value);
+    // printf("a2 == %d\n", (*a)->top->next->value);
+    // printf("a3 == %d\n", (*a)->top->next->next->value);
+    // printf("a4 == %d\n", (*a)->top->next->next->next->value);
 }
 
 void    rb(t_stack **b)
@@ -154,10 +136,10 @@ void    rb(t_stack **b)
     first->next = NULL;
     (*b)->top = second;
 
-    printf("a1 == %d\n", (*b)->top->value);
-    printf("a2 == %d\n", (*b)->top->next->value);
-    printf("a3 == %d\n", (*b)->top->next->next->value);
-    printf("a4 == %d\n", (*b)->top->next->next->next->value);
+    // printf("a1 == %d\n", (*b)->top->value);
+    // printf("a2 == %d\n", (*b)->top->next->value);
+    // printf("a3 == %d\n", (*b)->top->next->next->value);
+    // printf("a4 == %d\n", (*b)->top->next->next->next->value);
 }
 
 void    rr(t_stack **a, t_stack **b)
@@ -177,10 +159,10 @@ void    rra(t_stack **a)
     last = ft_lstlast_two((*a)->top);
     ft_lstadd_front_two(&(*a)->top, last);
     front_last->next = 0;
-    printf("a1 == %d\n", (*a)->top->value);
-    printf("a2 == %d\n", (*a)->top->next->value);
-    printf("a3 == %d\n", (*a)->top->next->next->value);
-    printf("a4 == %d\n", (*a)->top->next->next->next->value);
+    // printf("a1 == %d\n", (*a)->top->value);
+    // printf("a2 == %d\n", (*a)->top->next->value);
+    // printf("a3 == %d\n", (*a)->top->next->next->value);
+    // printf("a4 == %d\n", (*a)->top->next->next->next->value);
 }
 
 void    rrb(t_stack **b)
@@ -194,10 +176,10 @@ void    rrb(t_stack **b)
     last = ft_lstlast_two((*b)->top);
     ft_lstadd_front_two(&(*b)->top, last);
     front_last->next = 0;
-    printf("a1 == %d\n", (*b)->top->value);
-    printf("a2 == %d\n", (*b)->top->next->value);
-    printf("a3 == %d\n", (*b)->top->next->next->value);
-    printf("a4 == %d\n", (*b)->top->next->next->next->value);
+    // printf("a1 == %d\n", (*b)->top->value);
+    // printf("a2 == %d\n", (*b)->top->next->value);
+    // printf("a3 == %d\n", (*b)->top->next->next->value);
+    // printf("a4 == %d\n", (*b)->top->next->next->next->value);
 }
 
 void    rrr(t_stack **a, t_stack **b)

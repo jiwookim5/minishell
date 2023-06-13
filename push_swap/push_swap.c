@@ -64,10 +64,28 @@ void select_pivot(int size, t_stack *a, t_value *pivot)
     printf("pivot_2 : %d\n", pivot->pivot_2);
 }
 
-void	push_swap(t_stack *a, t_stack *b)
+int	push_swap(t_stack *a, t_stack *b, int size)
 {
 	t_value	pivot;
+	int		i;
 
+	i = 0;
+	if (size < 4)
+		i += size_three(a, size, i);
 	select_pivot(a->size, a, &pivot);
-	move_from_a(a->size, a, b, &pivot);
+	while (size--)
+	{
+		i += move_from_a(a, b, &pivot);
+	}
+	printf("a1 : %d\n", a->top->value);
+	printf("a2 : %d\n", a->top->next->value);
+	printf("a3 : %d\n", a->top->next->next->value);
+	printf("a4 : %d\n", a->top->next->next->next->value);
+
+	printf("b1 : %d\n", b->top->value);
+	printf("b2 : %d\n", b->top->next->value);
+	printf("b3 : %d\n", b->top->next->next->value);
+
+	printf("return : %d\n", i);
+	return(i);
 }
