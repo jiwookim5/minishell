@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 13:21:52 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/06/13 18:35:53 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/06/13 22:49:30 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,12 @@ int	push_swap(t_stack *a, t_stack *b, int size);
 void select_pivot(int size, t_stack *stack, t_value *pivot);
 int    get_max_value(t_node *node, int size);
 int		get_min_value(t_node *node, int size);
-int	size_three(t_stack *a, int size, int i);
+int	size_three(t_stack *a, int size, int i, t_value *pivot);
 int	top_next_next_value_min(t_stack *a, int max, int i);
-int	top_next_value_min(t_stack *a, int max, int i);
+int	top_next_value_min(t_stack *a, int max, int i, t_value *pivot);
 int	top_value_min(t_stack *a, int max, int i);
 int	move_from_a(t_stack *a, t_stack *b, t_value *pivot);
+void print_result(t_stack *a, t_stack *b);
 
 struct	s_stack
 {
@@ -75,6 +76,7 @@ struct	s_value
 {
     int pivot_1;
     int pivot_2;
+	int ra;
 };
 
 #endif

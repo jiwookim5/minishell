@@ -12,6 +12,26 @@
 
 #include "push_swap.h"
 
+void print_stack(t_stack *stack)
+{
+    t_node *current = stack->top;
+    while (current != NULL)
+    {
+        printf("%d ", current->value);
+        current = current->next;
+    }
+    printf("\n");
+}
+
+void print_result(t_stack *a, t_stack *b)
+{
+    printf("Final state:\n");
+    printf("a stack: ");
+    print_stack(a);
+    printf("b stack: ");
+    print_stack(b);
+}
+
 int    get_max_value(t_node *node, int size)
 {
 	int	max;
@@ -68,24 +88,39 @@ int	push_swap(t_stack *a, t_stack *b, int size)
 {
 	t_value	pivot;
 	int		i;
+	int		temp;
+	
+	t_node *ay;
+	t_node *be;
+
+	ay = a->top;
+	be = b->top;
 
 	i = 0;
 	if (size < 4)
-		i += size_three(a, size, i);
+	{
+		i += size_three(a, size, i, &pivot);
+		return (0);
+	}
 	select_pivot(a->size, a, &pivot);
-	while (size--)
+	temp = size;
+	while (temp--)
 	{
 		i += move_from_a(a, b, &pivot);
 	}
-	printf("a1 : %d\n", a->top->value);
-	printf("a2 : %d\n", a->top->next->value);
-	printf("a3 : %d\n", a->top->next->next->value);
-	printf("a4 : %d\n", a->top->next->next->next->value);
+	push_swap(a, b, size - pivot.ra );
+    print_result(a, b);
 
-	printf("b1 : %d\n", b->top->value);
-	printf("b2 : %d\n", b->top->next->value);
-	printf("b3 : %d\n", b->top->next->next->value);
+	// printf("ddddddddddd\n");
+	// printf("a1 : %d\n", a->top->value);
+	// printf("a2 : %d\n", a->top->next->value);
+	// printf("a3 : %d\n", a->top->next->next->value);
+	// printf("a4 : %d\n", a->top->next->next->next->value);
 
-	printf("return : %d\n", i);
+	// printf("b1 : %d\n", b->top->value);
+	// printf("b2 : %d\n", b->top->next->value);
+	// // printf("b3 : %d\n", b->top->next->next->value);
+
+	// printf("return : %d\n", i);
 	return(i);
 }
