@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 13:21:52 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/06/13 22:49:30 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/06/14 17:21:21 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,13 @@ t_stack			*stack_init(void);
 void	print_error(void);
 t_node	*node_init(void);
 char			**ft_split(char const *s, char c);
+void	number_check(char *str);
 int		node_set(char *argv, t_node **node, t_stack **a);
 void		connect_list(t_node **temp, t_node **node, t_stack **stack);
 int	main(int argc, char *argv[]);
 int	ft_atoi(char *str);
 void	ft_error(void);
-int	str_check(char *str);
+void	str_check(char *str);
 void	same_check(t_node *a);
 void	ft_lstadd_front_two(t_node **lst, t_node *new);
 void    sa(t_stack *a);

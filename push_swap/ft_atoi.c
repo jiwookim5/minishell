@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 09:11:42 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/06/02 16:10:43 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/06/14 17:21:47 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ int	ft_atoi(char *str)
 	long	res;
 	int		final;
 
-	if(!str_check(str))
-		ft_error();
+	str_check(str);
 	a = 0;
 	b = 1;
 	res = 0;

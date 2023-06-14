@@ -90,14 +90,11 @@ int	push_swap(t_stack *a, t_stack *b, int size)
 	int		i;
 	int		temp;
 	
-	t_node *ay;
-	t_node *be;
-
-	ay = a->top;
-	be = b->top;
-
 	i = 0;
-	if (size < 4)
+	pivot.pivot_1 = 0;
+	pivot.pivot_2 = 0;
+	pivot.ra = 0;
+	if (size <= 3)
 	{
 		i += size_three(a, size, i, &pivot);
 		return (0);
@@ -107,9 +104,10 @@ int	push_swap(t_stack *a, t_stack *b, int size)
 	while (temp--)
 	{
 		i += move_from_a(a, b, &pivot);
+		print_result(a, b);
 	}
-	push_swap(a, b, size - pivot.ra );
-    print_result(a, b);
+	push_swap(a, b, pivot.ra);
+    // print_result(a, b);
 
 	// printf("ddddddddddd\n");
 	// printf("a1 : %d\n", a->top->value);

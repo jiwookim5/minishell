@@ -19,7 +19,6 @@ int	move_from_a(t_stack *a, t_stack *b, t_value *pivot)
 	i = 0;
 	if (a->top->value >= pivot->pivot_1)
 	{
-		printf("ddddddd\n");
 		ra(&a);
 		i++;
 		pivot->ra++;
@@ -84,6 +83,8 @@ int	size_three(t_stack *a, int size, int i, t_value *pivot)
 	else if (a->top->next->value == min)
 		i = top_next_value_min(a, max, i, pivot);
 	else if (a->top->next->next->value == min)
+	{
 		i = top_next_next_value_min(a, max, i);
+	}
 	return (i);
 }
