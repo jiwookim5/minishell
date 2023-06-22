@@ -21,6 +21,7 @@ int	move_from_a(t_stack *a, t_stack *b, t_value *pivot)
 	{
 		ra(&a);
 		i++;
+		printf("ra : %d\n", pivot->ra);
 		pivot->ra++;
 	}
 	else

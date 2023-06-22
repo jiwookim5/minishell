@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 20:52:30 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/06/13 18:38:43 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/06/22 21:11:38 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@ int main(int argc, char **argv)
 {
     t_stack *a;
     t_stack *b;
-    int     bb;
+
     
-    bb = 0;
     if (argc > 1)
     {
         //a 라는 스택을 만들고
@@ -42,8 +41,8 @@ int main(int argc, char **argv)
     printf("%d\n",a->top->next->value);
     printf("%d\n",a->top->next->next->value);
     printf("%d\n",a->top->next->next->next->value);
-    bb = push_swap(a,b,a->size);
+   
+    push_swap(a,b,a->size);
     }
-    printf("bb = %d\n", bb);
     return(0);
 }

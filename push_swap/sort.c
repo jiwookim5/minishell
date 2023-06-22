@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 14:29:59 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/06/14 18:39:53 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/06/21 15:13:29 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ void    rra(t_stack **a)
     t_node  *front_last;
 
     front_last = (*a)->top;
+    //오류있음
     while (front_last->next->next)
     {
         front_last = front_last->next;

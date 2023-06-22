@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 13:26:46 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/06/12 18:58:11 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/06/22 16:35:01 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_node	*node_init(void)
 	node->value = 0;
 	node->next = NULL;
 	node->prev = NULL;
+	node->index = 0;
 	return (node);
 }
 

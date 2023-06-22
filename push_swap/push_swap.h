@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 13:21:52 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/06/14 17:21:21 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/06/22 21:33:01 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void    rr(t_stack **a, t_stack **b);
 void    rra(t_stack **a);
 void    rrb(t_stack **b);
 void    rrr(t_stack **a, t_stack **b);
-int	push_swap(t_stack *a, t_stack *b, int size);
+void	push_swap(t_stack *a, t_stack *b, int size);
 void select_pivot(int size, t_stack *stack, t_value *pivot);
 int    get_max_value(t_node *node, int size);
 int		get_min_value(t_node *node, int size);
@@ -58,6 +58,9 @@ int	top_next_value_min(t_stack *a, int max, int i, t_value *pivot);
 int	top_value_min(t_stack *a, int max, int i);
 int	move_from_a(t_stack *a, t_stack *b, t_value *pivot);
 void print_result(t_stack *a, t_stack *b);
+void assign_index(t_stack *stack_a, int stack_size);
+
+
 
 struct	s_stack
 {
@@ -71,6 +74,7 @@ struct	s_node
 	int		value;
 	t_node	*prev;
 	t_node	*next;
+	int index;
 };
 
 struct	s_value
@@ -81,3 +85,34 @@ struct	s_value
 };
 
 #endif
+
+
+
+// void assign_index(t_stack *a, int size)
+// {
+// 	t_node *ptr;
+// 	t_node *highest;
+// 	int value;
+
+// 	while (--size > 0)
+// 	{
+// 		ptr = a->top;
+//     	value = 0;
+//     	highest = NULL;
+//     	while (ptr)
+//     	{
+//         	if (ptr->value == 0 && ptr->index == 0)
+//         		ptr->index = 1;
+//         	if (ptr->value > value && ptr->index == 0)
+//         	{
+//         		value = ptr->value;
+//             	highest = ptr;
+//         	}
+//         	ptr = ptr->next;
+//       	}
+//     	if (highest != NULL)
+//         	highest->index = size;
+//     	else
+//         	highest->index = size + 1;
+// 	}
+// }

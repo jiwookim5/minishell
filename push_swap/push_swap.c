@@ -71,21 +71,99 @@ int		get_min_value(t_node *node, int size)
 }
 
 
-void select_pivot(int size, t_stack *a, t_value *pivot)
+void assign_index(t_stack *a, int size)
 {
-    int max;
-    int min;
+	t_node *node;
+	t_node *highest;
+	int value;
+//3 4 5 6 7 8 9 10
 
-    max = get_max_value(a->top, size);
-    min = get_min_value(a->top, size);
-    pivot->pivot_1 = (max + min) / 2;
-    pivot->pivot_2 = pivot->pivot_1 / 2;
-    printf("pivot_1 : %d\n", pivot->pivot_1);
-    printf("pivot_2 : %d\n", pivot->pivot_2);
+	// while ((a)->top)
+	// {
+	// 	printf("top : %d\n", a->top->value);
+	// 	a->top = a->top->next;
+	// }
+	// exit(1);
+	printf("size : %d\n" ,size);
+	while (size > 0)
+	{
+		printf("a->top->value %d\n", a->top->value);
+		node = a->top;
+    	value = 0;
+    	highest = 0;
+    	while (node)
+    	{
+			// printf("node->index : %d\n", node->index);
+			
+        	if (node->value > value && node->index == 0)
+        	{
+        		value = node->value;
+            	highest = node;
+        	}
+        	node = node->next;
+      	}
+		//printf("node %d\n", node->value);
+		//printf("ddddddddd\n");
+		//printf("highest %d\n", highest->prev->index);
+		if (highest != 0)
+			highest->index = size;
+		printf("node->index : %d\n", node->index);
+		if (highest == 0)
+			exit(1);
+		size--;
+	}
+
+	// node = a->top;
+	// int i = 0;
+	// while (i > size && node)
+	// {
+	// 	if(node->value < node->next->value)
+	// 	{
+	// 		value = node->value;
+	// 	    highest = node;
+	// 	}
+	// 	node = node->next;
+	// 	highest->index = size;
+	// }
 }
 
-int	push_swap(t_stack *a, t_stack *b, int size)
+// pivot 다시 정하기
+void select_pivot(int size, t_stack *a, t_value *pivot)
 {
+	int first;
+	int second;
+	t_node *fa;
+
+
+	fa = a->top;
+	assign_index(a, size);
+	write(1, "fuck3\n", 6);
+	//printf("index1 : %d\n", a->top->index);
+	//printf("index2 : %d\n", a->top->next->index);
+	//printf("index3 : %d\n", a->top->next->next->index);
+	//printf("index4 : %d\n", a->top->next->next->next->index);
+	//printf("index5 : %d\n", a->top->next->next->next->next->index);
+	//printf("index6 : %d\n", a->top->next->next->next->next->next->index);
+	first = (size / 3); // 10 - 3, 100 / 3 = 33
+	second = (size - first); // 10 - 7, 100 - 33 = 67
+	printf("first : %d\n", first);
+	printf("second : %d\n", second);
+	
+	while (fa)
+	{
+		if (fa->index == first)
+			pivot->pivot_1 = fa->value;
+		if (fa->index == second)
+			pivot->pivot_2 = fa->value;
+		fa = fa->next;
+	}
+	printf("pivot1 : %d\n", pivot->pivot_1);
+	printf("pivot2 : %d\n", pivot->pivot_2);
+}
+
+void	push_swap(t_stack *a, t_stack *b, int size)
+{
+	write(1, "push_swap\n" , 10);
 	t_value	pivot;
 	int		i;
 	int		temp;
@@ -94,20 +172,24 @@ int	push_swap(t_stack *a, t_stack *b, int size)
 	pivot.pivot_1 = 0;
 	pivot.pivot_2 = 0;
 	pivot.ra = 0;
+	write(1, "fuck2\n", 6);
 	if (size <= 3)
 	{
 		i += size_three(a, size, i, &pivot);
-		return (0);
+		return ;
 	}
-	select_pivot(a->size, a, &pivot);
+	select_pivot(size, a, &pivot);
+		
 	temp = size;
 	while (temp--)
 	{
 		i += move_from_a(a, b, &pivot);
 		print_result(a, b);
 	}
+	//printf("ra : %d\n", pivot.ra);
+	write(1, "fuck\n", 5);
 	push_swap(a, b, pivot.ra);
-    // print_result(a, b);
+   print_result(a, b);
 
 	// printf("ddddddddddd\n");
 	// printf("a1 : %d\n", a->top->value);
@@ -120,5 +202,4 @@ int	push_swap(t_stack *a, t_stack *b, int size)
 	// // printf("b3 : %d\n", b->top->next->next->value);
 
 	// printf("return : %d\n", i);
-	return(i);
 }
