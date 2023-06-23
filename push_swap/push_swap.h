@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 13:21:52 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/06/22 21:33:01 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/06/23 14:30:05 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,31 +88,68 @@ struct	s_value
 
 
 
+void assign_index(t_stack *a, int size)
+{
+	t_node *ptr;
+	t_node *highest;
+	int value;
+
+	while (--size > 0)
+	{
+		ptr = a->top;
+    	value = 0;
+    	highest = NULL;
+    	while (ptr)
+    	{
+        	if (ptr->value == 0 && ptr->index == 0)
+        		ptr->index = 1;
+        	if (ptr->value > value && ptr->index == 0)
+        	{
+        		value = ptr->value;
+            	highest = ptr;
+        	}
+        	ptr = ptr->next;
+      	}
+    	if (highest != NULL)
+        	highest->index = size;
+    	else
+        	highest->index = size + 1;
+	}
+}
+
+
 // void assign_index(t_stack *a, int size)
 // {
+// 	int i;
+// 	int *aa;
 // 	t_node *ptr;
-// 	t_node *highest;
-// 	int value;
 
-// 	while (--size > 0)
-// 	{
-// 		ptr = a->top;
-//     	value = 0;
-//     	highest = NULL;
-//     	while (ptr)
-//     	{
-//         	if (ptr->value == 0 && ptr->index == 0)
-//         		ptr->index = 1;
-//         	if (ptr->value > value && ptr->index == 0)
-//         	{
-//         		value = ptr->value;
-//             	highest = ptr;
-//         	}
-//         	ptr = ptr->next;
-//       	}
-//     	if (highest != NULL)
-//         	highest->index = size;
-//     	else
-//         	highest->index = size + 1;
+// 	aa = (int *)malloc(size * sizeof(int)); // 배열 동적 할당
+// 	if (aa == NULL) {
+// 		// 동적 할당 실패 처리
+// 		printf("Failed to allocate memory for the array.\n");
+// 		return;
 // 	}
+
+// 	i = 0;
+// 	ptr = a->top;
+// 	while (ptr)
+// 	{
+// 		aa[i] = ptr->value;
+// 		ptr = ptr->next;
+// 		i++;
+// 	}
+
+// 	ft_sort_int_tab(aa, size);
+
+// 	i = 0;
+// 	ptr = a->top;
+// 	while (ptr && i < size)
+// 	{
+// 		ptr->index = aa[i];
+// 		ptr = ptr->next;
+// 		i++;
+// 	}
+
+// 	free(aa); // 동적 할당 해제
 // }
