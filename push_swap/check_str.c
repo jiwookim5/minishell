@@ -12,50 +12,24 @@
 
 #include "push_swap.h"
 
-
-int	chk_arg_length(char *arg)
-{
-	int	i;
-	int	len;
-
-	i = 0;
-	len = 0;
-	if (arg[0] == '+' || arg[0] == '-')
-	{
-		i++;
-		len--;
-	}
-	while (arg[i] == '0')
-		i++;
-	while (arg[i++])
-		len++;
-	return (len);
-}
-
 //12a 이런거 처리 / 숫자만 있는지
 void	number_check(char *str)
 {
 	int i;
 
-	i = -1;
-	if (!str)
-		ft_error();
+	i = 0;
 	if (str[0] == '+' || str[0] == '-')
 		i++;
-	while (str[++i])
+	while (str[i])
 	{
-		if (str[i] <= '0' || str[i] >= '9')
+		if (str[i] <= '0' && str[i] >= '9')
 			ft_error();
+		i++;
 	}
 }
 
 void	str_check(char *str)
 {
-	int	len;
-
-	len = chk_arg_length(str);
-	if (len > 11 || len < 0)
-		ft_error();
 	number_check(str);
 }
 
@@ -82,11 +56,3 @@ void	same_check(t_node *a)
 	while (a->prev)
 		a = a->prev;
 }
-
-// int			check_arg(char *arg)
-// {
-// 	if (!is_numeric(arg) || len > 11 || len < 0)
-// 		return (0);
-// 	else
-// 		return (1);
-// }

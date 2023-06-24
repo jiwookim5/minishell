@@ -17,11 +17,11 @@ int	move_from_a(t_stack *a, t_stack *b, t_value *pivot)
 	int i;
 
 	i = 0;
-	if (a->top->value > pivot->pivot_1)
+	if (a->top->value >= pivot->pivot_1)
 	{
 		ra(&a);
 		i++;
-		// printf("ra : %d\n", pivot->ra);
+		printf("ra : %d\n", pivot->ra);
 		pivot->ra++;
 	}
 	else
