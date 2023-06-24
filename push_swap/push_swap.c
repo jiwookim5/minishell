@@ -95,32 +95,44 @@ void	ft_sort_int_tab(int *tab, int size)
 
 void assign_index(t_stack *a, int size)
 {
-	int i;
-	int *aa;
-	t_node *ptr;
+    int i;
+    int *aa;
+    int j;
+    t_node *ptr;
 
-	aa = (int *)malloc(size * sizeof(int));
-	i = 0;
-	ptr = a->top;
-	while (ptr)
-	{
-		aa[i] = ptr->value;
-		ptr = ptr->next;
-		i++;
-	}
-	ft_sort_int_tab(aa, size);
-	
-	// i = 0;
-	// while (aa[i])
-	// {
-	// 	printf("aa : %d\n", aa[i]);
-	// 	i++;
-	// }
+    aa = (int *)malloc(size * sizeof(int));
+    i = 0;
+    ptr = a->top;
+    while (ptr)
+    {
+        aa[i] = ptr->value;
+        ptr = ptr->next;
+        i++;
+    }
+    ft_sort_int_tab(aa, size);
 
-	while (size)
-	{
-		ptr->index = 
-	}
+    ptr = a->top;
+    while (ptr)
+    {
+		i = 0;
+        while (i < size)
+        {
+            if (ptr->value == aa[i])
+            {
+                ptr->index = i + 1;
+                break;
+            }
+			i++;
+        }
+        ptr = ptr->next;
+    }
+
+    ptr = a->top;
+    while (ptr)
+    {
+        printf("index: %d\n", ptr->index);
+        ptr = ptr->next;
+    }
 }
 
 // pivot 다시 정하기
@@ -140,8 +152,8 @@ void select_pivot(int size, t_stack *a, t_value *pivot)
 	//printf("index4 : %d\n", a->top->next->next->next->index);
 	//printf("index5 : %d\n", a->top->next->next->next->next->index);
 	//printf("index6 : %d\n", a->top->next->next->next->next->next->index);
-	first = (size / 3); // 10 - 3, 100 / 3 = 33
-	second = (size - first); // 10 - 7, 100 - 33 = 67
+	first = (size / 3);
+	second = (size - first);
 	printf("first : %d\n", first);
 	printf("second : %d\n", second);
 	
@@ -159,7 +171,6 @@ void select_pivot(int size, t_stack *a, t_value *pivot)
 
 void	push_swap(t_stack *a, t_stack *b, int size)
 {
-	write(1, "push_swap\n" , 10);
 	t_value	pivot;
 	int		i;
 	int		temp;
@@ -173,7 +184,6 @@ void	push_swap(t_stack *a, t_stack *b, int size)
 		i += size_three(a, size, i, &pivot);
 		return ;
 	}
-	printf("cvccccc\n");
 	select_pivot(size, a, &pivot);
 		
 	temp = size;
@@ -184,7 +194,7 @@ void	push_swap(t_stack *a, t_stack *b, int size)
 	}
 	//printf("ra : %d\n", pivot.ra);
 	// push_swap(a, b, pivot.ra);
-    //print_result(a, b);
+    // print_result(a, b);
 
 	// printf("ddddddddddd\n");
 	// printf("a1 : %d\n", a->top->value);
