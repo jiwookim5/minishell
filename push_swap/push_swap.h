@@ -30,7 +30,8 @@ void	number_check(char *str);
 int		node_set(char *argv, t_node **node, t_stack **a);
 void		connect_list(t_node **temp, t_node **node, t_stack **stack);
 int	main(int argc, char *argv[]);
-int	ft_atoi(char *str);
+long long	ft_atoi(char *str);
+int	chk_arg_length(char *arg);
 void	ft_error(void);
 void	str_check(char *str);
 void	same_check(t_node *a);
@@ -86,33 +87,34 @@ struct	s_value
 
 #endif
 
-
-
-// void assign_index(t_stack *a, int size)
+// int node_set(char *argv, t_node **node, t_stack **a)
 // {
-// 	t_node *ptr;
-// 	t_node *highest;
-// 	int value;
+//     char **line;
+//     t_node *temp;
 
-// 	while (--size > 0)
-// 	{
-// 		ptr = a->top;
-//     	value = 0;
-//     	highest = NULL;
-//     	while (ptr)
-//     	{
-//         	if (ptr->value == 0 && ptr->index == 0)
-//         		ptr->index = 1;
-//         	if (ptr->value > value && ptr->index == 0)
-//         	{
-//         		value = ptr->value;
-//             	highest = ptr;
-//         	}
-//         	ptr = ptr->next;
-//       	}
-//     	if (highest != NULL)
-//         	highest->index = size;
-//     	else
-//         	highest->index = size + 1;
-// 	}
+//     line = ft_split(argv, ' ');
+//     if (!line) {
+//         ft_error(); // ft_split 실패 시 에러 처리
+//         return 0; // 에러 발생 시 0을 반환
+//     }
+
+//     int i = 0;
+//     while (line[i])
+//     {
+//         // 빈 문자열은 무시하고 다음 요소로 이동
+//         if (line[i][0] == '\0') {
+//             i++;
+//             continue;
+//         }
+
+//         temp = node_init();
+//         temp->value = ft_atoi(line[i]);
+//         connect_list(&temp, node, a);
+//         (*a)->size++;
+//         i++;
+//     }
+
+//     free_split(line); // ft_split으로 할당된 메모리 해제
+
+//     return 1; // 정상적인 처리 시 1을 반환
 // }

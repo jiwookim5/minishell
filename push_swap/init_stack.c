@@ -65,11 +65,16 @@ int		node_set(char *argv, t_node **node, t_stack **a)
 	int		i;
 	char	**line;
 	t_node	*temp;
+	int 	j;
 
 	line = ft_split(argv, ' ');
 	if (!line)
-		return (0);
+	{
+		ft_error();
+	}
+
 	i = 0;
+	j = 0;
 	while (line[i])
 	{
 		temp = node_init();

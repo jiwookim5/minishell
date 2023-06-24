@@ -97,7 +97,6 @@ void assign_index(t_stack *a, int size)
 {
     int i;
     int *aa;
-    int j;
     t_node *ptr;
 
     aa = (int *)malloc(size * sizeof(int));
@@ -124,17 +123,10 @@ void assign_index(t_stack *a, int size)
             }
 			i++;
         }
-        ptr = ptr->next;
-    }
-
-    ptr = a->top;
-    while (ptr)
-    {
-        printf("index: %d\n", ptr->index);
+		printf("index: %d\n", ptr->index);
         ptr = ptr->next;
     }
 }
-
 // pivot 다시 정하기
 void select_pivot(int size, t_stack *a, t_value *pivot)
 {
@@ -145,7 +137,6 @@ void select_pivot(int size, t_stack *a, t_value *pivot)
 
 	fa = a->top;
 	assign_index(a, size);
-	write(1, "fuck3\n", 6);
 	//printf("index1 : %d\n", a->top->index);
 	//printf("index2 : %d\n", a->top->next->index);
 	//printf("index3 : %d\n", a->top->next->next->index);
@@ -193,8 +184,9 @@ void	push_swap(t_stack *a, t_stack *b, int size)
 		print_result(a, b);
 	}
 	//printf("ra : %d\n", pivot.ra);
-	// push_swap(a, b, pivot.ra);
-    // print_result(a, b);
+	printf("ra : %d\n", pivot.ra);
+	push_swap(a, b, pivot.ra);
+    print_result(a, b);
 
 	// printf("ddddddddddd\n");
 	// printf("a1 : %d\n", a->top->value);
