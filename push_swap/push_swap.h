@@ -27,12 +27,13 @@ void	print_error(void);
 t_node	*node_init(void);
 char			**ft_split(char const *s, char c);
 void	number_check(char *str);
-int		node_set(char *argv, t_node **node, t_stack **a);
+void		node_set(char *argv, t_node **node, t_stack **a);
 void		connect_list(t_node **temp, t_node **node, t_stack **stack);
 int	main(int argc, char *argv[]);
-int	ft_atoi(char *str);
+long long	ft_atoi(char *str);
 void	ft_error(void);
 void	str_check(char *str);
+int	chk_arg_length(char *arg);
 void	same_check(t_node *a);
 void	ft_lstadd_front_two(t_node **lst, t_node *new);
 void    sa(t_stack *a);
@@ -87,32 +88,3 @@ struct	s_value
 #endif
 
 
-
-// void assign_index(t_stack *a, int size)
-// {
-// 	t_node *ptr;
-// 	t_node *highest;
-// 	int value;
-
-// 	while (--size > 0)
-// 	{
-// 		ptr = a->top;
-//     	value = 0;
-//     	highest = NULL;
-//     	while (ptr)
-//     	{
-//         	if (ptr->value == 0 && ptr->index == 0)
-//         		ptr->index = 1;
-//         	if (ptr->value > value && ptr->index == 0)
-//         	{
-//         		value = ptr->value;
-//             	highest = ptr;
-//         	}
-//         	ptr = ptr->next;
-//       	}
-//     	if (highest != NULL)
-//         	highest->index = size;
-//     	else
-//         	highest->index = size + 1;
-// 	}
-// }

@@ -97,7 +97,6 @@ void assign_index(t_stack *a, int size)
 {
     int i;
     int *aa;
-    int j;
     t_node *ptr;
 
     aa = (int *)malloc(size * sizeof(int));
@@ -124,13 +123,7 @@ void assign_index(t_stack *a, int size)
             }
 			i++;
         }
-        ptr = ptr->next;
-    }
-
-    ptr = a->top;
-    while (ptr)
-    {
-        printf("index: %d\n", ptr->index);
+		printf("index: %d\n", ptr->index);
         ptr = ptr->next;
     }
 }
@@ -193,7 +186,7 @@ void	push_swap(t_stack *a, t_stack *b, int size)
 		print_result(a, b);
 	}
 	//printf("ra : %d\n", pivot.ra);
-	// push_swap(a, b, pivot.ra);
+	push_swap(a, b, pivot.ra);
     // print_result(a, b);
 
 	// printf("ddddddddddd\n");

@@ -12,6 +12,30 @@
 
 #include "push_swap.h"
 
+int	chk_arg_length(char *arg)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	len = 0;
+	if (arg[0] == '+' || arg[0] == '-')
+	{
+		i++;
+		len--;
+	}
+	while (arg[i] == ' ')
+	{
+		i++;
+		if (arg[i] == '\0')
+			ft_error();
+	}
+	while (arg[i++])
+		len++;
+	return (len);
+}
+
+
 //12a 이런거 처리 / 숫자만 있는지
 void	number_check(char *str)
 {
@@ -30,6 +54,11 @@ void	number_check(char *str)
 
 void	str_check(char *str)
 {
+	int	len;
+
+	len = chk_arg_length(str);
+	if (len > 11 || len < 0)
+		ft_error();
 	number_check(str);
 }
 

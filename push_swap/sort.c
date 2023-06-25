@@ -46,10 +46,14 @@ void    sa(t_stack *a)
         temp = a->top;
         a->top = top_next;
         a->top->next = temp;
+        write(1, "sa\n", 3);
     }
-    write(1, "sa\n", 3);
+    // write(1, "sa\n", 3);
     // printf("%d\n", a->top->value);
     // printf("%d\n", a->top->next->value);
+    else
+        ft_error();
+    
 }
 
 void    sb(t_stack *b)
@@ -63,8 +67,10 @@ void    sb(t_stack *b)
         temp = b->top;
         b->top = top_next;
         b->top->next = temp;
+        write(1, "sb\n", 3);
     }
-    write(1, "sb\n", 3);
+    else
+        ft_error();
     // printf("%d\n", b->top->value);
     // printf("%d\n", b->top->next->value);
 }
@@ -77,6 +83,8 @@ void    ss(t_stack *a, t_stack *b)
         sb(b);
         write(1, "ss\n", 3);
     }
+    else
+        ft_error();
 }
 
 void	pa(t_stack **a, t_stack **b)
@@ -161,9 +169,10 @@ void    rra(t_stack **a)
 
     front_last = (*a)->top;
     //오류있음
-    while (front_last->next->next)
+    while (front_last && front_last->next && front_last->next->next)
     {
         front_last = front_last->next;
+        printf("dddddddd\n");
     }
     last = ft_lstlast_two((*a)->top);
     ft_lstadd_front_two(&(*a)->top, last);

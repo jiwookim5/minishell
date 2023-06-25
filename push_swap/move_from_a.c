@@ -17,7 +17,7 @@ int	move_from_a(t_stack *a, t_stack *b, t_value *pivot)
 	int i;
 
 	i = 0;
-	if (a->top->value >= pivot->pivot_1)
+	if (a->top->value > pivot->pivot_1)
 	{
 		ra(&a);
 		i++;
@@ -61,7 +61,6 @@ int	top_next_value_min(t_stack *a, int max, int i, t_value *pivot)
 
 int	top_next_next_value_min(t_stack *a, int max, int i)
 {
-
 	if (a->top->value == max)
 	{
 		sa(a);

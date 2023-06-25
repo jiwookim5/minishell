@@ -60,7 +60,7 @@ void		connect_list(t_node **temp, t_node **node, t_stack **stack)
 }
 
 //스택안에 노드를 세팅 
-int		node_set(char *argv, t_node **node, t_stack **a)
+void		node_set(char *argv, t_node **node, t_stack **a)
 {
 	int		i;
 	char	**line;
@@ -68,7 +68,7 @@ int		node_set(char *argv, t_node **node, t_stack **a)
 
 	line = ft_split(argv, ' ');
 	if (!line)
-		return (0);
+		ft_error();
 	i = 0;
 	while (line[i])
 	{
@@ -78,7 +78,6 @@ int		node_set(char *argv, t_node **node, t_stack **a)
 		(*a)->size++;
 		i++;
 	}
-	return (1);
 }
 
 //스택을 만듬
@@ -86,14 +85,23 @@ t_node *make_stack(int argc, char **argv, t_stack **a)
 {
     int i;
     t_node *node;
+	int j;
 
     i = 1;
     node = NULL;
-    while (i < argc)
-    {
-        node_set(argv[i], &node, a);
+	while (i < argc)
+	{
+		j = 0;
+		while (argv[i][j] == ' ')
+		{
+			j++;
+			if (argv[i][j] == '\0')
+				ft_error();
+
+		}
+		node_set(argv[i], &node, a);
         i++;
-    }
+	}
     //노드 제일 처음으로 이동
     while (node->prev)
         node = node->prev;
