@@ -42,6 +42,7 @@ void    ss(t_stack *a, t_stack *b);
 void	pa(t_stack **a, t_stack **b);
 void	pb(t_stack **a, t_stack **b);
 void    ra(t_stack **a);
+// int	ft_lstsize_two(t_node *lst);
 t_node	*ft_lstlast_two(t_node *lst);
 void	ft_lstadd_back_two(t_node **lst, t_node *new);
 void    rb(t_stack **b);
@@ -86,5 +87,3 @@ struct	s_value
 };
 
 #endif
-
-
