@@ -52,7 +52,7 @@ void    rra(t_stack **a);
 void    rrb(t_stack **b);
 void    rrr(t_stack **a, t_stack **b);
 void	t_value_zero(t_value *var);
-void	a_to_b(t_stack *a, t_stack *b, int size, int *xx);
+void	a_to_b(t_stack *a, t_stack *b, int size);
 void select_pivot(int size, t_stack *stack, t_value *pivot);
 int    get_max_value(t_node *node, int size);
 int		get_min_value(t_node *node, int size);
@@ -64,8 +64,12 @@ int	move_from_a(t_stack *a, t_stack *b, t_value *pivot);
 void print_result(t_stack *a, t_stack *b);
 void assign_index(t_stack *stack_a, int stack_size);
 int	move_from_b(t_stack *a, t_stack *b, t_value *pivot);
-void	b_to_a(t_stack *a, t_stack *b, int size, int *xx);
-
+void	b_to_a(t_stack *a, t_stack *b, int size);
+int	move_from_b(t_stack *a, t_stack *b, t_value *pivot);
+int	top_next_value_min_b(t_stack *a, int max, int i, t_value *pivot);
+int	top_next_next_value_min_b(t_stack *a, int max, int i);
+int	size_three_b(t_stack *a, int size, int i, t_value *pivot);
+int	top_value_min_b(t_stack *a, int max, int i);
 
 struct	s_stack
 {

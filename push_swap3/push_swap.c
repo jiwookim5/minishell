@@ -163,10 +163,7 @@ void select_pivot(int size, t_stack *a, t_value *pivot)
 
 void	push_swap(t_stack *a, t_stack *b)
 {
-	int xx;
-
-	xx = 0;
-		a_to_b(a, b, a->size, &xx);
+		a_to_b(a, b, a->size);
 }
 
 void	t_value_zero(t_value *var)
@@ -177,7 +174,7 @@ void	t_value_zero(t_value *var)
 	var->pb = 0;
 }
 
-void	a_to_b(t_stack *a, t_stack *b, int size, int *xx)
+void	a_to_b(t_stack *a, t_stack *b, int size)
 {
 	t_value	pivot;
 	int		i;
@@ -201,11 +198,10 @@ void	a_to_b(t_stack *a, t_stack *b, int size, int *xx)
 	}
 	//printf("ra : %d\n", pivot.ra);
 		// printf("ra : %d\n", pivot.ra);
-		a_to_b(a, b, pivot.ra, xx);
-		*xx += pivot.pb;
+		a_to_b(a, b, pivot.ra);
 		printf("pb : %d\n", pivot.pb);
-		printf("xx : %d\n", *xx);
-		b_to_a(a, b, pivot.pb, xx);
+		// printf("xx : %d\n");
+		// b_to_a(a, b, pivot.pb);
     print_result(a, b);
 
 	// printf("ddddddddddd\n");
