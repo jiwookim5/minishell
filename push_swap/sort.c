@@ -73,9 +73,9 @@ void    sa(t_stack *a)
     else
         ft_error();
     // write(1, "sa\n", 3);
-    printf("%d\n", a->top->value);
-    printf("%d\n", a->top->next->value);
-    printf("%d\n", a->top->next->next->value);
+    // printf("%d\n", a->top->value);
+    // printf("%d\n", a->top->next->value);
+    // printf("%d\n", a->top->next->next->value);
 }
 
 void    sb(t_stack *b)
@@ -184,56 +184,67 @@ void    rr(t_stack **a, t_stack **b)
     write(1, "rr\n", 3);
 }
 
-void    rra(t_stack **a)
-{
-    t_node  *last;
-    t_stack  *front_last;
 
-    // if (ft_lstsize_two((*a)->top) <= 1)
-	// 	ft_error();
-    front_last = (*a);
-    //오류있음
+void rra(t_stack **a)
+{
+    t_node *last;
+    t_node *front_last;
+
+    if ((*a)->top == NULL || (*a)->top->next == NULL)
+        return;
+
+    front_last = (*a)->top;
+
+    while (front_last->next->next != NULL)
+    {
+        front_last = front_last->next;
+    }
+
+    last = ft_lstlast_two((*a)->top);
+
+    if (last == NULL)
+        return;
+
+    front_last->next = NULL;
+    last->next = (*a)->top;
+    (*a)->top = last;
+
+    write(1, "rra\n", 4);
     // printf("a1 == %d\n", (*a)->top->value);
     // printf("a2 == %d\n", (*a)->top->next->value);
     // printf("a3 == %d\n", (*a)->top->next->next->value);
-    // if (front_last == NULL || front_last->next == NULL)
-    //     return;
 
-    while (front_last->top != NULL && front_last->top->next != NULL && front_last->top->next->next != NULL)
-    {
-        front_last->top = front_last->top->next;
-    }
-    last = ft_lstlast_two((*a)->top);
-    ft_lstadd_front_two(&(*a)->top, last);
-
-    printf("front_last : %d\n", front_last->top->value);
-    // front_last->top = NULL;
-
-
-
-    write(1, "rra\n", 4);
-    printf("a1 == %d\n", (*a)->top->value);
-    printf("a2 == %d\n", (*a)->top->next->value);
-    printf("a3 == %d\n", (*a)->top->next->next->value);
- 
 }
 
-void    rrb(t_stack **b)
+void rrb(t_stack **b)
 {
-    t_node  *last;
-    t_node  *front_last;
+    t_node *last;
+    t_node *front_last;
+
+    if ((*b)->top == NULL || (*b)->top->next == NULL)
+        return;
 
     front_last = (*b)->top;
-    while (front_last->next->next)
+
+    while (front_last->next->next != NULL)
+    {
         front_last = front_last->next;
+    }
+
     last = ft_lstlast_two((*b)->top);
-    ft_lstadd_front_two(&(*b)->top, last);
-    front_last->next = 0;
-    write(1, "rrb\n", 4);
+
+    if (last == NULL)
+        return;
+
+    front_last->next = NULL;
+    last->next = (*b)->top;
+    (*b)->top = last;
+
+    write(1, "rra\n", 4);
     // printf("a1 == %d\n", (*b)->top->value);
     // printf("a2 == %d\n", (*b)->top->next->value);
     // printf("a3 == %d\n", (*b)->top->next->next->value);
-    // printf("a4 == %d\n", (*b)->top->next->next->next->value);
+
 }
 
 void    rrr(t_stack **a, t_stack **b)

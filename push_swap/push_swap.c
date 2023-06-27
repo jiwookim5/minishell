@@ -138,7 +138,6 @@ void select_pivot(int size, t_stack *a, t_value *pivot)
 
 	fa = a->top;
 	assign_index(a, size);
-	write(1, "fuck3\n", 6);
 	//printf("index1 : %d\n", a->top->index);
 	//printf("index2 : %d\n", a->top->next->index);
 	//printf("index3 : %d\n", a->top->next->next->index);
@@ -175,6 +174,7 @@ void	push_swap(t_stack *a, t_stack *b, int size)
 	if (size <= 3)
 	{
 		i += size_three(a, size, i, &pivot);
+		// print_result(a, b);
 		return ;
 	}
 	select_pivot(size, a, &pivot);
@@ -183,11 +183,12 @@ void	push_swap(t_stack *a, t_stack *b, int size)
 	while (temp--)
 	{
 		i += move_from_a(a, b, &pivot);
-		print_result(a, b);
+		// print_result(a, b);
 	}
 	//printf("ra : %d\n", pivot.ra);
 	push_swap(a, b, pivot.ra);
-    // print_result(a, b);
+	// b_to_a(var.rb, a, b);
+    print_result(a, b);
 
 	// printf("ddddddddddd\n");
 	// printf("a1 : %d\n", a->top->value);

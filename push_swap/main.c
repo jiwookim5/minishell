@@ -38,9 +38,9 @@ int main(int argc, char **argv)
         //     a->top = a->top->next;
         // }
 	printf("%d\n",a->top->value);
-    printf("%d\n",a->top->next->value);
-    printf("%d\n",a->top->next->next->value);
-    printf("%d\n",a->top->next->next->next->value);
+    // printf("%d\n",a->top->next->value);
+
+    // printf("%d\n",a->top->next->next->next->value);
    
     push_swap(a,b,a->size);
     }

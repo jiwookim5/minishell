@@ -21,7 +21,6 @@ int	move_from_a(t_stack *a, t_stack *b, t_value *pivot)
 	{
 		ra(&a);
 		i++;
-		printf("ra : %d\n", pivot->ra);
 		pivot->ra++;
 	}
 	else
@@ -34,6 +33,8 @@ int	move_from_a(t_stack *a, t_stack *b, t_value *pivot)
 
 int	top_value_min(t_stack *a, int max, int i)
 {
+	if (a->top->next == NULL)
+		return (i);
 	if (a->top->next->value == max)
 	{
 		rra(&a);
@@ -45,6 +46,15 @@ int	top_value_min(t_stack *a, int max, int i)
 
 int	top_next_value_min(t_stack *a, int max, int i, t_value *pivot)
 {
+	if (a->top->next->next == NULL)
+	{
+		if(a->top->value > a->top->next->value)
+		{
+			sa(a);
+			i++;
+		}
+		return(i);
+	}
 	if (a->top->next->next->value == max)
 	{
 		sa(a);

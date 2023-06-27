@@ -84,6 +84,49 @@ struct	s_value
     int pivot_1;
     int pivot_2;
 	int ra;
+	int rb;
 };
 
 #endif
+
+void		a_to_b(int r, t_stack *a, t_stack *b, int *cnt)
+{
+	int		r_temp;
+	t_value	var;
+
+	if (!exceptional_cases(r, a, b))
+		return ;
+	init_value(&var);
+	select_pivot(r, a, &var);
+	r_temp = r;
+	while (r_temp--)
+		push_rotate_a(a, b, &var);
+	if (var.ra > var.rb)
+		back_to_orig_ra(a, b, cnt, &var);
+	else
+		back_to_orig_rb(a, b, cnt, &var);
+	a_to_b(var.ra, a, b, cnt);
+	b_to_a(var.rb, a, b, cnt);
+	b_to_a(var.pb - var.rb, a, b, cnt);
+}
+void		b_to_a(int r, t_stack *a, t_stack *b, int *cnt)
+{
+	int		r_temp;
+	t_value	var;
+
+	(*cnt)++;
+	if (!exceptional_cases(r, a, b))
+		return ;
+	init_value(&var);
+	select_pivot(r, b, &var);
+	r_temp = r;
+	while (r_temp--)
+		push_rotate_b(a, b, &var);
+	a_to_b(var.pa - var.ra, a, b, cnt);
+	if (var.ra > var.rb)
+		back_to_orig_ra(a, b, &var);
+	else
+		back_to_orig_rb(a, b, &var);
+	a_to_b(var.ra, a, b, cnt);
+	b_to_a(var.rb, a, b, cnt);
+}
