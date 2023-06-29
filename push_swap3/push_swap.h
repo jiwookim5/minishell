@@ -17,6 +17,9 @@
 # include <unistd.h>
 # include <stdio.h>
 
+# define A 1
+# define B 2
+
 typedef struct s_stack	t_stack;
 typedef struct s_node	t_node;
 typedef struct s_value	t_value;
@@ -42,7 +45,6 @@ void    ss(t_stack *a, t_stack *b);
 void	pa(t_stack **a, t_stack **b);
 void	pb(t_stack **a, t_stack **b);
 void    ra(t_stack **a);
-// int	ft_lstsize_two(t_node *lst);
 t_node	*ft_lstlast_two(t_node *lst);
 void	push_swap(t_stack *a, t_stack *b);
 void	ft_lstadd_back_two(t_node **lst, t_node *new);
@@ -56,20 +58,30 @@ void	a_to_b(t_stack *a, t_stack *b, int size);
 void select_pivot(int size, t_stack *stack, t_value *pivot);
 int    get_max_value(t_node *node, int size);
 int		get_min_value(t_node *node, int size);
-int	size_three(t_stack *a, int size, int i, t_value *pivot);
-int	top_next_next_value_min(t_stack *a, int max, int i);
-int	top_next_value_min(t_stack *a, int max, int i, t_value *pivot);
-int	top_value_min(t_stack *a, int max, int i);
-int	move_from_a(t_stack *a, t_stack *b, t_value *pivot);
+void	size_three_a(t_stack *a, int size);
+
+
+void	move_from_a(t_stack *a, t_stack *b, t_value *pivot);
 void print_result(t_stack *a, t_stack *b);
 void assign_index(t_stack *stack_a, int stack_size);
-int	move_from_b(t_stack *a, t_stack *b, t_value *pivot);
+void	move_from_b(t_stack *a, t_stack *b, t_value *pivot);
 void	b_to_a(t_stack *a, t_stack *b, int size);
-int	move_from_b(t_stack *a, t_stack *b, t_value *pivot);
-int	top_next_value_min_b(t_stack *a, int max, int i, t_value *pivot);
-int	top_next_next_value_min_b(t_stack *a, int max, int i);
-int	size_three_b(t_stack *a, int size, int i, t_value *pivot);
-int	top_value_min_b(t_stack *a, int max, int i);
+
+void	top_next_value_min_b(t_stack *b, int max);
+void	top_next_next_value_min_b(t_stack *b, int max);
+void	size_three_b(t_stack *b, int size);
+void	top_value_min_b(t_stack *b, int max);
+int	exceptional_cases(t_stack *a, t_stack *b, int size);
+void		hanlde_sort_five(int size, t_stack *a, t_stack *b, int flag);
+void	sort_five_a(int size, t_stack *a, t_stack *b);
+void	sort_five_b(int size, t_stack *a, t_stack *b);
+void		handle_arg_five(t_stack *a, t_stack *b);
+int			get_mid_value_five(t_node *node);
+int	sort_values(int value[]);
+void	size_two(t_stack *a, t_stack *b, int flag);
+void	top_next_next_value_min(t_stack *a, int max);
+void	top_next_value_min(t_stack *a, int max);
+void	top_value_min(t_stack *a, int max);
 
 struct	s_stack
 {
@@ -99,24 +111,3 @@ struct	s_value
 
 #endif
 
-// void		b_to_a(int r, t_stack *a, t_stack *b, int *cnt)
-// {
-// 	int		r_temp;
-// 	t_value	var;
-
-// 	(*cnt)++;
-// 	if (!exceptional_cases(r, a, b))
-// 		return ;
-// 	init_value(&var);
-// 	select_pivot(r, b, &var);
-// 	r_temp = r;
-// 	while (r_temp--)
-// 		push_rotate_b(a, b, &var);
-// 	a_to_b(var.pa - var.ra, a, b, cnt);
-// 	if (var.ra > var.rb)
-// 		back_to_orig_ra(a, b, &var);
-// 	else
-// 		back_to_orig_rb(a, b, &var);
-// 	a_to_b(var.ra, a, b, cnt);
-// 	b_to_a(var.rb, a, b, cnt);
-// }

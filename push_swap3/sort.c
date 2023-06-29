@@ -166,14 +166,15 @@ void    rb(t_stack **b)
 	t_node	*second;
 
 	first = (*b)->top;
+    if ((*b)->top->next == (void *)0)
+        return ;
     second = (*b)->top->next;
     ft_lstadd_back_two(&((*b)->top), first);
     first->next = NULL;
     (*b)->top = second;
     write(1, "rb\n", 3);
-    // printf("a1 == %d\n", (*b)->top->value);
-    // printf("a2 == %d\n", (*b)->top->next->value);
-    // printf("a3 == %d\n", (*b)->top->next->next->value);
+    // printf("b2 == %d\n", (*b)->top->next->value);
+    // printf("b3 == %d\n", (*b)->top->next->next->value);
     // printf("a4 == %d\n", (*b)->top->next->next->next->value);
 }
 

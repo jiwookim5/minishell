@@ -43,6 +43,7 @@ int main(int argc, char **argv)
     // printf("%d\n",a->top->next->next->next->value);
    
     push_swap(a,b);
+    print_result(a, b);
     }
     return(0);
 }

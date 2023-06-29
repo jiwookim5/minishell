@@ -6,84 +6,91 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:35:52 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/06/27 21:32:15 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/06/29 20:28:06 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	move_from_b(t_stack *a, t_stack *b, t_value *pivot)
-{
-	int i;
 
-	i = 0;
-	if (b->top->value > pivot->pivot_2)
+void	move_from_b(t_stack *a, t_stack *b, t_value *pivot)
+{
+	if (b->top->value > pivot->pivot_1)
+	{
+		rb(&b);
+		pivot->rb++;
+	}
+	else
 	{
 		pa(&a, &b);
-		i++;
+	
 		pivot->pa++;
 	}
-	else
-	{
-		rb(&b);
-		i++;	
-		pivot->rb++;
-	}
-	return (i);
 }
 
-int	top_value_min_b(t_stack *b, int max, int i)
+void	top_value_min_b(t_stack *b, int max)
 {
-	if (b->top->next == NULL)
-		return (i);
-	if (b->top->next->value == max)
+	if (b->size == 3)
 	{
+		if (b->top->next->value == max)
+		{
+			rrb(&b);
+			sb(b);
+		}
+	}
+	else
+	{
+		if (b->top->next->value == max)
+		{
+			rb(&b);
+			sb(b);
+			rrb(&b);
+		}
+	}
+}
+
+void	top_next_value_min_b(t_stack *b, int max)
+{
+	if (b->size == 3)
+	{
+		if (b->bottom->value == max)
+			sb(b);
+		else
+			rb(&b);
+	}
+	else
+	{
+		sb(b);
+		if (b->top->next->value == max)
+		{
+			rb(&b);
+			sb(b);
+			rrb(&b);
+		}
+	}
+}
+
+void	top_next_next_value_min_b(t_stack *b, int max)
+{
+	if (b->size == 3)
+	{
+		if (b->top->value == max)
+			sb(b);
+		rrb(&b);
+	}
+	else
+	{
+		if (b->top->value == max)
+			sb(b);
+		rb(&b);
+		sb(b);
 		rrb(&b);
 		sb(b);
-		i += 2;
 	}
-	return (i);
 }
 
-int	top_next_value_min_b(t_stack *b, int max, int i, t_value *pivot)
-{
-	if (b->top->next->next == NULL)
-	{
-		if(b->top->value > b->top->next->value)
-		{
-			sb(b);
-			i++;
-		}
-		return(i);
-	}
-	if (b->top->next->next->value == max)
-	{
-		sb(b);
-		i++;
-	}
-	else
-	{
-		printf("ddddd\n");
-		rb(&b);
-		pivot->rb++;
-		i++;
-	}
-	return (i);
-}
 
-int	top_next_next_value_min_b(t_stack *b, int max, int i)
-{
-	if (b->top->value == max)
-	{
-		sb(b);
-		i++;
-	}
-	rrb(&b);
-	i++;
-	return (i);
-}
-
-int	size_three_b(t_stack *b, int size, int i, t_value *pivot)
+void	size_three_b(t_stack *b, int size)
 {
 	int	min;
 	int	max;
@@ -91,46 +98,66 @@ int	size_three_b(t_stack *b, int size, int i, t_value *pivot)
 	min = get_min_value(b->top, size);
 	max = get_max_value(b->top, size);
 	if (b->top->value == min)
-		i = top_value_min_b(b, max, i);
+		top_value_min(b, max);
 	else if (b->top->next->value == min)
-		i = top_next_value_min_b(b, max, i, pivot);
+		top_next_value_min(b, max);
 	else if (b->top->next->next->value == min)
 	{
-		i = top_next_next_value_min_b(b, max, i);
+		top_next_next_value_min(b, max);
 	}
-	return (i);
+
 }
+
+// void	sort_five_b(int size, t_stack *a, t_stack *b)
+// {
+// 	int	mid;
+// 	int	push;
+// 	int	rotate;
+
+// 	push = 0;
+// 	rotate = 0;
+// 	mid = get_mid_value_five(b->top);
+// 	while (size--)
+// 	{
+// 		if (b->top->value >= mid)
+// 		{
+// 			pa(&a, &b);
+// 			push++;
+// 		}
+// 		else
+// 		{
+// 			rb(&b);
+// 			rotate++;
+// 		}
+// 		if (push == 3)
+// 			break ;
+// 	}
+// 	while (rotate--)
+// 		rrb(&b);
+// }
 
 void	b_to_a(t_stack *a, t_stack *b, int size)
 {
-	printf("size : %d\n", size);
 	t_value	pivot;
-	int		i;
 	int		temp;
 	
-	i = 0;
-	t_value_zero(&pivot);
-	if (size <= 3)
-	{
-		i += size_three_b(b, size, i, &pivot);
-		// print_result(a, b);
+	if (!exceptional_cases(a, b, size))
 		return ;
-	}
-	printf("fuck\n");
+	t_value_zero(&pivot);
 	select_pivot(size, b, &pivot);
+		
 	temp = size;
 	while (temp--)
-	{//e
-		i += move_from_b(a, b, &pivot);
+	{
+		move_from_b(a, b, &pivot);
 		// print_result(a, b);
 	}
-	a_to_b(a, b, pivot.pa - pivot.ra);
 	//printf("ra : %d\n", pivot.ra);
-	// printf("ra : %d\n", pivot.ra);
+		// printf("ra : %d\n", pivot.ra);
 		a_to_b(a, b, pivot.ra);
-		printf("pb : %d\n", pivot.pb);
-		printf("rb : %d\n", pivot.rb);
-	b_to_a(a, b, pivot.rb);
+		// printf("pb : %d\n", pivot.pb);
+		// printf("xx : %d\n");
+		// b_to_a(a, b, pivot.pb);
     print_result(a, b);
 
 	// printf("ddddddddddd\n");

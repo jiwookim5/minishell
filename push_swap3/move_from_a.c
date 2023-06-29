@@ -12,77 +12,105 @@
 
 #include "push_swap.h"
 
-int	move_from_a(t_stack *a, t_stack *b, t_value *pivot)
+void	move_from_a(t_stack *a, t_stack *b, t_value *pivot)
 {
-	int i;
-
-	i = 0;
-	if (a->top->value > pivot->pivot_1)
+	if (a->top->value > pivot->pivot_2)
 	{
 		ra(&a);
-		i++;
 		pivot->ra++;
 	}
 	else
 	{
-		pb(&a, &b);
-		i++;	
+		pb(&a, &b);	
 		pivot->pb++;
+		if (b->top->value > pivot->pivot_1)
+		{
+			// print_result(a, b);
+			rb(&b);
+			pivot->rb++;
+			// print_result(a, b);
+		}
 	}
-	return (i);
+	// print_result(a, b);
 }
 
-int	top_value_min(t_stack *a, int max, int i)
+void	top_value_min(t_stack *a, int max)
 {
-	if (a->top->next == NULL)
-		return (i);
-	if (a->top->next->value == max)
+	if (a->size == 3)
 	{
+		if (a->top->next->value == max)
+		{
+			rra(&a);
+			sa(a);
+		}
+	}
+	else
+	{
+		if (a->top->next->value == max)
+		{
+			ra(&a);
+			sa(a);
+			rra(&a);
+		}
+	}
+}
+
+void	top_next_value_min(t_stack *a, int max)
+{
+	if (a->size == 3)
+	{
+		if (a->bottom->value == max)
+			sa(a);
+		else
+			ra(&a);
+	}
+	else
+	{
+		sa(a);
+		if (a->top->next->value == max)
+		{
+			ra(&a);
+			sa(a);
+			rra(&a);
+		}
+	}
+}
+
+void	top_next_next_value_min(t_stack *a, int max)
+{
+	if (a->size == 3)
+	{
+		if (a->top->value == max)
+			sa(a);
+		rra(&a);
+	}
+	else
+	{
+		if (a->top->value == max)
+			sa(a);
+		ra(&a);
+		sa(a);
 		rra(&a);
 		sa(a);
-		i += 2;
 	}
-	return (i);
 }
-
-int	top_next_value_min(t_stack *a, int max, int i, t_value *pivot)
+void	size_two(t_stack *a, t_stack *b, int flag)
 {
-	if (a->top->next->next == NULL)
+	if (flag == A)
 	{
-		if(a->top->value > a->top->next->value)
-		{
+		if (a->top->value > a->top->next->value)
 			sa(a);
-			i++;
-		}
-		return(i);
-	}
-	if (a->top->next->next->value == max)
-	{
-		sa(a);
-		i++;
 	}
 	else
 	{
-		ra(&a);
-		pivot->ra++;
-		i++;
+		if (b->top->value < b->top->next->value)
+			sb(b);
+		pa(&a, &b);
+		pa(&a, &b);
 	}
-	return (i);
 }
 
-int	top_next_next_value_min(t_stack *a, int max, int i)
-{
-	if (a->top->value == max)
-	{
-		sa(a);
-		i++;
-	}
-	rra(&a);
-	i++;
-	return (i);
-}
-
-int	size_three(t_stack *a, int size, int i, t_value *pivot)
+void	size_three_a(t_stack *a, int size)
 {
 	int	min;
 	int	max;
@@ -90,12 +118,12 @@ int	size_three(t_stack *a, int size, int i, t_value *pivot)
 	min = get_min_value(a->top, size);
 	max = get_max_value(a->top, size);
 	if (a->top->value == min)
-		i = top_value_min(a, max, i);
+		top_value_min(a, max);
 	else if (a->top->next->value == min)
-		i = top_next_value_min(a, max, i, pivot);
+		top_next_value_min(a, max);
 	else if (a->top->next->next->value == min)
 	{
-		i = top_next_next_value_min(a, max, i);
+		top_next_next_value_min(a, max);
 	}
-	return (i);
+
 }
