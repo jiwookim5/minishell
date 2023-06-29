@@ -67,21 +67,23 @@ void assign_index(t_stack *stack_a, int stack_size);
 void	move_from_b(t_stack *a, t_stack *b, t_value *pivot);
 void	b_to_a(t_stack *a, t_stack *b, int size);
 
-void	top_next_value_min_b(t_stack *b, int max);
-void	top_next_next_value_min_b(t_stack *b, int max);
+void	top_next_value_min_b(t_stack *b, int max, int size);
+void	top_next_next_value_min_b(t_stack *b, int max, int size);
 void	size_three_b(t_stack *b, int size);
-void	top_value_min_b(t_stack *b, int max);
+void	top_value_min_b(t_stack *b, int max, int size);
 int	exceptional_cases(t_stack *a, t_stack *b, int size);
-void		hanlde_sort_five(int size, t_stack *a, t_stack *b, int flag);
+void		hanlde_sort_five(t_stack *a, t_stack *b, int flag, int size);
 void	sort_five_a(int size, t_stack *a, t_stack *b);
 void	sort_five_b(int size, t_stack *a, t_stack *b);
 void		handle_arg_five(t_stack *a, t_stack *b);
 int			get_mid_value_five(t_node *node);
 int	sort_values(int value[]);
 void	size_two(t_stack *a, t_stack *b, int flag);
-void	top_next_next_value_min(t_stack *a, int max);
-void	top_next_value_min(t_stack *a, int max);
-void	top_value_min(t_stack *a, int max);
+void	top_next_next_value_min(t_stack *a, int max, int size);
+void	top_next_value_min(t_stack *a, int max, int size);
+void	top_value_min(t_stack *a, int max, int size);
+int	exceptional_cases_b(t_stack *a, t_stack *b, int size);
+void	handle_under_three(t_stack *a, t_stack *b, int flag, int size);
 
 struct	s_stack
 {
@@ -111,3 +113,143 @@ struct	s_value
 
 #endif
 
+
+
+
+
+
+void	ft_sort_int_tab(int *tab, int size)
+{
+	int	a;
+	int	b;
+	int	temp;
+
+	a = 0;
+	while (a < size)
+	{
+		b = a + 1;
+		while (b < size)
+		{
+			if (tab[a] > tab[b])
+			{
+				temp = tab[a];
+				tab[a] = tab[b];
+				tab[b] = temp;
+			}
+			b++;
+		}
+		a++;
+	}
+}
+
+void assign_index(t_stack *a, int size)
+{
+    int i;
+    int *aa;
+    t_node *ptr;
+
+    aa = (int *)malloc(size * sizeof(int));
+    i = 0;
+    ptr = a->top;
+    while (ptr)
+    {
+        aa[i] = ptr->value;
+        ptr = ptr->next;
+        i++;
+    }
+    ft_sort_int_tab(aa, size);
+
+    ptr = a->top;
+    while (ptr)
+    {
+		i = 0;
+        while (i < size)
+        {
+            if (ptr->value == aa[i])
+            {
+                ptr->index = i + 1;
+                break;
+            }
+			i++;
+        }
+		printf("index: %d\n", ptr->index);
+        ptr = ptr->next;
+    }
+}
+
+// pivot 다시 정하기
+void select_pivot(int size, t_stack *a, t_value *pivot)
+{
+	int first;
+	int second;
+	t_node *fa;
+
+
+	fa = a->top;
+	assign_index(a, size);
+	first = (size / 3);
+	second = (size - first);
+	printf("first : %d\n", first);
+	printf("second : %d\n", second);
+	
+	while (fa)
+	{
+		if (fa->index == first)
+			pivot->pivot_1 = fa->value;
+		if (fa->index == second)
+			pivot->pivot_2 = fa->value;
+		fa = fa->next;
+	}
+	printf("pivot1 : %d\n", pivot->pivot_1);
+	printf("pivot2 : %d\n", pivot->pivot_2);
+}
+
+void	b_to_a(t_stack *a, t_stack *b, int size)
+{
+	t_value	pivot;
+	int		temp;
+	
+	if (!exceptional_cases(a, b, size))
+		return ;
+	t_value_zero(&pivot);
+	select_pivot(size, b, &pivot);
+		
+	temp = size;
+	while (temp--)
+	{
+		move_from_b(a, b, &pivot);
+	}
+
+	a_to_b(a, b, pivot.ra);
+	b_to_a(a, b, pivot.rb);
+
+    print_result(a, b);
+
+}
+
+
+void	a_to_b(t_stack *a, t_stack *b, int size)
+{
+	// printf("size: %d\n", size);
+	t_value	pivot;
+	int		temp;
+	
+	if (exceptional_cases(a, b, size) == 0)
+		return ;
+	t_value_zero(&pivot);
+	select_pivot(size, a, &pivot);
+		
+	temp = size;
+	while (temp--)
+	{
+
+		move_from_a(a, b, &pivot);
+		print_result(a, b);
+	}
+	
+		printf("ra : %d\n", pivot.ra);
+		a_to_b(a, b, pivot.ra);
+		b_to_a(a, b, pivot.rb);
+    	print_result(a, b);
+
+}

@@ -6,12 +6,11 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 17:35:52 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/06/29 20:28:06 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/06/29 23:47:34 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
 
 void	move_from_b(t_stack *a, t_stack *b, t_value *pivot)
 {
@@ -22,15 +21,22 @@ void	move_from_b(t_stack *a, t_stack *b, t_value *pivot)
 	}
 	else
 	{
-		pa(&a, &b);
-	
+		pa(&a, &b);	
 		pivot->pa++;
+		if (a->top->value > pivot->pivot_2)
+		{
+			// print_result(a, b);
+			ra(&a);
+			pivot->ra++;
+			// print_result(a, b);
+		}
 	}
+	// print_result(a, b);
 }
 
-void	top_value_min_b(t_stack *b, int max)
+void	top_value_min_b(t_stack *b, int max, int size)
 {
-	if (b->size == 3)
+	if (size == 3)
 	{
 		if (b->top->next->value == max)
 		{
@@ -39,19 +45,12 @@ void	top_value_min_b(t_stack *b, int max)
 		}
 	}
 	else
-	{
-		if (b->top->next->value == max)
-		{
-			rb(&b);
-			sb(b);
-			rrb(&b);
-		}
-	}
+		return ;
 }
 
-void	top_next_value_min_b(t_stack *b, int max)
+void	top_next_value_min_b(t_stack *b, int max, int size)
 {
-	if (b->size == 3)
+	if (size == 3)
 	{
 		if (b->bottom->value == max)
 			sb(b);
@@ -59,34 +58,18 @@ void	top_next_value_min_b(t_stack *b, int max)
 			rb(&b);
 	}
 	else
-	{
-		sb(b);
-		if (b->top->next->value == max)
-		{
-			rb(&b);
-			sb(b);
-			rrb(&b);
-		}
-	}
+		return ;
 }
-
-void	top_next_next_value_min_b(t_stack *b, int max)
+void	top_next_next_value_min_b(t_stack *b, int max, int size)
 {
-	if (b->size == 3)
+	if (size == 3)
 	{
 		if (b->top->value == max)
 			sb(b);
 		rrb(&b);
 	}
 	else
-	{
-		if (b->top->value == max)
-			sb(b);
-		rb(&b);
-		sb(b);
-		rrb(&b);
-		sb(b);
-	}
+		return ;
 }
 
 
@@ -98,43 +81,33 @@ void	size_three_b(t_stack *b, int size)
 	min = get_min_value(b->top, size);
 	max = get_max_value(b->top, size);
 	if (b->top->value == min)
-		top_value_min(b, max);
+		top_value_min(b, max, size);
 	else if (b->top->next->value == min)
-		top_next_value_min(b, max);
+		top_next_value_min(b, max, size);
 	else if (b->top->next->next->value == min)
 	{
-		top_next_next_value_min(b, max);
+		top_next_next_value_min(b, max, size);
 	}
 
 }
 
-// void	sort_five_b(int size, t_stack *a, t_stack *b)
-// {
-// 	int	mid;
-// 	int	push;
-// 	int	rotate;
-
-// 	push = 0;
-// 	rotate = 0;
-// 	mid = get_mid_value_five(b->top);
-// 	while (size--)
-// 	{
-// 		if (b->top->value >= mid)
-// 		{
-// 			pa(&a, &b);
-// 			push++;
-// 		}
-// 		else
-// 		{
-// 			rb(&b);
-// 			rotate++;
-// 		}
-// 		if (push == 3)
-// 			break ;
-// 	}
-// 	while (rotate--)
-// 		rrb(&b);
-// }
+int	exceptional_cases_b(t_stack *a, t_stack *b, int size)
+{
+	if (size <= 3)
+	{
+		// printf("size : %d\n", size);
+		handle_under_three(a, b, B, size);
+		return (0);
+	}
+	else if (size == 5)
+	{
+		hanlde_sort_five(a, b, B, 5);
+		return (0);
+	// printf("dddddddddd\n");
+	}
+	else
+		return (1);
+}
 
 void	b_to_a(t_stack *a, t_stack *b, int size)
 {
@@ -154,7 +127,8 @@ void	b_to_a(t_stack *a, t_stack *b, int size)
 	}
 	//printf("ra : %d\n", pivot.ra);
 		// printf("ra : %d\n", pivot.ra);
-		a_to_b(a, b, pivot.ra);
+	a_to_b(a, b, pivot.ra);
+	b_to_a(a, b, pivot.rb);
 		// printf("pb : %d\n", pivot.pb);
 		// printf("xx : %d\n");
 		// b_to_a(a, b, pivot.pb);

@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:40:01 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/06/29 22:06:12 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/06/29 23:38:28 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void	sort_five_b(int size, t_stack *a, t_stack *b)
 		rrb(&b);
 }
 
-void		hanlde_sort_five(int size, t_stack *a, t_stack *b, int flag)
+void		hanlde_sort_five(t_stack *a, t_stack *b, int flag, int size)
 {
 	if (flag == A)
 		sort_five_a(size, a, b);

@@ -102,6 +102,8 @@ t_node *make_stack(int argc, char **argv, t_stack **a)
 		node_set(argv[i], &node, a);
         i++;
 	}
+	if (!node->next)
+		(*a)->bottom = node;
     //노드 제일 처음으로 이동
     while (node->prev)
         node = node->prev;

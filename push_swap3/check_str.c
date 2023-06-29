@@ -35,8 +35,6 @@ int	chk_arg_length(char *arg)
 	return (len);
 }
 
-
-//12a 이런거 처리 / 숫자만 있는지
 void	number_check(char *str)
 {
 	int i;
@@ -46,7 +44,7 @@ void	number_check(char *str)
 		i++;
 	while (str[i])
 	{
-		if (str[i] <= '0' && str[i] >= '9')
+		if (!(str[i] >= '0' && str[i] <= '9'))
 			ft_error();
 		i++;
 	}
