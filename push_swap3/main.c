@@ -13,6 +13,43 @@
 #include "push_swap.h"
 #include <stdio.h>
 
+int print_max = 0;
+void check_list(t_stack **a, t_stack **b)
+{
+	if (print_max == 3000)
+		return; // exit(1);
+	print_max++;
+	printf("print_max_idx: %d\n", print_max);
+	printf("\n");
+	int cnt = 1;
+	printf("============\t============\n");
+
+	t_node *aa;
+	t_node *bb;
+
+	aa = (*a)->top;
+	bb = (*b)->top;
+	while (aa || bb)
+	{
+		if (aa)
+		{
+			printf("A_ %d: %d", cnt, aa->value);
+			aa = aa->next;
+		}
+		printf("\t\t");
+		if (bb)
+		{
+			printf("B_ %d: %d", cnt, bb->value);
+			bb = bb->next;
+		}
+		printf("\n");
+		cnt++;
+		if (aa == NULL && bb == NULL)
+			break;
+	}
+	printf("============\t============\n\n");
+}
+
 
 int main(int argc, char **argv)
 {
@@ -37,13 +74,16 @@ int main(int argc, char **argv)
         //     a->size--;
         //     a->top = a->top->next;
         // }
-	printf("%d\n",a->top->value);
+	    printf("%d\n",a->top->value);
     // printf("%d\n",a->top->next->value);
 
     // printf("%d\n",a->top->next->next->next->value);
    
-    push_swap(a,b);
-    print_result(a, b);
-    }
+        push_swap(&a, &b);
+        printf("debug\n");
+        //print_result(&a, &b);
+        //printf("jaeyojun a->content : %d\n", a->top->value);
+     }
+    check_list(&a, &b);
     return(0);
 }

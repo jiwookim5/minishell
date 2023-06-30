@@ -12,21 +12,22 @@
 
 #include "push_swap.h"
 
-void	move_from_a(t_stack *a, t_stack *b, t_value *pivot)
+void	move_from_a(t_stack **a, t_stack **b, t_value *pivot)
 {
-	if (a->top->value > pivot->pivot_2)
+	//pivot1 == 1 pivot2 == 4
+	if ((*a)->top->value > pivot->pivot_2)
 	{
-		ra(&a);
+		ra(a);
 		pivot->ra++;
 	}
 	else
 	{
-		pb(&a, &b);	
+		pb(a, b);	
 		pivot->pb++;
-		if (b->top->value > pivot->pivot_1)
+		if ((*b)->top->value > pivot->pivot_1)
 		{
 			// print_result(a, b);
-			rb(&b);
+			rb(b);
 			pivot->rb++;
 			// print_result(a, b);
 		}
@@ -34,13 +35,13 @@ void	move_from_a(t_stack *a, t_stack *b, t_value *pivot)
 	// print_result(a, b);
 }
 
-void	top_value_min(t_stack *a, int max, int size)
+void	top_value_min(t_stack **a, int max, int size)
 {
 	if (size == 3)
 	{
-		if (a->top->next->value == max)
+		if ((*a)->top->next->value == max)
 		{
-			rra(&a);
+			rra(a);
 			sa(a);
 		}
 	}
@@ -48,61 +49,61 @@ void	top_value_min(t_stack *a, int max, int size)
 		return ;
 }
 
-void	top_next_value_min(t_stack *a, int max, int size)
+void	top_next_value_min(t_stack **a, int max, int size)
 {
 	if (size == 3)
 	{
-		if (a->bottom->value == max)
+		if ((*a)->bottom->value == max)
 			sa(a);
 		else
-			ra(&a);
+			ra(a);
 	}
 	else
 		return ;
 }
 
-void	top_next_next_value_min(t_stack *a, int max, int size)
+void	top_next_next_value_min(t_stack **a, int max, int size)
 {
 	// printf("a->size: %d\n", a->size);
 	if (size == 3)
 	{
-		if (a->top->value == max)
+		if ((*a)->top->value == max)
 			sa(a);
-		rra(&a);
+		rra(a);
 	}
 	else
 		return ;
 
 }
 
-void	size_two(t_stack *a, t_stack *b, int flag)
+void	size_two(t_stack **a, t_stack **b, int flag)
 {
 	if (flag == A)
 	{
-		if (a->top->value > a->top->next->value)
+		if ((*a)->top->value > (*a)->top->next->value)
 			sa(a);
 	}
 	else
 	{
-		if (b->top->value < b->top->next->value)
+		if ((*b)->top->value < (*b)->top->next->value)
 			sb(b);
-		pa(&a, &b);
-		pa(&a, &b);
+		pa(a, b);
+		pa(a, b);
 	}
 }
 
-void	size_three_a(t_stack *a, int size)
+void	size_three_a(t_stack **a, int size)
 {
 	int	min;
 	int	max;
 	
-	min = get_min_value(a->top, size);
-	max = get_max_value(a->top, size);
-	if (a->top->value == min)
+	min = get_min_value((*a)->top, size);
+	max = get_max_value((*a)->top, size);
+	if ((*a)->top->value == min)
 		top_value_min(a, max, size);
-	else if (a->top->next->value == min)
+	else if ((*a)->top->next->value == min)
 		top_next_value_min(a, max, size);
-	else if (a->top->next->next->value == min)
+	else if ((*a)->top->next->next->value == min)
 	{
 		top_next_next_value_min(a, max, size);
 	}

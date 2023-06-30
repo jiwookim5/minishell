@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:40:01 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/06/29 23:38:28 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/06/30 22:54:16 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,22 +58,22 @@ int			get_mid_value_five(t_node *node)
 	return (sort_values(value));
 }
 
-void		handle_arg_five(t_stack *a, t_stack *b)
+void		handle_arg_five(t_stack **a, t_stack **b)
 {
 	int	pbb;
 	int	mid;
 
 	pbb = 0;
-	mid = get_mid_value_five(a->top);
+	mid = get_mid_value_five((*a)->top);
 	while (1)
 	{
-		if (a->top->value < mid)
+		if ((*a)->top->value < mid)
 		{
-			pb(&a, &b);
+			pb(a, b);
 			pbb++;
 		}
 		else
-			ra(&a);
+			ra(a);
 		if (pbb == 2)
 			break ;
 	}
@@ -81,7 +81,7 @@ void		handle_arg_five(t_stack *a, t_stack *b)
 	size_two(a, b, B);
 }
 
-void	sort_five_a(int size, t_stack *a, t_stack *b)
+void	sort_five_a(int size, t_stack **a, t_stack **b)
 {
 	int	mid;
 	int	push;
@@ -89,17 +89,17 @@ void	sort_five_a(int size, t_stack *a, t_stack *b)
 
 	push = 0;
 	rotate = 0;
-	mid = get_mid_value_five(a->top);
+	mid = get_mid_value_five((*a)->top);
 	while (size)
 	{
-		if (a->top->value < mid)
+		if ((*a)->top->value < mid)
 		{
-			pb(&a, &b);
+			pb(a, b);
 			push++;
 		}
 		else
 		{
-			ra(&a);
+			ra(a);
 			rotate++;
 		}
 		if (push == 2)
@@ -107,10 +107,10 @@ void	sort_five_a(int size, t_stack *a, t_stack *b)
 		size--;
 	}
 	while (rotate--)
-		rra(&a);
+		rra(a);
 }
 
-void	sort_five_b(int size, t_stack *a, t_stack *b)
+void	sort_five_b(int size, t_stack **a, t_stack **b)
 {
 	int	mid;
 	int	push;
@@ -118,17 +118,17 @@ void	sort_five_b(int size, t_stack *a, t_stack *b)
 
 	push = 0;
 	rotate = 0;
-	mid = get_mid_value_five(b->top);
+	mid = get_mid_value_five((*b)->top);
 	while (size)
 	{
-		if (b->top->value >= mid)
+		if ((*b)->top->value >= mid)
 		{
-			pa(&a, &b);
+			pa(a, b);
 			push++;
 		}
 		else
 		{
-			rb(&b);
+			rb(b);
 			rotate++;
 		}
 		if (push == 3)
@@ -136,10 +136,10 @@ void	sort_five_b(int size, t_stack *a, t_stack *b)
 		size--;
 	}
 	while (rotate--)
-		rrb(&b);
+		rrb(b);
 }
 
-void		hanlde_sort_five(t_stack *a, t_stack *b, int flag, int size)
+void		hanlde_sort_five(t_stack **a, t_stack **b, int flag, int size)
 {
 	if (flag == A)
 		sort_five_a(size, a, b);

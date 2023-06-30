@@ -52,21 +52,21 @@ void	ft_lstadd_back_two(t_node **lst, t_node *new)
 		ft_lstlast_two(*lst)->next = new;
 }
 
-void    sa(t_stack *a)
+void    sa(t_stack **a)
 {
     t_node *temp;
     // t_node *top_next;
     
-    if (a->top)
+    if ((*a)->top)
     {
-        // top_next = a->top->next;
-        // temp = a->top;
-        // a->top->next = temp;
-        // a->top = top_next;
-        temp = a->top;
-        a->top = a->top -> next;
-        temp->next = a->top->next;
-        a->top->next = temp;
+        // top_next = (*a)->top->next;
+        // temp = (*a)->top;
+        // (*a)->top->next = temp;
+        // (*a)->top = top_next;
+        temp = (*a)->top;
+        (*a)->top = (*a)->top->next;
+        temp->next = (*a)->top->next;
+        (*a)->top->next = temp;
 
         write(1, "sa\n", 3);
     }
@@ -78,17 +78,17 @@ void    sa(t_stack *a)
     // printf("%d\n", a->top->next->next->value);
 }
 
-void    sb(t_stack *b)
+void    sb(t_stack **b)
 {
     t_node *temp;
     t_node *top_next;
 
-    if (b->top)
+    if ((*b)->top)
     {
-        top_next = b->top->next;
-        temp = b->top;
-        b->top = top_next;
-        b->top->next = temp;
+        top_next = (*b)->top->next;
+        temp = (*b)->top;
+        (*b)->top = top_next;
+        (*b)->top->next = temp;
         write(1, "sb\n", 3);
     }
     else
@@ -97,9 +97,9 @@ void    sb(t_stack *b)
     // printf("%d\n", b->top->next->value);
 }
 
-void    ss(t_stack *a, t_stack *b)
+void    ss(t_stack **a, t_stack **b)
 {
-    if (a->top && b->top)
+    if ((*a)->top && (*b)->top)
     {
         sa(a);
         sb(b);
@@ -148,11 +148,14 @@ void    ra(t_stack **a)
 	t_node	*first;
 	t_node	*second;
 
-	first = (*a)->top;
-    second = (*a)->top->next;
-    ft_lstadd_back_two(&((*a)->top), first);
-    first->next = NULL;
-    (*a)->top = second;
+    if ((*a)->top->next && (*a)->top)
+    {
+        first = (*a)->top;
+        second = (*a)->top->next;
+        ft_lstadd_back_two(&((*a)->top), first);
+        first->next = NULL;
+        (*a)->top = second;
+    }
     write(1, "ra\n", 3);
     // printf("a1 == %d\n", (*a)->top->value);
     // printf("a2 == %d\n", (*a)->top->next->value);
@@ -165,13 +168,17 @@ void    rb(t_stack **b)
 	t_node	*first;
 	t_node	*second;
 
+    //write(1, "Awd\n", 4);
+    if((*b)->top && ((*b)->top->next))
+    {
 	first = (*b)->top;
-    if ((*b)->top->next == (void *)0)
-        return ;
+    // if ((*b)->top->next == (void *)0)
+    //     return ;
     second = (*b)->top->next;
     ft_lstadd_back_two(&((*b)->top), first);
     first->next = NULL;
     (*b)->top = second;
+    }
     write(1, "rb\n", 3);
     // printf("b2 == %d\n", (*b)->top->next->value);
     // printf("b3 == %d\n", (*b)->top->next->next->value);
@@ -198,6 +205,8 @@ void rra(t_stack **a)
 
     while (front_last->next->next != NULL)
     {
+        if (front_last->next == NULL)
+                return ;
         front_last = front_last->next;
     }
 
@@ -224,24 +233,29 @@ void rrb(t_stack **b)
 
     if ((*b)->top == NULL || (*b)->top->next == NULL)
         return;
-
-    front_last = (*b)->top;
-
-    while (front_last->next->next != NULL)
+    write(1, "Awd\n", 4);
+    if((*b)->top && ((*b)->top->next))
     {
-        front_last = front_last->next;
+        front_last = (*b)->top;
+         write(1, "Awd\n", 4);
+        while (front_last->next->next == NULL)
+        {
+            if (front_last->next == NULL)
+                return ;
+            front_last = front_last->next;
+        }
+         write(1, "Awd\n", 4);
+        //printf("b->next->next->next : %d\n", b->next->next)
+        last = ft_lstlast_two((*b)->top);
+
+        if (last == NULL)
+            return;
+
+        front_last->next = NULL;
+        last->next = (*b)->top;
+        (*b)->top = last;
     }
-
-    last = ft_lstlast_two((*b)->top);
-
-    if (last == NULL)
-        return;
-
-    front_last->next = NULL;
-    last->next = (*b)->top;
-    (*b)->top = last;
-
-    write(1, "rra\n", 4);
+    write(1, "rrb\n", 4);
     // printf("a1 == %d\n", (*b)->top->value);
     // printf("a2 == %d\n", (*b)->top->next->value);
     // printf("a3 == %d\n", (*b)->top->next->next->value);
