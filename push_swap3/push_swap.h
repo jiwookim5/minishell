@@ -54,7 +54,7 @@ void    rra(t_stack **a);
 void    rrb(t_stack **b);
 void    rrr(t_stack **a, t_stack **b);
 void	t_value_zero(t_value *var);
-void	a_to_b(t_stack **a, t_stack **b, int size);
+
 void select_pivot(int size, t_stack **stack, t_value *pivot);
 int    get_max_value(t_node *node, int size);
 int		get_min_value(t_node *node, int size);
@@ -65,12 +65,12 @@ void	move_from_a(t_stack **a, t_stack **b, t_value *pivot);
 void print_result(t_stack **a, t_stack **b);
 void assign_index(t_stack **stack_a, int stack_size);
 void	move_from_b(t_stack **a, t_stack **b, t_value *pivot);
-void	b_to_a(t_stack **a, t_stack **b, int size);
+void	b_to_a(t_stack **a, t_stack **b, int size, int *cnt);
 
-void	top_next_value_min_b(t_stack **b, int max, int size);
-void	top_next_next_value_min_b(t_stack **b, int max, int size);
-void	size_three_b(t_stack **b, int size);
-void	top_value_min_b(t_stack **b, int max, int size);
+void	top_next_value_min_b(t_stack **b, int max);
+void	top_next_next_value_min_b(t_stack **b, int max);
+void	size_three_b(t_stack **a, t_stack **b, int size);
+void	top_value_min_b(t_stack **b, int max);
 int	exceptional_cases(t_stack **a, t_stack **b, int size);
 void		hanlde_sort_five(t_stack **a, t_stack **b, int flag, int size);
 void	sort_five_a(int size, t_stack **a, t_stack **b);
@@ -79,12 +79,16 @@ void		handle_arg_five(t_stack **a, t_stack **b);
 int			get_mid_value_five(t_node *node);
 int	sort_values(int value[]);
 void	size_two(t_stack **a, t_stack **b, int flag);
-void	top_next_next_value_min(t_stack **a, int max, int size);
-void	top_next_value_min(t_stack **a, int max, int size);
-void	top_value_min(t_stack **a, int max, int size);
+void	top_next_next_value_min(t_stack **a, int max);
+void	top_next_value_min(t_stack **a, int max);
+void	top_value_min(t_stack **a, int max);
 int	exceptional_cases_b(t_stack **a, t_stack **b, int size);
 void	handle_under_three(t_stack **a, t_stack **b, int flag, int size);
-void three_only_b(t_stack **stacks, int cnt);
+void three_only_b(t_stack **a_st,t_stack **stacks, int cnt);
+void	a_to_b(t_stack **a, t_stack **b, int size, int *cnt);
+void	ft_sort_int_tab_b(int *tab, int size);
+void assign_index_b(t_stack **a, int size);
+void select_pivot_b(int size, t_stack **b, t_value *pivot);
 
 struct	s_stack
 {
@@ -113,6 +117,10 @@ struct	s_value
 };
 
 void check_list(t_stack **a, t_stack **b);
-#endif
+void	return_rb(t_stack **a, t_stack **b, t_value *pivot);
+void	return_ra(t_stack **a, t_stack **b, t_value *pivot);
+void	return_rbb(t_stack **a, t_stack **b, t_value *pivot, int *cnt);
+void	return_raa(t_stack **a, t_stack **b, t_value *pivot, int *cnt);
 
+#endif
 

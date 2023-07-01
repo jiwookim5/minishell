@@ -78,9 +78,17 @@ int main(int argc, char **argv)
     // printf("%d\n",a->top->next->value);
 
     // printf("%d\n",a->top->next->next->next->value);
+
+		// pb(&a, &b);
+		// pb(&a, &b);
+		// pb(&a, &b);
+		// pb(&a, &b);
+		// rb( &b);
+		// rrb(&b);
    
         push_swap(&a, &b);
         printf("debug\n");
+
         //print_result(&a, &b);
         //printf("jaeyojun a->content : %d\n", a->top->value);
      }

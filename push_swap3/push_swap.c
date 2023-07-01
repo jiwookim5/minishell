@@ -138,14 +138,16 @@ void select_pivot(int size, t_stack **a, t_value *pivot)
 
 	fa = (*a)->top;
 	assign_index(a, size);
+	// first = 0;
+	// second = 0;
 	//printf("index1 : %d\n", a->top->index);
 	//printf("index2 : %d\n", a->top->next->index);
 	//printf("index3 : %d\n", a->top->next->next->index);
 	//printf("index4 : %d\n", a->top->next->next->next->index);
 	//printf("index5 : %d\n", a->top->next->next->next->next->index);
 	//printf("index6 : %d\n", a->top->next->next->next->next->next->index);
-	first = (size / 3);
-	second = (size - first);
+	first = (size / 3 + 1);
+	second = (size - first +1);
 	printf("first : %d second : %d \n", first, second);
 	
 	while (fa)
@@ -169,7 +171,7 @@ void	push_swap(t_stack **a, t_stack **b)
 	// 	handle_arg_five(a, b);
 	// }
 	// else
-	a_to_b(a, b, (*a)->size);
+	a_to_b(a, b, (*a)->size, &cnt);
 }
 
 void	t_value_zero(t_value *var)
@@ -181,41 +183,6 @@ void	t_value_zero(t_value *var)
 }
 
 
-void	handle_under_three(t_stack **a, t_stack **b, int flag, int size)
-{
-	
-	if (size == 3)
-	{
-		if (flag == A)
-		{
-			
-			size_three_a(a, size);
-			
-		}
-		else
-		{
-			write(1, "awd", 3);
-			size_three_b(b, size);
-			//size_three_b(b, size);
-		}
-	
-	}
-	else if (size == 2)
-	{
-		size_two(a, b, flag);
-		// printf("bbbbbbbbbbb\n");
-	}
-	else if (size == 1)
-	{
-		printf("dnbu\n");
-		if (flag == B)
-		{
-			printf("dnbu\n");
-			pa(a, b);
-		}
-		printf("done\n");
-	}
-}
 int	exceptional_cases(t_stack **a, t_stack **b, int size)
 {
 	if (size <= 3)
@@ -236,7 +203,53 @@ int	exceptional_cases(t_stack **a, t_stack **b, int size)
 		return (1);
 }
 
-void	a_to_b(t_stack **a, t_stack **b, int size)
+void	return_rbb(t_stack **a, t_stack **b, t_value *pivot, int *cnt)
+{
+	int	rrd;
+	int	rem;
+
+	rrd = pivot->ra;
+	rem = pivot->rb - rrd;
+	if ((*cnt) > 0)
+	{
+		while (rrd--)
+		{
+			rrr(a, b);
+		}
+		while (rem--)
+			rrb(b);
+	}
+	else
+	{
+		rrd = pivot->rb;
+		while (rrd--)
+			rrb(b);
+	}
+}
+
+
+void	return_raa(t_stack **a, t_stack **b, t_value *pivot, int *cnt)
+{
+	int	rrd;
+	int	rem;
+
+	rrd = pivot->rb;
+	rem = pivot->ra - rrd;
+	if ((*cnt) > 0)
+	{
+		while (rrd--)
+			rrr(a, b);
+		while (rem--)
+			rra(a);
+	}
+	else
+	{
+		while (rrd--)
+			rrb(b);
+	}
+}
+
+void	a_to_b(t_stack **a, t_stack **b, int size, int *cnt)
 {
 	printf("a_to_b\n");
 	t_value	pivot;
@@ -250,7 +263,6 @@ void	a_to_b(t_stack **a, t_stack **b, int size)
 	t_value_zero(&pivot);
 	select_pivot(size, a, &pivot);
 	
-
 	temp = size;
 	while (temp--)
 	{
@@ -263,17 +275,29 @@ void	a_to_b(t_stack **a, t_stack **b, int size)
 	//printf("ra : %d\n", pivot.ra);
 
 	//printf("ra : %d\n", pivot.ra);
-	check_list(a,b);
-	int turn = -1;
-	while (++turn < pivot.rb)
+	
+	// int turn = pivot.rb;
+	// while (turn-- )
+	// {
+	// 	rrb(b);
+	// 	printf("rb : %d\n", pivot.rb);
+	
+	// }
+	// check_list(a,b);
+	if (pivot.ra > pivot.rb)
+		return_raa(a, b, &pivot, cnt);
+	else
 	{
-		rrb(b);
+		return_rbb(a, b, &pivot, cnt);
 	}
-	a_to_b(a, b, pivot.ra);
+	a_to_b(a, b, pivot.ra, cnt);
 
-		// printf("pb : %d\n", pivot.pb);
+
+	printf("rb : %d\n", pivot.rb);
 		// printf("xx : %d\n");
-	b_to_a(a, b, pivot.rb);
+	b_to_a(a, b, pivot.rb, cnt);
+
+	b_to_a(a, b, pivot.pb - pivot.rb, cnt);
     	//print_result(a, b);
 
 	// printf("ddddddddddd\n");

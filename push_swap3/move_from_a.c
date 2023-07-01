@@ -15,14 +15,17 @@
 void	move_from_a(t_stack **a, t_stack **b, t_value *pivot)
 {
 	//pivot1 == 1 pivot2 == 4
-	if ((*a)->top->value > pivot->pivot_2)
+	if ((*a)->top->value >= pivot->pivot_2)
 	{
+		printf("xccccccxcxccxccccx\n");
 		ra(a);
 		pivot->ra++;
 	}
 	else
 	{
-		pb(a, b);	
+		printf("xccccccxcxccxccccx\n");
+		printf("xccccccxcxccxccccx\n");
+		pb(a, b);
 		pivot->pb++;
 		if ((*b)->top->value > pivot->pivot_1)
 		{
@@ -35,9 +38,9 @@ void	move_from_a(t_stack **a, t_stack **b, t_value *pivot)
 	// print_result(a, b);
 }
 
-void	top_value_min(t_stack **a, int max, int size)
+void	top_value_min(t_stack **a, int max)
 {
-	if (size == 3)
+	if ((*a)->size == 3)
 	{
 		if ((*a)->top->next->value == max)
 		{
@@ -46,12 +49,18 @@ void	top_value_min(t_stack **a, int max, int size)
 		}
 	}
 	else
-		return ;
+		if ((*a)->top->next->value == max)
+		{
+			// rra(a);
+			// sa(a);
+			// rra(a);
+		return;
+		}
 }
 
-void	top_next_value_min(t_stack **a, int max, int size)
+void	top_next_value_min(t_stack **a, int max)
 {
-	if (size == 3)
+	if ((*a)->size == 3)
 	{
 		if ((*a)->bottom->value == max)
 			sa(a);
@@ -59,25 +68,41 @@ void	top_next_value_min(t_stack **a, int max, int size)
 			ra(a);
 	}
 	else
-		return ;
+		sa(a);
+		if ((*a)->top->next->value == max)
+		{
+			// ra(a);
+			// sa(a);
+			// rra(a);
+			return;
+		}
 }
 
-void	top_next_next_value_min(t_stack **a, int max, int size)
+void	top_next_next_value_min(t_stack **a, int max)
 {
 	// printf("a->size: %d\n", a->size);
-	if (size == 3)
+	if ((*a)->size == 3)
 	{
 		if ((*a)->top->value == max)
 			sa(a);
+		printf("sdfjkldshgfkl \n");
 		rra(a);
 	}
 	else
-		return ;
-
+		{
+		// if ((*a)->top->value == max)
+		// 	sa(a);
+		// ra(a);
+		// sa(a);
+		// rra(a);
+		// sa(a);
+		return;
+		}
 }
 
 void	size_two(t_stack **a, t_stack **b, int flag)
 {
+
 	if (flag == A)
 	{
 		if ((*a)->top->value > (*a)->top->next->value)
@@ -85,8 +110,14 @@ void	size_two(t_stack **a, t_stack **b, int flag)
 	}
 	else
 	{
+		// printf("dddddd\n");
+		// printf("b->top : %d, b->top->next : %d\n", (*b)->top->value, (*b)->top->next->value);
+
 		if ((*b)->top->value < (*b)->top->next->value)
-			sb(b);
+			{
+				// printf("dddddd\n");
+				sb(b);
+			}		
 		pa(a, b);
 		pa(a, b);
 	}
@@ -100,12 +131,12 @@ void	size_three_a(t_stack **a, int size)
 	min = get_min_value((*a)->top, size);
 	max = get_max_value((*a)->top, size);
 	if ((*a)->top->value == min)
-		top_value_min(a, max, size);
+		top_value_min(a, max);
 	else if ((*a)->top->next->value == min)
-		top_next_value_min(a, max, size);
+		top_next_value_min(a, max);
 	else if ((*a)->top->next->next->value == min)
 	{
-		top_next_next_value_min(a, max, size);
+		top_next_next_value_min(a, max);
 	}
 
 }
