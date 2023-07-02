@@ -16,13 +16,14 @@
 //pivot_2 = 7
 void	move_from_b(t_stack **a, t_stack **b, t_value *pivot)
 {
-	if ((*b)->top->value < pivot->pivot_1)
+	if ((*b)->top->value <= pivot->pivot_1)
 	{
 		rb(b);
 		pivot->rb++;
 	}
 	else
 	{
+		printf("sfnlsd888kn\n");
 		pa(a, b);
 		pivot->pa++;
 		if ((*a)->top->value < pivot->pivot_2)
@@ -52,12 +53,13 @@ void	top_value_min_b(t_stack **b, int max)
 	}
 	else
 	{
-		// sb(b);
-		// rb(b);
-		// sb(b);
-		// rrb(b);
-		// if ((*b)->top->next->value == max)
-		// 	sb(b);
+		
+		sb(b);
+		rb(b);
+		sb(b);
+		rrb(b);
+		if ((*b)->top->next->value == max)
+			sb(b);
 		return;
 	}
 }
@@ -74,11 +76,11 @@ void	top_next_value_min_b(t_stack **b, int max)
 	}
 	else
 	{
-		// rb(b);
-		// sb(b);
-		// rrb(b);
-		// if ((*b)->top->next->value == max)
-		// 	sb(b);
+		rb(b);
+		sb(b);
+		rrb(b);
+		if ((*b)->top->next->value == max)
+			sb(b);
 		return;
 	}
 }
@@ -185,6 +187,7 @@ void	size_three_b(t_stack **a, t_stack **b, int size)
 	{
 		top_next_next_value_min_b(b, max);
 	}
+	printf("sfnlsdkn\n");
 	pa(a, b);
 	pa(a, b);
 	pa(a, b);
@@ -345,13 +348,21 @@ void assign_index_b(t_stack **a, int size)
         i++;
     }
     ft_sort_int_tab_b(aa, size);
-
+	i = 0;
+	ptr = (*a)->top;
+	while (ptr)
+	{
+	printf("aa[i] : %d\n", aa[i]);	
+	i++;
+	}
+	
     ptr = (*a)->top;
     while (ptr)
     {
 		i = 0;
         while (i < size)
         {
+			printf("i : %d\n", aa[i]);
             if (ptr->value == aa[i])
             {
                 ptr->index = i + 1;
@@ -362,6 +373,7 @@ void assign_index_b(t_stack **a, int size)
 		printf("index: %d\n", ptr->index);
         ptr = ptr->next;
     }
+	free(aa);
 }
 
 // pivot 다시 정하기
@@ -398,6 +410,7 @@ void select_pivot_b(int size, t_stack **b, t_value *pivot)
 }
 void	b_to_a(t_stack **a, t_stack **b, int size, int *cnt)
 {
+	(*cnt)++;
 	printf("b_to_a\n");
 	t_value	pivot;
 	int		temp;

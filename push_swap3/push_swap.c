@@ -106,7 +106,8 @@ void assign_index(t_stack **a, int size)
     {
         aa[i] = ptr->value;
         ptr = ptr->next;
-        i++;
+        printf("aa[i] : %d\n", aa[i]);
+		i++;
     }
     ft_sort_int_tab(aa, size);
 
@@ -116,6 +117,7 @@ void assign_index(t_stack **a, int size)
 		i = 0;
         while (i < size)
         {
+			printf("i : %d\n", aa[i]);
             if (ptr->value == aa[i])
             {
                 ptr->index = i + 1;
@@ -126,6 +128,7 @@ void assign_index(t_stack **a, int size)
 		printf("index: %d\n", ptr->index);
         ptr = ptr->next;
     }
+	free(aa);
 }
 
 // pivot 다시 정하기
