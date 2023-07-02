@@ -17,14 +17,14 @@ void	move_from_a(t_stack **a, t_stack **b, t_value *pivot)
 	//pivot1 == 1 pivot2 == 4
 	if ((*a)->top->value >= pivot->pivot_2)
 	{
-		printf("xccccccxcxccxccccx\n");
+		//printf("xccccccxcxccxccccx\n");
 		ra(a);
 		pivot->ra++;
 	}
 	else
 	{
-		printf("xccccccxcxccxccccx\n");
-		printf("xccccccxcxccxccccx\n");
+		//printf("xccccccxcxccxccccx\n");
+		//printf("xccccccxcxccxccccx\n");
 		pb(a, b);
 		pivot->pb++;
 		if ((*b)->top->value > pivot->pivot_1)
@@ -51,9 +51,9 @@ void	top_value_min(t_stack **a, int max)
 	else
 		if ((*a)->top->next->value == max)
 		{
-			// rra(a);
-			// sa(a);
-			// rra(a);
+			ra(a);
+			sa(a);
+			rra(a);
 		return;
 		}
 }
@@ -71,31 +71,31 @@ void	top_next_value_min(t_stack **a, int max)
 		sa(a);
 		if ((*a)->top->next->value == max)
 		{
-			// ra(a);
-			// sa(a);
-			// rra(a);
+			ra(a);
+			sa(a);
+			rra(a);
 			return;
 		}
 }
 
 void	top_next_next_value_min(t_stack **a, int max)
 {
-	// printf("a->size: %d\n", a->size);
+	// //printf("a->size: %d\n", a->size);
 	if ((*a)->size == 3)
 	{
 		if ((*a)->top->value == max)
 			sa(a);
-		printf("sdfjkldshgfkl \n");
+		//printf("sdfjkldshgfkl \n");
 		rra(a);
 	}
 	else
 		{
-		// if ((*a)->top->value == max)
-		// 	sa(a);
-		// ra(a);
-		// sa(a);
-		// rra(a);
-		// sa(a);
+		if ((*a)->top->value == max)
+			sa(a);
+		ra(a);
+		sa(a);
+		rra(a);
+		sa(a);
 		return;
 		}
 }
@@ -110,12 +110,12 @@ void	size_two(t_stack **a, t_stack **b, int flag)
 	}
 	else
 	{
-		// printf("dddddd\n");
-		// printf("b->top : %d, b->top->next : %d\n", (*b)->top->value, (*b)->top->next->value);
+		// //printf("dddddd\n");
+		// //printf("b->top : %d, b->top->next : %d\n", (*b)->top->value, (*b)->top->next->value);
 
 		if ((*b)->top->value < (*b)->top->next->value)
 			{
-				// printf("dddddd\n");
+				// //printf("dddddd\n");
 				sb(b);
 			}		
 		pa(a, b);

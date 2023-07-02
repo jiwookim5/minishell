@@ -17,18 +17,18 @@ void print_stack(t_stack **stack)
     t_node *current = (*stack)->top;
     while (current != NULL)
     {
-        printf("%d ", current->value);
+        //printf("%d ", current->value);
         current = current->next;
     }
-    printf("\n");
+    //printf("\n");
 }
 
 void print_result(t_stack **a, t_stack **b)
 {
-    printf("Final state:\n");
-    printf("a stack: ");
+    //printf("Final state:\n");
+    //printf("a stack: ");
     print_stack(a);
-    printf("b stack: ");
+    //printf("b stack: ");
     print_stack(b);
 }
 
@@ -98,37 +98,44 @@ void assign_index(t_stack **a, int size)
     int i;
     int *aa;
     t_node *ptr;
+	t_node *compare_ptr;
 
     aa = (int *)malloc(size * sizeof(int));
     i = 0;
     ptr = (*a)->top;
-    while (ptr)
+    while (ptr && i < size)
     {
+		ptr->index = 1;
         aa[i] = ptr->value;
+		printf("ptr -> value : %d\n", ptr->value);
         ptr = ptr->next;
-        printf("aa[i] : %d\n", aa[i]);
+  
 		i++;
     }
     ft_sort_int_tab(aa, size);
 
+	//printf("size : %d\n", size);
     ptr = (*a)->top;
     while (ptr)
     {
 		i = 0;
-        while (i < size)
+		compare_ptr = (*a)->top;
+        while (compare_ptr)
         {
-			printf("i : %d\n", aa[i]);
             if (ptr->value == aa[i])
             {
                 ptr->index = i + 1;
-                break;
+				//printf("ptr->index : %d\n" , ptr->index);
+				break;
             }
+			compare_ptr = compare_ptr->next;
 			i++;
         }
-		printf("index: %d\n", ptr->index);
+		//printf("aa[%d] : %d\n", i ,aa[i]);
         ptr = ptr->next;
     }
 	free(aa);
+
 }
 
 // pivot 다시 정하기
@@ -143,16 +150,18 @@ void select_pivot(int size, t_stack **a, t_value *pivot)
 	assign_index(a, size);
 	// first = 0;
 	// second = 0;
-	//printf("index1 : %d\n", a->top->index);
-	//printf("index2 : %d\n", a->top->next->index);
-	//printf("index3 : %d\n", a->top->next->next->index);
-	//printf("index4 : %d\n", a->top->next->next->next->index);
-	//printf("index5 : %d\n", a->top->next->next->next->next->index);
-	//printf("index6 : %d\n", a->top->next->next->next->next->next->index);
+	////printf("index1 : %d\n", a->top->index);
+	////printf("index2 : %d\n", a->top->next->index);
+	////printf("index3 : %d\n", a->top->next->next->index);
+	////printf("index4 : %d\n", a->top->next->next->next->index);
+	////printf("index5 : %d\n", a->top->next->next->next->next->index);
+	////printf("index6 : %d\n", a->top->next->next->next->next->next->index);
 	first = (size / 3 + 1);
 	second = (size - first +1);
+	//printf("size : %d\n", size);
+	//heck_list(a, b);
 	printf("first : %d second : %d \n", first, second);
-	
+	printf(" fa->value : %d\n", fa->value);
 	while (fa)
 	{
 		if (fa->index == first)
@@ -170,7 +179,7 @@ void	push_swap(t_stack **a, t_stack **b)
 	cnt = 0;
 	// if (a->size == 5)
 	// {
-	// 	printf("fuck\n");
+	// 	//printf("fuck\n");
 	// 	handle_arg_five(a, b);
 	// }
 	// else
@@ -190,15 +199,15 @@ int	exceptional_cases(t_stack **a, t_stack **b, int size)
 {
 	if (size <= 3)
 	{
-		// printf("size : %d\n", size);
-		//printf("dddddddddd\n");
+		// //printf("size : %d\n", size);
+		////printf("dddddddddd\n");
 		handle_under_three(a, b, A, size);
 		return (0);
 	}
 	// else if (size == 5)
-	// {//printf("dddddddddd\n");
+	// {////printf("dddddddddd\n");
 	// 	hanlde_sort_five(a, b, A, 5);
-	// 	//printf("dddddddddd\n");
+	// 	////printf("dddddddddd\n");
 	// 	return (0);
 		
 	// }
@@ -259,31 +268,30 @@ void	a_to_b(t_stack **a, t_stack **b, int size, int *cnt)
 	int		temp;
 	
 	//3개이하 이거나 5개일 때 
-	check_list(a,b);
+	//check_list(a,b);
 	if (exceptional_cases(a, b, size) == 0)
 		return ;
-	//printf("fuck\n");
+	////printf("fuck\n");
 	t_value_zero(&pivot);
 	select_pivot(size, a, &pivot);
-	
 	temp = size;
 	while (temp--)
 	{
-		check_list(a, b);
+		//check_list(a, b);
 		move_from_a(a, b, &pivot);
 		//print_result(a, b);
 	}
 	
-	// printf("dddddddddddddddd\n");
-	//printf("ra : %d\n", pivot.ra);
+	// //printf("dddddddddddddddd\n");
+	////printf("ra : %d\n", pivot.ra);
 
-	//printf("ra : %d\n", pivot.ra);
+	////printf("ra : %d\n", pivot.ra);
 	
 	// int turn = pivot.rb;
 	// while (turn-- )
 	// {
 	// 	rrb(b);
-	// 	printf("rb : %d\n", pivot.rb);
+	// 	//printf("rb : %d\n", pivot.rb);
 	
 	// }
 	// check_list(a,b);
@@ -296,22 +304,26 @@ void	a_to_b(t_stack **a, t_stack **b, int size, int *cnt)
 	a_to_b(a, b, pivot.ra, cnt);
 
 
-	printf("rb : %d\n", pivot.rb);
-		// printf("xx : %d\n");
+	//printf("rb : %d\n", pivot.rb);
+		// //printf("xx : %d\n");
 	b_to_a(a, b, pivot.rb, cnt);
 
 	b_to_a(a, b, pivot.pb - pivot.rb, cnt);
     	//print_result(a, b);
 
-	// printf("ddddddddddd\n");
-	// printf("a1 : %d\n", a->top->value);
-	// printf("a2 : %d\n", a->top->next->value);
-	// printf("a3 : %d\n", a->top->next->next->value);
-	// printf("a4 : %d\n", a->top->next->next->next->value);
+	// //printf("ddddddddddd\n");
+	// //printf("a1 : %d\n", a->top->value);
+	// //printf("a2 : %d\n", a->top->next->value);
+	// //printf("a3 : %d\n", a->top->next->next->value);
+	// //printf("a4 : %d\n", a->top->next->next->next->value);
 
-	// printf("b1 : %d\n", b->top->value);
-	// printf("b2 : %d\n", b->top->next->value);
-	// // printf("b3 : %d\n", b->top->next->next->value);
+	// //printf("b1 : %d\n", b->top->value);
+	// //printf("b2 : %d\n", b->top->next->value);
+	// // //printf("b3 : %d\n", b->top->next->next->value);
 
-	// printf("return : %d\n", i);
+	// //printf("return : %d\n", i);
+	// while(1)
+	// {
+		
+	// }
 }

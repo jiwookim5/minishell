@@ -16,8 +16,10 @@
 int print_max = 0;
 void check_list(t_stack **a, t_stack **b)
 {
+	printf("sdgsklgsd\n");
 	if (print_max == 3000)
 		return; // exit(1);
+	
 	print_max++;
 	printf("print_max_idx: %d\n", print_max);
 	printf("\n");
@@ -34,12 +36,14 @@ void check_list(t_stack **a, t_stack **b)
 		if (aa)
 		{
 			printf("A_ %d: %d", cnt, aa->value);
+			//write(1, "A\n", 2);
 			aa = aa->next;
 		}
 		printf("\t\t");
 		if (bb)
 		{
 			printf("B_ %d: %d", cnt, bb->value);
+			//write(1, "B\n", 2);
 			bb = bb->next;
 		}
 		printf("\n");
@@ -65,19 +69,21 @@ int main(int argc, char **argv)
         a->top = make_stack(argc, argv, &a);
         //중복 체크
         same_check(a->top);
-        //printf("debug\n");
+        ////printf("debug\n");
         //b라는 스택을 만듬
+
         b = stack_init();
+
         // while (a->size--)
         // {
-        //     printf("%d\n",a->top->value);
+        //     //printf("%d\n",a->top->value);
         //     a->size--;
         //     a->top = a->top->next;
         // }
-	    printf("%d\n",a->top->value);
-    // printf("%d\n",a->top->next->value);
+	    //printf("%d\n",a->top->value);
+    // //printf("%d\n",a->top->next->value);
 
-    // printf("%d\n",a->top->next->next->next->value);
+    // //printf("%d\n",a->top->next->next->next->value);
 
 		// pb(&a, &b);
 		// pb(&a, &b);
@@ -87,11 +93,21 @@ int main(int argc, char **argv)
 		// rrb(&b);
    
         push_swap(&a, &b);
-        printf("debug\n");
+		// while(1)
+		// {
+
+		// }
+        //printf("debug\n");
 
         //print_result(&a, &b);
-        //printf("jaeyojun a->content : %d\n", a->top->value);
+        ////printf("jaeyojun a->content : %d\n", a->top->value);
+		// while (a->top)
+		// {
+		// 	free(a->top);
+		// 	a->top = a->top->next;
+		// }
      }
     check_list(&a, &b);
+
     return(0);
 }

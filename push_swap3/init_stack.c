@@ -78,6 +78,13 @@ void		node_set(char *argv, t_node **node, t_stack **a)
 		(*a)->size++;
 		i++;
 	}
+	int j = 0;
+	while(line[j])
+	{
+		free(line[j]);
+		j++;
+	}
+	free(line);
 }
 
 //스택을 만듬
@@ -107,6 +114,6 @@ t_node *make_stack(int argc, char **argv, t_stack **a)
     //노드 제일 처음으로 이동
     while (node->prev)
         node = node->prev;
-    // printf("valude : %d\n", node->value);
+    // //printf("valude : %d\n", node->value);
     return (node);
 }
