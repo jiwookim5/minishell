@@ -106,6 +106,7 @@ t_node *make_stack(int argc, char **argv, t_stack **a)
 				ft_error();
 
 		}
+		printf("argv[i] : %s\n", argv[i]);
 		node_set(argv[i], &node, a);
         i++;
 	}
