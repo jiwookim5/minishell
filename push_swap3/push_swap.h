@@ -121,6 +121,8 @@ void	return_rb(t_stack **a, t_stack **b, t_value *pivot);
 void	return_ra(t_stack **a, t_stack **b, t_value *pivot);
 void	return_rbb(t_stack **a, t_stack **b, t_value *pivot, int *cnt);
 void	return_raa(t_stack **a, t_stack **b, t_value *pivot, int *cnt);
+int		is_sorted(t_stack **a);
+void	checker(t_stack **a, t_stack **b);
 
 #endif
 

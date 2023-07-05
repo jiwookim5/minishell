@@ -91,14 +91,20 @@ int main(int argc, char **argv)
 		// pb(&a, &b);
 		// rb( &b);
 		// rrb(&b);
-   
-        push_swap(&a, &b);
+
+		push_swap(&a, &b);
 		// while(1)
 		// {
 
 		// }
         //printf("debug\n");
-
+		// while (a->top)
+		// {
+		// 	a->top = a->top->next;
+		// 	a->bottom->value = a->top->value;
+		// }
+		// printf("xxxxx\n");
+		// printf("(*a)->bottom->value : %d\n", a->bottom->value);
         //print_result(&a, &b);
         ////printf("jaeyojun a->content : %d\n", a->top->value);
 		// while (a->top)
@@ -107,8 +113,9 @@ int main(int argc, char **argv)
 		// 	a->top = a->top->next;
 		// }
     }
+
 	checker(&a, &b);
-    check_list(&a, &b);
+	check_list(&a, &b);
 
     return(0);
 }

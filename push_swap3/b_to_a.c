@@ -88,8 +88,10 @@ void	top_next_value_min_b(t_stack **b, int max)
 
 void	top_next_next_value_min_b(t_stack **b, int max)
 {
-	if ((*b)->size == 3)
+	
+	if ((*b)->size <= 3)
 	{
+
 		if ((*b)->top->next->value == max)
 			sb(b);
 	}
@@ -179,7 +181,7 @@ void	size_three_b(t_stack **a, t_stack **b, int size)
 	//check_list(a,b);
 	min = get_min_value((*b)->top, size); // 1
 	max = get_max_value((*b)->top, size); // 4
-	//printf("min : %d , max : %d\n", min, max);
+	printf("min : %d , max : %d\n", min, max);
 	if ((*b)->top->value == min)
 		top_value_min_b(b, max);
 	else if ((*b)->top->next->value == min)

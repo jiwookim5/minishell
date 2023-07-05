@@ -277,7 +277,7 @@ void	a_to_b(t_stack **a, t_stack **b, int size, int *cnt)
 	temp = size;
 	while (temp--)
 	{
-		//check_list(a, b);
+		check_list(a, b);
 		move_from_a(a, b, &pivot);
 		//print_result(a, b);
 	}
