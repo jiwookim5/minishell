@@ -106,7 +106,8 @@ int main(int argc, char **argv)
 		// 	free(a->top);
 		// 	a->top = a->top->next;
 		// }
-     }
+    }
+	checker(&a, &b);
     check_list(&a, &b);
 
     return(0);
