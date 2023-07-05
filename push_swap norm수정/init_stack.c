@@ -12,7 +12,6 @@
 
 #include "push_swap.h"
 
-//스택을 초기화. 빈 스택을 만든다.
 t_stack	*stack_init(void)
 {
 	t_stack	*stack;
@@ -26,7 +25,6 @@ t_stack	*stack_init(void)
 	return (stack);
 }
 
-//노드를 초기화. 빈 노드를 만듬
 t_node	*node_init(void)
 {
 	t_node	*node;
@@ -41,16 +39,13 @@ t_node	*node_init(void)
 	return (node);
 }
 
-//노드를 연결
 void		connect_list(t_node **temp, t_node **node, t_stack **stack)
 {
-	//스택에 노드가 없는경우 해당 노드를 제일 위로 올림
 	if (!*node)
 	{
 		*node = *temp;
 		(*stack)->top = *node;
 	}
-	//노드가 있으면 연결
 	else
 	{
 		(*node)->next = *temp;
@@ -59,7 +54,6 @@ void		connect_list(t_node **temp, t_node **node, t_stack **stack)
 	}
 }
 
-//스택안에 노드를 세팅 
 void		node_set(char *argv, t_node **node, t_stack **a)
 {
 	int		i;
@@ -87,7 +81,6 @@ void		node_set(char *argv, t_node **node, t_stack **a)
 	free(line);
 }
 
-//스택을 만듬
 t_node *make_stack(int argc, char **argv, t_stack **a)
 {
     int i;
@@ -106,15 +99,12 @@ t_node *make_stack(int argc, char **argv, t_stack **a)
 				ft_error();
 
 		}
-		printf("argv[i] : %s\n", argv[i]);
 		node_set(argv[i], &node, a);
         i++;
 	}
 	if (!node->next)
 		(*a)->bottom = node;
-    //노드 제일 처음으로 이동
     while (node->prev)
         node = node->prev;
-    // //printf("valude : %d\n", node->value);
     return (node);
 }

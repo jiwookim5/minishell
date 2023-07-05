@@ -29,19 +29,15 @@ int		is_sorted(t_stack **a)
 		else
 			break ;
 	}
-	//printf("node->value : %d, (*a)->bottom->value : %d\n", node->value, (*a)->bottom->value);
-	//if (node->value == (*a)->bottom->value)
 		return (1);
-	//else
-		//return (0);
 }
 
 void	checker(t_stack **a, t_stack **b)
 {
-	printf("dddddddddd\n");
+
     if (is_sorted(a) && !(*b)->top)
-		printf("OK\n");
+		write(1, "OK\n", 3);
     
 	else
-		printf("KO\n");
+		write(1, "OK\n", 3);
 }

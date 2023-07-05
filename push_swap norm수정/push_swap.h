@@ -88,7 +88,7 @@ void three_only_b(t_stack **a_st,t_stack **stacks, int cnt);
 void	a_to_b(t_stack **a, t_stack **b, int size, int *cnt);
 void	ft_sort_int_tab_b(int *tab, int size);
 void assign_index_b(t_stack **b, int size);
-void select_pivot_b(int size,t_stack**a, t_stack **b, t_value *pivot);
+void select_pivot_b(int size, t_stack **b, t_value *pivot);
 
 struct	s_stack
 {
