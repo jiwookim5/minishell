@@ -44,14 +44,14 @@ void    sb(t_stack **b);
 void    ss(t_stack **a, t_stack **b);
 void	pa(t_stack **a, t_stack **b);
 void	pb(t_stack **a, t_stack **b);
-void    ra(t_stack **a);
+void    ra(t_stack **a, int i);
 t_node	*ft_lstlast_two(t_node *lst);
 void	push_swap(t_stack **a, t_stack **b);
 void	ft_lstadd_back_two(t_node **lst, t_node *new);
-void    rb(t_stack **b);
+void    rb(t_stack **b, int i);
 void    rr(t_stack **a, t_stack **b);
-void    rra(t_stack **a);
-void    rrb(t_stack **b);
+void    rra(t_stack **a, int i);
+void    rrb(t_stack **b, int i);
 void    rrr(t_stack **a, t_stack **b);
 void	t_value_zero(t_value *var);
 
@@ -61,10 +61,10 @@ int		get_min_value(t_node *node, int size);
 void	size_three_a(t_stack **a, int size);
 
 
-void	move_from_a(t_stack **a, t_stack **b, t_value *pivot);
+int	move_from_a(t_stack **a, t_stack **b, t_value *pivot , int *temp);
 void print_result(t_stack **a, t_stack **b);
 void assign_index(t_stack **stack_a, int stack_size);
-void	move_from_b(t_stack **a, t_stack **b, t_value *pivot);
+int	move_from_b(t_stack **a, t_stack **b, t_value *pivot, int *temp);
 void	b_to_a(t_stack **a, t_stack **b, int size, int *cnt);
 
 void	top_next_value_min_b(t_stack **b, int max);
@@ -122,7 +122,7 @@ void	return_ra(t_stack **a, t_stack **b, t_value *pivot);
 void	return_rbb(t_stack **a, t_stack **b, t_value *pivot, int *cnt);
 void	return_raa(t_stack **a, t_stack **b, t_value *pivot, int *cnt);
 int		is_sorted(t_stack **a);
-void	checker(t_stack **a, t_stack **b);
+// void	checker(t_stack **a, t_stack **b);
 
 #endif
 

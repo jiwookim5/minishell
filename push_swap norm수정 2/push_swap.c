@@ -176,13 +176,13 @@ void	return_rbb(t_stack **a, t_stack **b, t_value *pivot, int *cnt)
 			rrr(a, b);
 		}
 		while (rem--)
-			rrb(b);
+			rrb(b, 2);
 	}
 	else
 	{
 		rrd = pivot->rb;
 		while (rrd--)
-			rrb(b);
+			rrb(b, 2);
 	}
 }
 
@@ -199,12 +199,12 @@ void	return_raa(t_stack **a, t_stack **b, t_value *pivot, int *cnt)
 		while (rrd--)
 			rrr(a, b);
 		while (rem--)
-			rra(a);
+			rra(a, 2);
 	}
 	else
 	{
 		while (rrd--)
-			rrb(b);
+			rrb(b, 2);
 	}
 }
 
@@ -218,8 +218,9 @@ void	a_to_b(t_stack **a, t_stack **b, int size, int *cnt)
 	t_value_zero(&pivot);
 	select_pivot(size, a, &pivot);
 	temp = size;
-	while (temp--)
-		move_from_a(a, b, &pivot);
+	while (temp-- > 0)
+		temp = move_from_a(a, b, &pivot, &temp);
+	
 	if (pivot.ra > pivot.rb)
 		return_raa(a, b, &pivot, cnt);
 	else

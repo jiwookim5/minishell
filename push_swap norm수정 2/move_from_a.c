@@ -12,11 +12,11 @@
 
 #include "push_swap.h"
 
-void	move_from_a(t_stack **a, t_stack **b, t_value *pivot)
+int	move_from_a(t_stack **a, t_stack **b, t_value *pivot , int *temp)
 {
 	if ((*a)->top->value >= pivot->pivot_2)
 	{
-		ra(a);
+		ra(a, 2);
 		pivot->ra++;
 	}
 	else
@@ -25,11 +25,27 @@ void	move_from_a(t_stack **a, t_stack **b, t_value *pivot)
 		pivot->pb++;
 		if ((*b)->top->value > pivot->pivot_1)
 		{
-			rb(b);
+			if ((*a)->top->value >= pivot->pivot_2)
+			{
+				if (*temp - 1 == -1)
+				{
+					rb(b, 2);
+					pivot->rb++;
+					return (*temp);
+				}
+				rr (a, b);
+				pivot->rb++;
+				pivot->ra++;
+				*temp = *temp - 1;
+				return (*temp);
+			}
+			rb(b, 2);
 			pivot->rb++;
 		}
 	}
+	return (*temp);
 }
+
 
 void	top_value_min(t_stack **a, int max)
 {
@@ -37,16 +53,16 @@ void	top_value_min(t_stack **a, int max)
 	{
 		if ((*a)->top->next->value == max)
 		{
-			rra(a);
+			rra(a, 2);
 			sa(a);
 		}
 	}
 	else
 		if ((*a)->top->next->value == max)
 		{
-			ra(a);
+			ra(a, 2);
 			sa(a);
-			rra(a);
+			rra(a, 2);
 		return;
 		}
 }
@@ -58,15 +74,15 @@ void	top_next_value_min(t_stack **a, int max)
 		if ((*a)->bottom->value == max)
 			sa(a);
 		else
-			ra(a);
+			ra(a, 2);
 	}
 	else
 		sa(a);
 		if ((*a)->top->next->value == max)
 		{
-			ra(a);
+			ra(a, 2);
 			sa(a);
-			rra(a);
+			rra(a, 2);
 			return;
 		}
 }
@@ -77,15 +93,15 @@ void	top_next_next_value_min(t_stack **a, int max)
 	{
 		if ((*a)->top->value == max)
 			sa(a);
-		rra(a);
+		rra(a, 2);
 	}
 	else
 		{
 		if ((*a)->top->value == max)
 			sa(a);
-		ra(a);
+		ra(a, 2);
 		sa(a);
-		rra(a);
+		rra(a, 2);
 		sa(a);
 		return;
 		}

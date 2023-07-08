@@ -32,12 +32,12 @@ int		is_sorted(t_stack **a)
 		return (1);
 }
 
-void	checker(t_stack **a, t_stack **b)
-{
+// void	checker(t_stack **a, t_stack **b)
+// {
 
-    if (is_sorted(a) && !(*b)->top)
-		write(1, "OK\n", 3);
+//     if (is_sorted(a) && !(*b)->top)
+// 		write(1, "OK\n", 3);
     
-	else
-		write(1, "OK\n", 3);
-}
+// 	else
+// 		write(1, "OK\n", 3);
+// }

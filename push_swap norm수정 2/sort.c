@@ -47,6 +47,7 @@ void    sa(t_stack **a)
         (*a)->top = (*a)->top->next;
         temp->next = (*a)->top->next;
         (*a)->top->next = temp;
+        write(1, "sa\n", 3);
     }
     else
         ft_error();
@@ -62,7 +63,6 @@ void    sb(t_stack **b)
         (*b)->top = (*b)->top->next;
         temp->next = (*b)->top->next;
         (*b)->top->next = temp;
-
         write(1, "sb\n", 3);
     }
     else
@@ -108,7 +108,7 @@ void	pb(t_stack **a, t_stack **b)
 }
 
 
-void    ra(t_stack **a)
+void    ra(t_stack **a, int i)
 {
 	t_node	*first;
 	t_node	*second;
@@ -121,10 +121,11 @@ void    ra(t_stack **a)
         first->next = NULL;
         (*a)->top = second;
     }
-    write(1, "ra\n", 3);
+    if (i != 1)
+        write(1, "ra\n", 3);
 }
 
-void    rb(t_stack **b)
+void    rb(t_stack **b, int i)
 {
 	t_node	*first;
 	t_node	*second;
@@ -137,18 +138,19 @@ void    rb(t_stack **b)
     first->next = NULL;
     (*b)->top = second;
     }
-    write(1, "rb\n", 3);
+    if (i != 1)
+        write(1, "rb\n", 3);
 }
 
 void    rr(t_stack **a, t_stack **b)
 {
-    ra(a);
-    rb(b);
+    ra(a, 1);
+    rb(b, 1);
     write(1, "rr\n", 3);
 }
 
 
-void rra(t_stack **a)
+void rra(t_stack **a, int i)
 {
     t_node   *temp;
    t_node   *last_front;
@@ -166,10 +168,11 @@ void rra(t_stack **a)
    temp->next = stack;
    last_front->next = NULL;
    (*a)->top = temp;
-    write(1, "rra\n", 4);
+   if (i != 1)
+        write(1, "rra\n", 4);
 }
 
-void rrb(t_stack **b)
+void rrb(t_stack **b, int i)
 {
     t_node   *temp;
     t_node   *last_front;
@@ -187,12 +190,13 @@ void rrb(t_stack **b)
     temp->next = stack;
     last_front->next = NULL;
     (*b)->top = temp;
-    write(1, "rrb\n", 4);
+    if (i != 1)
+        write(1, "rrb\n", 4);
 }
 
 void    rrr(t_stack **a, t_stack **b)
 {
-    rra(a);
-    rrb(b);
+    rra(a, 1);
+    rrb(b, 1);
     write(1, "rrr\n", 4);
 }

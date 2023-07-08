@@ -55,6 +55,7 @@ void	str_check(char *str)
 	int	len;
 
 	len = chk_arg_length(str);
+
 	if (len > 11 || len < 0)
 		ft_error();
 	number_check(str);

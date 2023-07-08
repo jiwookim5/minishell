@@ -12,11 +12,11 @@
 
 #include "push_swap.h"
 
-void	move_from_b(t_stack **a, t_stack **b, t_value *pivot)
+int	move_from_b(t_stack **a, t_stack **b, t_value *pivot, int *temp)
 {
 	if ((*b)->top->value <= pivot->pivot_1)
 	{
-		rb(b);
+		rb(b, 2);
 		pivot->rb++;
 	}
 	else
@@ -25,10 +25,25 @@ void	move_from_b(t_stack **a, t_stack **b, t_value *pivot)
 		pivot->pa++;
 		if ((*a)->top->value < pivot->pivot_2)
 		{
-			ra(a);
+			if ((*b)->top->value <= pivot->pivot_1)
+			{
+				if (*temp -1 == -1)
+				{
+					ra(a, 2);
+					pivot->ra++;
+					return (*temp);
+				}
+				rr (a, b);
+				pivot->ra++;
+				pivot->rb++;
+				*temp = *temp - 1;
+				return (*temp);
+			}
+			ra(a, 2);
 			pivot->ra++;
 		}
 	}
+	return (*temp);
 }
 
 void	top_value_min_b(t_stack **b, int max)
@@ -36,7 +51,7 @@ void	top_value_min_b(t_stack **b, int max)
 {
 	if ((*b)->size == 3)
 	{
-		rb(b);
+		rb(b,2);
 		if ((*b)->top->next->value == max)
 		{
 			sb(b);
@@ -44,11 +59,10 @@ void	top_value_min_b(t_stack **b, int max)
 	}
 	else
 	{
-		
 		sb(b);
-		rb(b);
+		rb(b,2);
 		sb(b);
-		rrb(b);
+		rrb(b, 2);
 		if ((*b)->top->next->value == max)
 			sb(b);
 		return;
@@ -59,15 +73,15 @@ void	top_next_value_min_b(t_stack **b, int max)
 {
 	if ((*b)->size == 3)
 	{
-		rrb(b);
+		rrb(b, 2);
 		if ((*b)->top->next->value == max)
 			sb(b);
 	}
 	else
 	{
-		rb(b);
+		rb(b,2);
 		sb(b);
-		rrb(b);
+		rrb(b, 2);
 		if ((*b)->top->next->value == max)
 			sb(b);
 		return;
@@ -118,8 +132,6 @@ void	handle_under_three(t_stack **a, t_stack **b, int flag, int size)
 		}
 		else
 		{
-
-			write(1, "awd\n", 4);
 			size_three_b(a, b, size);
 		}
 		
@@ -128,7 +140,7 @@ void	handle_under_three(t_stack **a, t_stack **b, int flag, int size)
 	{
 		size_two(a, b, flag);
 	}
-	else if (size == 1)
+	else if (size ==1)
 	{
 		if (flag == B)
 		{
@@ -158,7 +170,7 @@ void	return_rb(t_stack **a, t_stack **b, t_value *pivot)
 	while (rrd--)
 		rrr(a,b);
 	while (rem--)
-		rrb(b);
+		rrb(b, 2);
 }
 
 
@@ -173,7 +185,7 @@ void	return_ra(t_stack **a, t_stack **b, t_value *pivot)
 		rrr(a,b);
 	while(rem--)
 	{
-		rra(a);
+		rra(a, 2);
 	}
 }
 void	ft_sort_int_tab_b(int *tab, int size)
@@ -280,8 +292,8 @@ void	b_to_a(t_stack **a, t_stack **b, int size, int *cnt)
 
 	select_pivot_b(size,  b, &pivot);			
 	temp = size;
-	while (temp--)
-		move_from_b(a, b, &pivot);
+	while (temp-- > 0)
+		temp = move_from_b(a, b, &pivot, &temp);
 
 	a_to_b(a, b, pivot.pa - pivot.ra, cnt);
 
