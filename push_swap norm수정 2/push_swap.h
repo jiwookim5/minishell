@@ -72,7 +72,7 @@ void	top_next_next_value_min_b(t_stack **b, int max);
 void	size_three_b(t_stack **a, t_stack **b, int size);
 void	top_value_min_b(t_stack **b, int max);
 int	exceptional_cases(t_stack **a, t_stack **b, int size);
-void		hanlde_sort_five(t_stack **a, t_stack **b, int flag, int size);
+void		handle_sort_five(t_stack **a, t_stack **b, int flag, int size);
 void	sort_five_a(int size, t_stack **a, t_stack **b);
 void	sort_five_b(int size, t_stack **a, t_stack **b);
 void		handle_arg_five(t_stack **a, t_stack **b);
@@ -124,6 +124,78 @@ void	return_raa(t_stack **a, t_stack **b, t_value *pivot, int *cnt);
 int		is_sorted(t_stack **a);
 // void	checker(t_stack **a, t_stack **b);
 
+int		sort_values_four(int value[]);
+int			get_first_value(t_node *node);
+void		handle_arg_four(t_stack **a, t_stack **b);
+void	sort_four_a(int size, t_stack **a, t_stack **b);
+void	sort_four_b(int size, t_stack **a, t_stack **b);
+void		handle_sort_four(t_stack **a, t_stack **b, int flag, int size);
+
 #endif
 
 
+
+
+
+
+// int	move_ones(t_stack **a, t_stack **b, t_value *pivot, int *temp)
+// {
+// if ((*a)->top->value >= pivot->pivot_2)
+// 	{
+// 		ra(a, 2);
+// 		pivot->ra++;
+// 	}
+// 	else
+// 	{
+// 		pb(a, b);
+// 		pivot->pb++;
+// 		if ((*b)->top->value > pivot->pivot_1)
+// 		{
+// 			if ((*a)->top->value >= pivot->pivot_2)
+// 			{
+// 				if (*temp - 1 == -1)
+// 				{
+// 					rb(b, 2);
+// 					pivot->rb++;
+// 					return (*temp);
+// 				}
+// 				rr (a, b);
+// 				pivot->rb++;
+// 				pivot->ra++;
+// 				*temp = *temp - 1;
+// 				return (*temp);
+// 			}
+// 			rb(b, 2);
+// 			pivot->rb++;
+// 		}
+// 	}
+// 	return (*temp);
+// }
+
+// void	sort_algorithm(t_stack **a, t_stack **b, int size, t_value *pivot)
+// {
+// 	int temp;
+
+// 	if (exceptional_cases(a, b, size) == 0)
+// 		return ;
+// 	select_pivot(size, a, pivot);
+// 	temp = size;
+// 	while (temp-- > 0)
+// 		temp = move_ones(a, b, pivot, &temp);
+// }
+
+
+// void	push_swap(t_stack **a, t_stack **b)
+// {
+// 	int	cnt;
+// 	t_value pivot;
+
+// 	cnt = 0;
+// 	t_value_zero(&pivot);
+// 	if (!(is_sorted(a)))
+// 		sort_algorithm(a, b, (*a)->size, &pivot);
+// 	// printf("jiwo2\n");
+// 	a_to_b(a, b, pivot.ra, &cnt);
+// 	b_to_a(a, b, pivot.pb - pivot.rb, &cnt);
+// 	b_to_a(a, b, pivot.rb, &cnt);
+// }

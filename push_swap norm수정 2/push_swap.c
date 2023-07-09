@@ -140,6 +140,10 @@ void	push_swap(t_stack **a, t_stack **b)
 	int	cnt;
 
 	cnt = 0;
+	if (is_sorted(a) == 1)
+		return ;
+	if ((*a)->size == 4)
+		handle_arg_four(a, b);
 	if ((*a)->size == 5)
 		handle_arg_five(a, b);
 	a_to_b(a, b, (*a)->size, &cnt);
@@ -161,9 +165,14 @@ int	exceptional_cases(t_stack **a, t_stack **b, int size)
 		handle_under_three(a, b, A, size);
 		return (0);
 	}
+	else if (size == 4)
+	{
+		handle_sort_four(a, b, A, 4);
+		return (0);
+	}
 	else if (size == 5)
 	{
-		hanlde_sort_five(a, b, A, 5);
+		handle_sort_five(a, b, A, 5);
 		return (0);
 	}
 		return (1);

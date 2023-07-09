@@ -157,9 +157,14 @@ int	exceptional_cases_b(t_stack **a, t_stack **b, int size)
 		handle_under_three(a, b, B, size);
 		return (0);
 	}
-		else if (size == 5)
+	else if (size == 4)
 	{
-		hanlde_sort_five(a, b, B, 5);
+		handle_sort_four(a, b, B, 4);
+		return (0);
+	}
+	else if (size == 5)
+	{
+		handle_sort_five(a, b, B, 5);
 		return (0);
 	}
 	return (1);
