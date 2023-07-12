@@ -12,6 +12,14 @@
 
 #include "push_swap.h"
 
+void	t_value_zero(t_value *var)
+{
+	var->ra = 0;
+	var->rb = 0;
+	var->pa = 0;
+	var->pb = 0;
+}
+
 long long	ft_atoi(char *str)
 {
 	int			a;

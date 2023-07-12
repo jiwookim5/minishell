@@ -140,15 +140,3 @@ void	sort_four_b(int size, t_stack **a, t_stack **b)
 		rrb(b, 2);
 }
 
-void		handle_sort_four(t_stack **a, t_stack **b, int flag, int size)
-{
-	if (flag == A)
-		sort_four_a(size, a, b);
-	else
-		sort_four_b(size, a, b);
-	size_three_a(a, 3);
-	if (flag == A)
-		pa(a, b);
-	else
-		pb(a, b);
-}
