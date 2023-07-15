@@ -128,5 +128,6 @@ struct	s_value
 	int	pb;
 
 };
+void check_list(t_stack **a, t_stack **b);
 
 #endif
