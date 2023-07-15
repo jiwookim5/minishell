@@ -12,6 +12,17 @@
 
 #include "push_swap.h"
 
+long long	ft_atoi_sub(int a, long long res, char *str)
+{
+	while (str[a] >= '0' && str[a] <= '9')
+	{
+		res *= 10;
+		res += str[a] - '0';
+		a++;
+	}
+	return (res);
+}
+
 long long	ft_atoi(char *str)
 {
 	int			a;
@@ -31,12 +42,7 @@ long long	ft_atoi(char *str)
 			b *= -1;
 		a++;
 	}
-	while (str[a] >= '0' && str[a] <= '9')
-	{
-		res *= 10;
-		res += str[a] - '0';
-		a++;
-	}
+	res = ft_atoi_sub(a, res, str);
 	final = res * b;
 	if (final > 2147483647 || final < -2147483648)
 		ft_error();

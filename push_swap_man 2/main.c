@@ -12,19 +12,18 @@
 
 #include "push_swap.h"
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-    t_stack *a;
-    t_stack *b;
+	t_stack	*a;
+	t_stack	*b;
 
-    if (argc > 1)
-    {
-        a = stack_init();
-        a->top = make_stack(argc, argv, &a);
-        same_check(a->top);
-        b = stack_init();
-        push_swap(&a, &b);
-        // checker(&a, &b);
-    }
-    return(0);
+	if (argc > 1)
+	{
+		a = stack_init();
+		a->top = make_stack(argc, argv, &a);
+		same_check(a->top);
+		b = stack_init();
+		push_swap(&a, &b);
+		free_st(&a, &b);
+	}
 }

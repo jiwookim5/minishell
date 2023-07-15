@@ -6,13 +6,13 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 21:32:48 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/07/12 21:32:57 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/07/15 22:13:31 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int    get_max_value(t_node *node, int size)
+int	get_max_value(t_node *node, int size)
 {
 	int	max;
 
@@ -24,16 +24,16 @@ int    get_max_value(t_node *node, int size)
 		if (node->next)
 			node = node->next;
 		else
-			break;
+			break ;
 	}
 	while (node->prev)
 		node = node->prev;
 	return (max);
 }
 
-int		get_min_value(t_node *node, int size)
+int	get_min_value(t_node *node, int size)
 {
-	int min;
+	int	min;
 
 	min = node->value;
 	while (size--)
@@ -43,12 +43,13 @@ int		get_min_value(t_node *node, int size)
 		if (node->next)
 			node = node->next;
 		else
-			break;
+			break ;
 	}
 	while (node->prev)
 		node = node->prev;
 	return (min);
 }
+
 void	ft_sort_int_tab(int *tab, int size)
 {
 	int	a;
@@ -73,53 +74,32 @@ void	ft_sort_int_tab(int *tab, int size)
 	}
 }
 
-void assign_index(t_stack **a, int size)
+void	assign_index(t_stack **a, int size)
 {
-    int i;
-    int *aa;
-    t_node *ptr;
-	t_node *compare_ptr;
+	int		i;
+	int		*aa;
+	t_node	*ptr;
 
-    aa = (int *)malloc(size * sizeof(int));
-    i = 0;
-    ptr = (*a)->top;
-    while (ptr && i < size)
-    {
+	aa = (int *)malloc(size * sizeof(int));
+	i = 0;
+	ptr = (*a)->top;
+	while (ptr && i < size)
+	{
 		ptr->index = 1;
-        aa[i] = ptr->value;
-        ptr = ptr->next;
-  
+		aa[i] = ptr->value;
+		ptr = ptr->next;
 		i++;
-    }
-    ft_sort_int_tab(aa, size);
-
-    ptr = (*a)->top;
-    while (ptr)
-    {
-		i = 0;
-		compare_ptr = (*a)->top;
-        while (compare_ptr)
-        {
-            if (ptr->value == aa[i])
-            {
-                ptr->index = i + 1;
-				break;
-            }
-			compare_ptr = compare_ptr->next;
-			i++;
-		}
-        ptr = ptr->next;
-    }
+	}
+	ft_sort_int_tab(aa, size);
+	assign_index_sub(a, i, aa);
 	free(aa);
-
 }
 
-void select_pivot(int size, t_stack **a, t_value *pivot)
+void	select_pivot(int size, t_stack **a, t_value *pivot)
 {
-	int first;
-	int second;
-	t_node *fa;
-
+	int		first;
+	int		second;
+	t_node	*fa;
 
 	fa = (*a)->top;
 	assign_index(a, size);

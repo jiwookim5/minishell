@@ -6,62 +6,40 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 21:29:13 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/07/12 22:31:43 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/07/15 21:43:57 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	handle_arg_four(t_stack **a, t_stack **b)
+int	move_ones_sub(t_stack **a, t_stack **b, t_value *pivot, int *temp)
 {
-	int	first;
-	int	pbb;
-
-	pbb = 0;
-	first = get_first_value((*a)->top);
-	while (1)
+	if ((*b)->top->value < pivot->pivot_1)
 	{
-		if ((*a)->top->value == first)
+		if ((*a)->top->value >= pivot->pivot_2)
 		{
-			pb(a, b);
-			pbb++;
-			(*a)->size--;
+			if (*temp - 1 == -1)
+			{
+				rb(b, 2);
+				pivot->rb++;
+				return (*temp);
+			}
+			rr (a, b);
+			pivot->rb++;
+			pivot->ra++;
+			*temp = *temp - 1;
+			return (*temp);
 		}
-		else
-			ra(a, 2);
-		if (pbb == 1)
-			break ;
+		rb(b, 2);
+		pivot->rb++;
 	}
-	size_three_a(a, 3);
-	pa(a, b);
-}
-
-void	handle_arg_five(t_stack **a, t_stack **b)
-{
-	int	pbb;
-	int	mid;
-
-	pbb = 0;
-	mid = get_mid_value_five((*a)->top);
-	while (1)
-	{
-		if ((*a)->top->value < mid)
-		{
-			pb(a, b);
-			pbb++;
-			(*a)->size--;
-		}
-		else
-			ra(a, 2);
-		if (pbb == 2)
-			break ;
-	}
-	size_three_a(a, 3);
-	size_two(a, b, B);
+	return (*temp);
 }
 
 int	move_ones(t_stack **a, t_stack **b, t_value *pivot, int *temp)
 {
+	int	i;
+
 	if ((*a)->top->value >= pivot->pivot_2)
 	{
 		ra(a, 2);
@@ -71,25 +49,7 @@ int	move_ones(t_stack **a, t_stack **b, t_value *pivot, int *temp)
 	{
 		pb(a, b);
 		pivot->pb++;
-		if ((*b)->top->value < pivot->pivot_1)
-		{
-			if ((*a)->top->value >= pivot->pivot_2)
-			{
-				if (*temp - 1 == -1)
-				{
-					rb(b, 2);
-					pivot->rb++;
-					return (*temp);
-				}
-				rr (a, b);
-				pivot->rb++;
-				pivot->ra++;
-				*temp = *temp - 1;
-				return (*temp);
-			}
-			rb(b, 2);
-			pivot->rb++;
-		}
+		i = move_ones_sub(a, b, pivot, temp);
 	}
 	return (*temp);
 }
@@ -114,10 +74,6 @@ void	push_swap(t_stack **a, t_stack **b)
 	cnt = 0;
 	if (is_sorted(a) == 1)
 		return ;
-	if ((*a)->size == 4)
-		handle_arg_four(a, b);
-	if ((*a)->size == 5)
-		handle_arg_five(a, b);
 	t_value_zero(&pivot);
 	if (!(is_sorted(a)))
 		sort_algorithm(a, b, (*a)->size, &pivot);

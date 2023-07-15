@@ -12,8 +12,34 @@
 
 #include "push_swap.h"
 
+int	move_a_sub(t_stack **a, t_stack **b, t_value *pivot, int *temp)
+{
+	if ((*b)->top->value > pivot->pivot_1)
+	{
+		if ((*a)->top->value >= pivot->pivot_2)
+		{
+			if (*temp - 1 == -1)
+			{
+				rb(b, 2);
+				pivot->rb++;
+				return (*temp);
+			}
+			rr (a, b);
+			pivot->rb++;
+			pivot->ra++;
+			*temp = *temp - 1;
+			return (*temp);
+		}
+		rb(b, 2);
+		pivot->rb++;
+	}
+	return (*temp);
+}
+
 int	move_from_a(t_stack **a, t_stack **b, t_value *pivot, int *temp)
 {
+	int	i;
+
 	if ((*a)->top->value >= pivot->pivot_2)
 	{
 		ra(a, 2);
@@ -23,25 +49,7 @@ int	move_from_a(t_stack **a, t_stack **b, t_value *pivot, int *temp)
 	{
 		pb(a, b);
 		pivot->pb++;
-		if ((*b)->top->value > pivot->pivot_1)
-		{
-			if ((*a)->top->value >= pivot->pivot_2)
-			{
-				if (*temp - 1 == -1)
-				{
-					rb(b, 2);
-					pivot->rb++;
-					return (*temp);
-				}
-				rr (a, b);
-				pivot->rb++;
-				pivot->ra++;
-				*temp = *temp - 1;
-				return (*temp);
-			}
-			rb(b, 2);
-			pivot->rb++;
-		}
+		i = move_a_sub(a, b, pivot, temp);
 	}
 	return (*temp);
 }
@@ -59,16 +67,6 @@ int	exceptional_cases(t_stack **a, t_stack **b, int size)
 	if (size <= 3)
 	{
 		handle_under_three(a, b, A, size);
-		return (0);
-	}
-	else if (size == 4)
-	{
-		handle_sort_four(a, b, A, 4);
-		return (0);
-	}
-	else if (size == 5)
-	{
-		hanlde_sort_five(a, b, A, 5);
 		return (0);
 	}
 	return (1);
