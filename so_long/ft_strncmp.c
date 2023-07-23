@@ -1,38 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcat.c                                       :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/14 09:41:12 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/03/23 17:08:01 by jiwkim2          ###   ########seoul.kr  */
+/*   Created: 2023/03/14 10:02:58 by jiwkim2           #+#    #+#             */
+/*   Updated: 2023/07/23 15:41:03 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "so_long.h"
 
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	size_t	a;
-	size_t	b;
-	char	*c;
+	size_t			a;
+	unsigned char	*a1;
+	unsigned char	*a2;
 
+	a1 = (unsigned char *) s1;
+	a2 = (unsigned char *) s2;
+	if (n <= 0)
+		return (0);
 	a = 0;
-	b = 0;
-	c = (char *)src;
-	if (dstsize == 0)
-		return (ft_strlen(src) + dstsize);
-	while (dst[a] != '\0')
-		a++;
-	while (c[b] != '\0' && a + b + 1 < dstsize)
+	while (a1[a] != '\0' && a2[a] != '\0' && a < n - 1)
 	{
-		dst[a + b] = c[b];
-		b++;
+		if (a1[a] != a2[a])
+			break ;
+		a++;
 	}
-	dst[a + b] = '\0';
-	if (dstsize <= ft_strlen(dst))
-		return (ft_strlen(src) + dstsize);
-	else
-		return (ft_strlen(src) + a);
+	return (a1[a] - a2[a]);
 }

@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/13 14:15:50 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/03/24 15:46:34 by jiwkim2          ###   ########seoul.kr  */
+/*   Created: 2023/07/23 14:45:06 by jiwkim2           #+#    #+#             */
+/*   Updated: 2023/07/23 15:48:59 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "so_long.h"
 
-int	ft_isdigit(int c)
+void	ft_error(void)
 {
-	if ((c >= '0') && (c <= '9'))
-		return (1);
-	else
-		return (0);
+	write(1,"Error\n", 7);
+	exit(0);
 }
