@@ -6,14 +6,14 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 21:00:16 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/07/23 17:45:47 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/07/25 19:59:32 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# include "mlx.h"
+# include "./mlx/mlx.h"
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
@@ -29,7 +29,19 @@ struct s_game
 	int		exit;
 	int		position;
 	char	**map;
+	int		x;
+	int		y;
+	int		e_plus_c;
 };
+
+# define X_EVENT_KEY_PRESS			2
+# define X_EVENT_KEY_RELEASE		3
+
+# define KEY_ESC		53
+# define KEY_W			13
+# define KEY_A			0
+# define KEY_S			1
+# define KEY_D			2
 
 # define BUFFER_SIZE 42
 
