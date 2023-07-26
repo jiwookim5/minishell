@@ -259,24 +259,59 @@ void	dfs(t_game **game, int x, int y, char *map)
 		(*game)->map[y][x] = '1';
 }
 
+char	*ft_strcpy(char *dest, char *src)
+{
+	int	a;
+
+	a = 0;
+	while (src [a] != '\0')
+	{
+		dest[a] = src[a];
+		a++;
+	}
+	dest[a] = '\0';
+	return (dest);
+}
+
 void	check_dfs(t_game *game)
 {
 	char	**map_dfs;
 	int 	i;
-	
+	int		j;
+
 	i = 0;
-	map_dfs = (char **)malloc(sizeof(char *) * game->x);
-	if (!map_dfs)
-		ft_error();
+    // game->x와 game->y에 해당하는 크기의 2차원 문자열 배열 동적 할당
+    map_dfs = (char **)malloc(sizeof(char *) * game->x);
+    if (!map_dfs)
+        ft_error();
+
+    while (i < game->x)
+    {
+        map_dfs[i] = (char *)malloc(sizeof(char) * (game->y + 1)); // +1 for null-terminator
+        if (!map_dfs[i])
+        {
+            // 메모리 할당 실패 시 예외 처리
+            j = 0;
+			whlie (j < i)
+            {    
+				free(map_dfs[j]);
+				j++;
+			}
+			free(map_dfs);
+            ft_error();
+        }
+        // 복사를 원하는 경우, strcpy를 사용하여 game->map의 값을 map_dfs에 복사
+        ft_strcpy(map_dfs[i], game->map[i]);
+	i++;
+	}
+
+	dfs(game, game->x, game->y, map_dfs);
+	i = 0;
 	while (i < game->x)
 	{
-		map_dfs[i] = (char *)malloc(sizeof(char) * game->y);
-		if (!map_dfs[i])
-			ft_error();	
+		free(map_dfs[i])
 		i++;
 	}
-	map_dfs = game->map;
-	dfs(&game, game->x, game->y, *map_dfs);
 	free(map_dfs);
 	printf("ex : %d, co : %d\n", game->exit, game->collectible);
 	if (game->e_plus_c != (game->exit + game->collectible))
