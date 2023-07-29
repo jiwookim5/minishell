@@ -6,13 +6,13 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 13:35:13 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/07/23 15:41:17 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/07/29 17:29:26 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-static char	**ft_free(char **word, size_t wordnum)
+char	**ft_free(char **word, size_t wordnum)
 {
 	size_t	i;
 
@@ -26,7 +26,7 @@ static char	**ft_free(char **word, size_t wordnum)
 	return (0);
 }
 
-static size_t	ft_word_count(char const *str, char charset)
+size_t	ft_word_count(char const *str, char charset)
 {
 	size_t	count;
 	size_t	flag;
@@ -47,7 +47,7 @@ static size_t	ft_word_count(char const *str, char charset)
 	return (count);
 }
 
-static char	**ft_word_len(char **word, char const *str, char charset)
+char	**ft_word_len(char **word, char const *str, char charset)
 {
 	size_t	count;
 	size_t	wordnum;
@@ -76,7 +76,7 @@ static char	**ft_word_len(char **word, char const *str, char charset)
 	return (word);
 }
 
-static char	**split(char **word, char const *str, char charset)
+char	**split(char **word, char const *str, char charset)
 {
 	size_t	i;
 	size_t	j;

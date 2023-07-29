@@ -6,20 +6,20 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 12:52:16 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/07/23 15:44:08 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/07/29 17:29:42 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-static char	*ft_free_a(char **add)
+char	*ft_free_a(char **add)
 {
 	free(*add);
 	*add = 0;
 	return (0);
 }
 
-static char	*ft_save(char *add)
+char	*ft_save(char *add)
 {
 	int		i;
 	int		j;
@@ -44,7 +44,7 @@ static char	*ft_save(char *add)
 	return (s);
 }
 
-static char	*ft_extract(char *add)
+char	*ft_extract(char *add)
 {
 	int		i;
 	char	*result;
@@ -72,7 +72,7 @@ static char	*ft_extract(char *add)
 	return (result);
 }
 
-static char	*ft_add(int fd, char *buff, char *add)
+char	*ft_add(int fd, char *buff, char *add)
 {
 	int		byte;
 	char	*temp;

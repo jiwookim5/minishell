@@ -58,6 +58,7 @@ char	*ft_strchr(const char *str, int c)
 	char	b;
 	int		i;
 
+
 	if (str == 0)
 		return (0);
 	a = (char *)str;

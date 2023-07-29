@@ -1,30 +1,31 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 NAME = so_long
-SRCS = so_long.c
-
-MLX_FLAG	:=	-lmlx -framework OpenGL -framework Appkit
-MLX = ./minilibx_opengl
+SRCS =  ft_error.c ft_split.c ft_strlen.c ft_strncmp.c \
+		get_next_line_utils.c get_next_line.c so_long.c
+MLX_DIR = ./mlx
+MLX_FLAG	= -Lmlx -lmlx  -framework OpenGL -framework Appkit
 
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(MLX_A)
-	$(CC) $(CFLAGS) $(MLX_FLAGS) -o $^ $(NAME)
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(MLX_FLAG) -o $(NAME)
+
+%.o : %.c
+	make -C ./mlx
+	$(CC) $(CFLAGS) -Imlx -c -o $@ $<
 
 clean:
-	rm -f $(OBJS)
-	cd minilibx_opengl
+	$(MAKE) -C $(MLX_DIR) clean
 	rm -f $(OBJS)
 
 fclean:
-	rm -f $(NAME)
+	$(MAKE) -C $(MLX_DIR) clean
 	rm -f $(OBJS)
-	cd minilibx_opengl
 	rm -f $(NAME)
-	rm -f $(OBJS)
 
 re: fclean all
 
-.PHONY: clean fclean all
+.PHONY: clean fclean all re

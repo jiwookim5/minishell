@@ -6,21 +6,41 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:45:15 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/07/27 22:00:37 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/07/29 17:03:35 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+int		ft_strrlen(char *str)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (str[i])
+		i++;
+	while (str[i] != '.')
+	{
+		i--;
+		j++;
+	}
+	j--;
+	return(j);
+}
 
 void check_arg(int argc, char *argv)
 {
     char *c;
 
     if (argc != 2)
-      ft_error();
-	  c = ft_strchr(argv, '.');
-	  if ((c && ft_strncmp(c, ".ber", 3)))
-		  ft_error();
+    	ft_error();
+	c = ft_strchr(argv, '.');
+	if (ft_strrlen(c) > 3)
+		ft_error();
+	if (c && (ft_strncmp(c, ".ber", 4) != 0))
+		ft_error();
 }
 
 void set_t_game(t_game *game)
@@ -36,39 +56,77 @@ void set_t_game(t_game *game)
 	game->flag = 0;
 }
 
-char **get_gnl_map(char *c, t_game *game)
+int	line_count_sub(t_game *game, int line_count, char *line)
 {
-	char	*line;
-	char	*all_lines;
-	int		fd;
-	int		line_count;
+	game->map_x = ft_strlen(line);
+	line_count = ft_strlen(line);
+	return (line_count);
+}
 
-	line = "";
+void line_count_wrong_x(char *line, char *all_lines)
+{
+	free(line);
+	free(all_lines);
+	exit(1);
+}
+
+void	temp_sub(char *temp)
+{
+	free(temp);
+	exit (1);
+}
+
+char 	*get_gnl_map_sub(t_game *game, char *line, char *all_lines, int fd)
+{
+	char *temp;
+	int line_count;
+
 	line_count = 0;
-	all_lines = ft_strdup("");
-	fd = open(c, O_RDONLY);
-	if (fd < 0)
-		ft_error();
 	while (line)
 	{
 		line = get_next_line(fd);
 		game->map_y++;
 		if (line_count == 0)
-		{
-			game->map_x = ft_strlen(line);
-			line_count = ft_strlen(line);
-		}
+			line_count = line_count_sub(game, line_count, line);
 		else if (game->map_x != line_count)	
-			exit(0);
+			line_count_wrong_x(line, all_lines);
 		if (line == NULL || line[0] == '\n')
+		{
+			free(line);
  			break ;
-		all_lines = ft_strjoin(all_lines, line);
+		}
+		temp = ft_strjoin(all_lines, line);
+		free(all_lines);
+		free(line);
+		if (!temp)
+			temp_sub(temp);
+		all_lines = temp;
 	}
-	close(fd);
+	return (all_lines);
+}
 
-	if (all_lines[0] == '\0')
-		ft_error();
-	return (ft_split(all_lines, '\n'));
+char **get_gnl_map(char *c, t_game *game, char *line)
+{
+	char	*all_lines;
+	int		fd;
+	char 	**aa;
+
+	all_lines = ft_strdup("");
+	if (!all_lines)
+		exit(1);
+	fd = open(c, O_RDONLY);
+	if (fd < 0)
+	{
+		free(all_lines);
+		exit(1);
+	}
+	all_lines = get_gnl_map_sub(game, line, all_lines, fd);
+	close(fd);
+	aa = ft_split(all_lines, '\n');
+	free(all_lines);
+	if (!aa)
+		exit(1);
+	return (aa);
 }
 
 int	get_height(char **map)
@@ -121,11 +179,10 @@ int	check_line(char *line)
 	return (1);
 }
 
-
 void	check_wall(t_game **game)
 {
 	int		i;
-	
+
 	if (!(check_line((*game)->map[0])))
 		ft_error();
 	i = get_height((*game)->map);
@@ -140,7 +197,13 @@ void	check_wall(t_game **game)
 			ft_error();
 		i--;
 	}
+}
 
+void check_c_p_e_sub(t_game **game, int i, int j)
+{
+	(*game)->exit_y = i;
+	(*game)->exit_x = j;
+	(*game)->exit++;
 }
 
 void	check_c_p_e_ones(t_game **game)
@@ -158,11 +221,7 @@ void	check_c_p_e_ones(t_game **game)
 		while ((*game)->map[i][j] != '\0')
 		{
 			if ((*game)->map[i][j] == 'E')
-			{
-				(*game)->exit_y = i;
-				(*game)->exit_x = j;
-				(*game)->exit++;
-			}
+				check_c_p_e_sub(game, i ,j);
 			else if ((*game)->map[i][j] == 'P')
 				(*game)->position++;
 			else if ((*game)->map[i][j] == 'C')
@@ -172,10 +231,7 @@ void	check_c_p_e_ones(t_game **game)
 		i--;
 	}
 	if ((*game)->exit != 1 || (*game)->position != 1 || (*game)->collectible < 1)
-	{
 		ft_error();
-	
-	}
 }
 
 void	check_map(t_game *game)
@@ -265,48 +321,56 @@ char	*ft_strcpy(char *dest, char *src)
 	return (dest);
 }
 
-void	check_dfs(t_game *game)
+char **check_dfs_sub(t_game *game) 
 {
-	char	**map_dfs;
-	int 	i;
-	int		j;
+    char **map_dfs;
+    int i;
 
-	i = 0;
     map_dfs = (char **)malloc(sizeof(char *) * (game->map_y));
     if (!map_dfs)
-        ft_error();
-
-    while (i < game->map_y - 1)
-    {
+        exit(1);
+    i = 0;
+    while (i < game->map_y -1 ) 
+	{
         map_dfs[i] = (char *)malloc(sizeof(char) * (game->map_x + 1));
-        if (!map_dfs[i])
-        {
-            j = 0;
-			while (j < i)
-            {    
-				free(map_dfs[j]);
-				j++;
-			}
-			free(map_dfs);
-            ft_error();
+        if (!map_dfs[i]) 
+		{
+            while (i > 0) 
+			{
+                i--;
+                free(map_dfs[i]);
+            }
+            free(map_dfs);
+            exit(1);
         }
         ft_strcpy(map_dfs[i], game->map[i]);
-		i++;
-	}
-	map_dfs[i] = 0;
-	dfs(game, game->x, game->y, map_dfs);
-	i = 0;
-	while (i < game->x)
-	{
-		free(map_dfs[i]);
-		i++;
-	}
-	free(map_dfs);
-	if (game->e_plus_c !=  game->exit + game->collectible)
-	{
-		ft_error();
-	}
+        i++;
+    }
+    map_dfs[i] = 0;
+    return (map_dfs);
 }
+
+
+void check_dfs(t_game *game) 
+{
+	int	i;
+	char **map_dfs;
+	
+	map_dfs = check_dfs_sub(game);
+    dfs(game, game->x, game->y, map_dfs);
+    i = 0;
+    while (map_dfs[i]) 
+	{
+        free(map_dfs[i]);
+        i++;
+    }
+    free(map_dfs);
+	if (game->e_plus_c != game->exit + game->collectible)
+        ft_error();
+}
+
+
+
 
 void move_write(unsigned int move)
 {
@@ -384,7 +448,6 @@ void	show_map(t_game *game)
 			categorize_case(game, i, j);
 		}
 	}
-	printf("c_check : %d, collectible : %d \n", game->c_check, game->collectible);
 	if (game->map[game->y][game->x] == game->map[game->exit_y][game->exit_x] \
 		&& (game->c_check == game->collectible))
 	{	
@@ -392,44 +455,50 @@ void	show_map(t_game *game)
 	}
 }
 
-
-void	move_player(t_game *game, int xx, int yy)
+void	move_player_flag(t_game *game, int xx, int yy)
 {
-	if (game->flag == 1)
-	{
-		if (game->map[yy][xx] == '1')
-			return ;
-		if(game->map[yy][xx] == 'C')
-			game->c_check++;
+	if (game->map[yy][xx] == '1')
+		return ;
+	if(game->map[yy][xx] == 'C')
+		game->c_check++;
 		game->map[yy][xx] = 'P';
 		game->map[game->y][game->x] = 'E';
 		game->y = yy;
 		game->x = xx;
 		game->flag = 0;
-	}
-	 if (game->map[yy][xx] == '0')
-	{
+}
+
+void	move_player_zero(t_game *game, int xx, int yy)
+{
+	game->map[yy][xx] = 'P';
+	game->map[game->y][game->x] = '0';
+	game->y = yy;
+	game->x = xx;
+}
+
+void	move_player_c(t_game *game, int xx, int yy)
+{
+	game->c_check++;
 		game->map[yy][xx] = 'P';
 		game->map[game->y][game->x] = '0';
 		game->y = yy;
 		game->x = xx;
-	}
+}
+
+void	move_player(t_game *game, int xx, int yy)
+{
+	if (game->flag == 1)
+		move_player_flag(game, xx, yy);
+	 if (game->map[yy][xx] == '0')
+		move_player_zero(game, xx, yy);
 	else if (game->map[yy][xx] == '1')
 		return ;
 	else if (game->map[yy][xx] == 'C')
-	{
-		game->c_check++;
-		game->map[yy][xx] = 'P';
-		game->map[game->y][game->x] = '0';
-		game->y = yy;
-		game->x = xx;
-	}
+		move_player_c(game, xx, yy);
 	else if (game->map[yy][xx] == 'E')
 	{
 		if (game->collectible != game->c_check)
-		{
 			game->flag = 1;
-		}
 		game->map[yy][xx] = 'P';
 		game->map[game->y][game->x] = '0';
 		game->y = yy;
@@ -458,10 +527,12 @@ int				key_press(int keycode, t_game *game)
 int main(int argc, char **argv)
 {
     t_game  game;
+	char	*line;
 
+	line = "";
     check_arg(argc, argv[1]);
 	set_t_game(&game);
-	game.map = get_gnl_map(argv[1], &game);
+	game.map = get_gnl_map(argv[1], &game, line);
 	check_map(&game);
 	game_init(&game);
 	check_dfs(&game);
@@ -470,6 +541,5 @@ int main(int argc, char **argv)
 	show_map(&game);
 	mlx_hook(game.mlx_win, X_EVENT_KEY_RELEASE, 0, &key_press, &game);
 	mlx_loop(game.mlx);
-    return (0);
+	return (0);
 }
-
