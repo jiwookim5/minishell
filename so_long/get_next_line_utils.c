@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 12:43:43 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/07/23 15:48:05 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/01 14:33:47 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ char	*ft_strchr(const char *str, int c)
 	char	*a;
 	char	b;
 	int		i;
-
 
 	if (str == 0)
 		return (0);

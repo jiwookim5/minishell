@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 14:45:06 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/07/27 18:24:16 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/01 14:31:50 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void	ft_error(void)
 {
-	write(1,"Error\n", 7);
+	write(1, "Error\n", 7);
 	exit(0);
 }
