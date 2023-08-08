@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 16:17:52 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/06 21:26:32 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/08 19:36:27 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ int file_open(char *argv, int i)
     }
     else
     {
-        outfile = open(argv, O_WRONLY);
+        outfile = open(argv, O_WRONLY | O_CREAT );
         if (outfile == -1)
             ft_error();
         return(outfile);
@@ -236,7 +236,6 @@ char *path_join(char *path, char *cmd)
         j++;
     }
     c[i]= '\0';
-    printf("cmd plus : %s\n", c);
     return(c);
     
 }
@@ -268,7 +267,7 @@ char *get_path(char *commend, char **envp)
     i = 1;
     cmd = ft_split(commend, ' ');
 
-    if (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
+   	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
         i++;
     path = envp[i] + 5;
 
@@ -298,7 +297,31 @@ void	get_cmd (char *cmd, char **envp)
 
 	args = ft_split(cmd, ' ');
 	path = get_path(args[0], envp);
-	exit(127);
+	//해당 경로에 있는 파일 실행
+	execve(path, args, envp);
+}
+
+
+void get_pipe(char *commend_2, char *commend_3, char **envp)
+{
+	pid_t pid;
+	int pipefd[2];
+
+	pipe(pipefd);
+	pid = fork();
+	printf("pid : %d\n", pid);
+	if (pid)
+	{
+		dup2(pipefd[1], STDOUT_FILENO);
+		close(pipefd[0]);
+		get_cmd(commend_2 , envp);
+	}
+	if (pid == 0)
+	{
+		dup2(pipefd[0], STDIN_FILENO);
+		close(pipefd[1]);
+		get_cmd(commend_3, envp);
+	}
 }
 
 int main(int argc, char **argv, char **envp)
@@ -313,20 +336,15 @@ int main(int argc, char **argv, char **envp)
     {
         infile = file_open(argv[1], 1);
         outfile = file_open(argv[4], 2);
-        printf("fd2 : %d\n",outfile);
-        int j;
-        j = 0;
+
         commend_2 = argv[2];
         commend_3 = argv[3];
-        get_cmd(commend_2 , envp);
-        get_cmd(commend_3, envp);
-        // dup2(arg.infile, STDIN_FILENO);
-        // dup2(arg.outfile, STDOUT_FILENO);
-        // pipe(pipefds);
-	    // pid = fork();
-	    // if (pid == 0)
-        //     close (pipefds[1]);
-        // else
+		//infile을 닫고 표준입력파일을 가리키도록 함
+		dup2(infile, STDIN_FILENO);
+		//outfile을 닫고 표준출력파일을 가리키도록 함
+        dup2(outfile, STDOUT_FILENO);
+		printf("Sdfds\n");
+		get_pipe(commend_2, commend_3, envp);
     }
     return (0);
 }
