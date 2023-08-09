@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   bonus.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/02 16:17:52 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/09 19:04:06 by jiwkim2          ###   ########seoul.kr  */
+/*   Created: 2023/08/08 20:01:48 by jiwkim2           #+#    #+#             */
+/*   Updated: 2023/08/09 16:20:18 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ int file_open(char *argv, int i)
     }
     else
     {
-        outfile = open(argv, O_WRONLY | O_CREAT, 0644);
+        outfile = open(argv, O_WRONLY | O_CREAT );
         if (outfile == -1)
             ft_error();
         return(outfile);
@@ -258,12 +258,15 @@ char	*ft_str_dup (char *str, int n)
 
 char *get_path(char *commend, char **envp)
 {
+    char **cmd;
     char *path;
     int i;
     char *c;
     char *path_cmd;
 
     i = 1;
+    cmd = ft_split(commend, ' ');
+
    	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
         i++;
     path = envp[i] + 5;
@@ -329,10 +332,10 @@ int main(int argc, char **argv, char **envp)
     char *commend_2;
     char *commend_3;
     
-    if (argc == 5)
+    if (argc >= 5)
     {
         infile = file_open(argv[1], 1);
-        outfile = file_open(argv[4], 2);
+        outfile = file_open(argv[argc - 1], 2);
 
         commend_2 = argv[2];
         commend_3 = argv[3];
@@ -340,6 +343,7 @@ int main(int argc, char **argv, char **envp)
 		dup2(infile, STDIN_FILENO);
 		//outfile을 닫고 표준출력파일을 가리키도록 함
         dup2(outfile, STDOUT_FILENO);
+		printf("Sdfds\n");
 		get_pipe(commend_2, commend_3, envp);
     }
 	else
