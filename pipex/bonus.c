@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 20:01:48 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/09 16:20:18 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/11 16:12:53 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ int file_open(char *argv, int i)
     }
     else
     {
-        outfile = open(argv, O_WRONLY | O_CREAT );
+        outfile = open(argv, O_WRONLY | O_CREAT | O_TRUNC, 0644);
         if (outfile == -1)
             ft_error();
         return(outfile);
@@ -346,6 +346,7 @@ int main(int argc, char **argv, char **envp)
 		printf("Sdfds\n");
 		get_pipe(commend_2, commend_3, envp);
     }
+	
 	else
 		write(1, "argc error\n", 10);
     return (0);

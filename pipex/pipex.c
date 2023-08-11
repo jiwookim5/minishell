@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 16:17:52 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/09 19:04:06 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/11 16:21:31 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ int file_open(char *argv, int i)
     }
     else
     {
-        outfile = open(argv, O_WRONLY | O_CREAT, 0644);
+        outfile = open(argv, O_WRONLY | O_CREAT | O_TRUNC, 0644);
         if (outfile == -1)
             ft_error();
         return(outfile);
@@ -298,26 +298,23 @@ void	get_cmd (char *cmd, char **envp)
 	execve(path, args, envp);
 }
 
-
-void get_pipe(char *commend_2, char *commend_3, char **envp)
+void get_pipe(char *cmd, char **envp)
 {
 	pid_t pid;
 	int pipefd[2];
 
 	pipe(pipefd);
 	pid = fork();
-	printf("pid : %d\n", pid);
 	if (pid)
 	{
-		dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[0]);
-		get_cmd(commend_2 , envp);
-	}
-	if (pid == 0)
-	{
-		dup2(pipefd[0], STDIN_FILENO);
 		close(pipefd[1]);
-		get_cmd(commend_3, envp);
+		dup2(pipefd[0], STDIN_FILENO);
+	}
+	else
+	{
+		close(pipefd[0]);
+		dup2(pipefd[1], STDOUT_FILENO);
+		get_cmd(cmd, envp);
 	}
 }
 
@@ -326,21 +323,17 @@ int main(int argc, char **argv, char **envp)
     int infile;
     int outfile;
 
-    char *commend_2;
-    char *commend_3;
-    
     if (argc == 5)
     {
         infile = file_open(argv[1], 1);
         outfile = file_open(argv[4], 2);
 
-        commend_2 = argv[2];
-        commend_3 = argv[3];
 		//infile을 닫고 표준입력파일을 가리키도록 함
 		dup2(infile, STDIN_FILENO);
 		//outfile을 닫고 표준출력파일을 가리키도록 함
         dup2(outfile, STDOUT_FILENO);
-		get_pipe(commend_2, commend_3, envp);
+		get_pipe(argv[2], envp);
+		get_cmd(argv[3], envp);
     }
 	else
 		write(1, "argc error\n", 10);
