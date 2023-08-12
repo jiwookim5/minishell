@@ -10,26 +10,21 @@ OBJSB = $(SRCS_BONUS:.c=.o)
 
 all: $(NAME)
 
-# allB: $(NAMEB)
-
-# $(NAMEB): $(OBJSB)
-# 	$(CC) $(CFLAGS) $(OBJSB) -o $(NAMEB)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+bonus: $(OBJSB)
+	$(CC) $(CFLAGS) $(OBJSB) -o $(NAME)
+
 %.o : %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJS) $(OBJSB)
 
-fclean:
-	rm -f $(OBJS)
+fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
 
-# bonus:
-# 	$(CC) $(CFLAGS) $(OBJSB) -o $(NAME)
-
-.PHONY: clean fclean all re
+.PHONY: clean fclean all re bonus

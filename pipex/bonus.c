@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 20:01:48 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/11 19:03:21 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/12 20:14:00 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -527,76 +527,88 @@ void get_pipe(char *cmd, char **envp)
 
 void here_doc_sub(char *argv)
 {
-	int file;
-	char *line;
+    int file;
+    char *line;
 
-	unlink(".here_doc_tmp");
-	file = open(".here_doc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (file < 0)
-		ft_error();
-	while (1)
+    file = open(".here_doc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+    if (file < 0)
 	{
-		write(1, "heredoc> ", 9);
-		line = get_next_line(0);
-		if (!line)
-			ft_error();
-		if (!ft_strncmp(argv, line, ft_strlen(argv)) &&ft_strlen(argv) == ft_strlen(line) - 1)
-			break;
-		write(file, line, ft_strlen(line));
-		free(line);
-	}
-	free(line);
-	close(file);
-}
+        perror("Error opening file");
+        exit(1);
+    }
 
+    while (1)
+	{
+        write(1, "heredoc> ", 9);
+        line = get_next_line(0);
+        if (!line)
+		{
+            perror("Error reading input");
+            exit(1);
+        }
+        if (!ft_strncmp(argv, line, ft_strlen(argv)) && ft_strlen(argv) == ft_strlen(line) - 1)
+            break;
+        write(file, line, ft_strlen(line));
+        free(line);
+    }
+    free(line);
+    close(file);
+}
 
 void here_doc(int argc, char **argv, t_file *file)
 {
-	
-	here_doc_sub(argv[2]);
-	file->infile = open(".here_doc_tmp", O_RDONLY);
-	if (file->infile < 0)
+    here_doc_sub(argv[2]);
+    file->infile = open(".here_doc_tmp", O_RDONLY);
+    if (file->infile < 0)
 	{
-		ft_error();
-	}
-	file->outfile = open(argv[argc -1], O_RDWR | O_APPEND | O_CREAT, 0644);
-	if (file->outfile < 0)
+        perror("Error opening file");
+        exit(1);
+    }
+    file->outfile = open(argv[argc - 1], O_CREAT | O_WRONLY | O_APPEND, 0644);
+    if (file->outfile < 0)
 	{
-		ft_error();
-	}
-	
+        perror("Error opening file");
+        exit(1);
+    }
 }
 
-int main(int argc, char **argv, char **envp)
+
+int main(int argc, char **argv, char **envp) 
 {
-
-	int i;
-	t_file file;
-
-	i = 3;
-	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
-	{	
-		here_doc(argc, argv, &file);
+    int i;
+    t_file file;
+	int j;
+	
+    i = 3;
+	j = 0;
+    if (ft_strncmp(argv[1], "here_doc", 8) == 0)
+	{
+        here_doc(argc, argv, &file);
+		j++;
 	}
 	else
-		file.infile = file_open(argv[1], 1);
-    	file.outfile = file_open(argv[argc - 1], 2);
-
+	{
+        file.infile = file_open(argv[1], 1);
+        file.outfile = file_open(argv[argc - 1], 2);
+    }
+	unlink(".here_doc_tmp");
     if (argc >= 5)
-    {
-		//infile을 닫고 표준입력파일을 가리키도록 함
-		dup2(file.infile, STDIN_FILENO);
-		//outfile을 닫고 표준출력파일을 가리키도록 함
+	{
+        dup2(file.infile, STDIN_FILENO);
         dup2(file.outfile, STDOUT_FILENO);
-		get_pipe(argv[2], envp);
-		while (i < argc - 2)
+		if (j == 0)
+			get_pipe(argv[2], envp);
+        while (i < argc - 2)
 		{
-			get_pipe(argv[i], envp);
-			i++;
-		}
-		get_cmd(argv[i], envp);
+            get_pipe(argv[i], envp);
+            i++;
+        }
+        get_cmd(argv[i], envp);
     }
 	else
-		write(1, "argc error\n", 10);
-    return (0);
+        write(1, "argc error\n", 10);
+    close(file.infile);
+    close(file.outfile);
+
+    return 0;
 }

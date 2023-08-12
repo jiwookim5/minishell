@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 16:17:52 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/11 17:55:50 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/12 20:26:39 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -320,18 +320,17 @@ void get_pipe(char *cmd, char **envp)
 
 int main(int argc, char **argv, char **envp)
 {
-    int infile;
-    int outfile;
+    t_file file;
 
     if (argc == 5)
     {
-        infile = file_open(argv[1], 1);
-        outfile = file_open(argv[4], 2);
+        file.infile = file_open(argv[1], 1);
+        file.outfile = file_open(argv[4], 2);
 
 		//infile을 닫고 표준입력파일을 가리키도록 함
-		dup2(infile, STDIN_FILENO);
+		dup2(file.infile, STDIN_FILENO);
 		//outfile을 닫고 표준출력파일을 가리키도록 함
-        dup2(outfile, STDOUT_FILENO);
+        dup2(file.outfile, STDOUT_FILENO);
 		get_pipe(argv[2], envp);
 		get_cmd(argv[3], envp);
     }
