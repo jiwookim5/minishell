@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 20:01:48 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/12 20:14:00 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/12 21:04:09 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,14 +109,14 @@ char	*ft_strjoin(char const *s1, char const *s2)
 }
 
 
-static char	*ft_free(char **add)
+ char	*ft_free(char **add)
 {
 	free(*add);
 	*add = 0;
 	return (0);
 }
 
-static char	*ft_save(char *add)
+ char	*ft_save(char *add)
 {
 	int		i;
 	int		j;
@@ -141,7 +141,7 @@ static char	*ft_save(char *add)
 	return (s);
 }
 
-static char	*ft_extract(char *add)
+ char	*ft_extract(char *add)
 {
 	int		i;
 	char	*result;
@@ -169,7 +169,7 @@ static char	*ft_extract(char *add)
 	return (result);
 }
 
-static char	*ft_add(int fd, char *buff, char *add)
+ char	*ft_add(int fd, char *buff, char *add)
 {
 	int		byte;
 	char	*temp;
@@ -219,7 +219,7 @@ char	*get_next_line(int fd)
 }
 
 
-static char	**ft_free_one(char **word, size_t wordnum)
+ char	**ft_free_one(char **word, size_t wordnum)
 {
 	size_t	i;
 
@@ -233,7 +233,7 @@ static char	**ft_free_one(char **word, size_t wordnum)
 	return (0);
 }
 
-static size_t	ft_word_count(char const *str, char charset)
+ size_t	ft_word_count(char const *str, char charset)
 {
 	size_t	count;
 	size_t	flag;
@@ -254,7 +254,7 @@ static size_t	ft_word_count(char const *str, char charset)
 	return (count);
 }
 
-static char	**ft_word_len(char **word, char const *str, char charset)
+ char	**ft_word_len(char **word, char const *str, char charset)
 {
 	size_t	count;
 	size_t	wordnum;
@@ -283,7 +283,7 @@ static char	**ft_word_len(char **word, char const *str, char charset)
 	return (word);
 }
 
-static char	**split(char **word, char const *str, char charset)
+ char	**split(char **word, char const *str, char charset)
 {
 	size_t	i;
 	size_t	j;
@@ -536,7 +536,6 @@ void here_doc_sub(char *argv)
         perror("Error opening file");
         exit(1);
     }
-
     while (1)
 	{
         write(1, "heredoc> ", 9);

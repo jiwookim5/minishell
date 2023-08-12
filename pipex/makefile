@@ -1,7 +1,7 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 NAME = pipex
-SRCS = pipex.c 
+SRCS = pipex.c pipex_utils.c get_cmd.c ft_split.c
 SRCS_BONUS = bonus.c
 
 OBJS = $(SRCS:.c=.o)

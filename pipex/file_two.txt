@@ -1,8 +1,0 @@
-bonus.c$
-file_one.txt$
-file_two.txt$
-main.c$
-makefile$
-pipex$
-pipex.c$
-pipex.h$
