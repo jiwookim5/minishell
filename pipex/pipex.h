@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:59:51 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/12 20:54:35 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/13 13:57:02 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,42 @@ char	*ft_strjoin(char const *s1, char const *s2);
  char	*ft_extract(char *add);
  char	*ft_add(int fd, char *buff, char *add);
  char	*get_next_line(int fd);
+ void here_doc(int argc, char **argv, t_file *file);
+ void here_doc_sub(char *argv);
+ 
  
 
 # endif
 
+// CC = cc
+// CFLAGS = -Wall -Wextra -Werror
+// NAME = pipex
+// SRCS = pipex.c pipex_utils.c get_cmd.c ft_split.c
+// SRCS_BONUS = bonus/bonus.c
+
+// OBJS = $(SRCS:.c=.o)
+// OBJSB = $(SRCS_BONUS:.c=.o)
+
+// all: $(NAME)
+
+// $(NAME): $(OBJS)
+// 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+
+// bonus: $(OBJSB)
+// 	make -C bonus
+// 	cp bonus/bonus $(NAME)
+
+// %.o : %.c
+// 	$(CC) $(CFLAGS) -c -o $@ $<
+
+// clean:
+// 	rm -f $(OBJS)
+// 	make -C bonus clean
+
+// fclean: clean
+// 	rm -f $(NAME)
+// 	make -C bonus fclean
+
+// re: fclean all
+
+// .PHONY: clean fclean all re bonus
