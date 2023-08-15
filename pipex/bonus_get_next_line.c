@@ -6,21 +6,20 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:49:37 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/13 13:49:38 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/15 12:26:58 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-
- char	*ft_free(char **add)
+char	*ft_free(char **add)
 {
 	free(*add);
 	*add = 0;
 	return (0);
 }
 
- char	*ft_save(char *add)
+char	*ft_save(char *add)
 {
 	int		i;
 	int		j;
@@ -45,7 +44,7 @@
 	return (s);
 }
 
- char	*ft_extract(char *add)
+char	*ft_extract(char *add)
 {
 	int		i;
 	char	*result;
@@ -73,7 +72,7 @@
 	return (result);
 }
 
- char	*ft_add(int fd, char *buff, char *add)
+char	*ft_add(int fd, char *buff, char *add)
 {
 	int		byte;
 	char	*temp;

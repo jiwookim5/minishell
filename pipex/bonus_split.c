@@ -6,13 +6,13 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:50:09 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/13 13:50:20 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/15 12:20:50 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
- char	**ft_free_one(char **word, size_t wordnum)
+char	**ft_free_one(char **word, size_t wordnum)
 {
 	size_t	i;
 
@@ -26,7 +26,7 @@
 	return (0);
 }
 
- size_t	ft_word_count(char const *str, char charset)
+size_t	ft_word_count(char const *str, char charset)
 {
 	size_t	count;
 	size_t	flag;
@@ -47,7 +47,7 @@
 	return (count);
 }
 
- char	**ft_word_len(char **word, char const *str, char charset)
+char	**ft_word_len(char **word, char const *str, char charset)
 {
 	size_t	count;
 	size_t	wordnum;
@@ -76,7 +76,7 @@
 	return (word);
 }
 
- char	**split(char **word, char const *str, char charset)
+char	**split(char **word, char const *str, char charset)
 {
 	size_t	i;
 	size_t	j;

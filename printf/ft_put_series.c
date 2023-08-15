@@ -88,3 +88,38 @@ int	ft_putnbr_fd(int n, int fd)
 		return (-1);
 	return (0);
 }
+
+
+char *get_path(char *commend, char **envp) {
+	char *path;
+	int i;
+	char *c;
+	char *path_cmd;
+	char *result = commend; 
+
+	i = 1;
+	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
+		i++;
+	path = envp[i] + 5;
+	while (path && ft_str_chr(path, ':') > 0) {
+		c = ft_str_dup(path, ft_str_chr(path, ':'));
+		path_cmd = path_join(c, commend);
+		if (access(path_cmd, X_OK) == 0) {
+			result = path_cmd; 
+			break; 
+		}
+		path += ft_str_chr(path, ':') + 1;
+		free(path_cmd);
+		free(c);
+	}
+	if (ft_str_chr(path, '\0')) {
+		c = ft_str_dup(path, ft_str_chr(path, '\0'));
+		path_cmd = path_join(c, commend);
+		if (access(path_cmd, X_OK) == 0) {
+			result = path_cmd;
+		}
+		free(path_cmd);
+		free(c);
+	}
+	return result;
+}

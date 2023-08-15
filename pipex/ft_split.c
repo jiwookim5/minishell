@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 20:30:50 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/12 20:55:37 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/15 12:46:16 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ char	**ft_free_one(char **word, size_t wordnum)
 	free(word);
 	return (0);
 }
+
 size_t	ft_word_count(char const *str, char charset)
 {
 	size_t	count;
@@ -74,7 +75,6 @@ char	**ft_word_len(char **word, char const *str, char charset)
 	}
 	return (word);
 }
-
 
 char	**split(char **word, char const *str, char charset)
 {

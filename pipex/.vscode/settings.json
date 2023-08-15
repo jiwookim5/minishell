@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"locale": "c",
-		"sstream": "c"
+		"sstream": "c",
+		"ncurses.h": "c"
 	}
 }
