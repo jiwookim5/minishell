@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:51:36 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/22 17:25:45 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/22 21:01:48 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,26 @@ char	*ft_str_dup(char *str, int n)
 	}
 	c[n] = 0;
 	return (c);
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	size_t			a;
+	unsigned char	*a1;
+	unsigned char	*a2;
+
+	if(s1 == NULL)
+		exit(1);
+
+	a1 = (unsigned char *) s1;
+	a2 = (unsigned char *) s2;
+	a = 0;
+	
+	while (a1[a] != '\0' && a2[a] != '\0')
+	{
+		if (a1[a] != a2[a])
+			break ;
+		a++;
+	}
+	return (a1[a] - a2[a]);
 }

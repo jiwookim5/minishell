@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:52:58 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/17 17:08:20 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/22 17:48:36 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,6 @@ void	get_cmd(char *cmd, char **envp)
 		write(2, "Command not found: ", 19);
 		write(2, cmd, ft_strlen(cmd));
 		write(2, "\n", 1);
-		exit (0);
+		exit (1);
 	}
 }

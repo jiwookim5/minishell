@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 16:17:52 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/17 17:13:54 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/22 17:36:17 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,14 @@ void	get_pipe(char *cmd, char **envp)
 	{
 		close(pipefd[1]);
 		dup2(pipefd[0], STDIN_FILENO);
+		close(pipefd[0]);
+		waitpid(pid, NULL, 0);
 	}
 	else
 	{
 		close(pipefd[0]);
 		dup2(pipefd[1], STDOUT_FILENO);
+		close(pipefd[1]);
 		get_cmd(cmd, envp);
 	}
 }

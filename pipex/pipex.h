@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:59:51 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/17 17:08:40 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/22 20:54:16 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,7 @@ char	*get_next_line(int fd);
 void	here_doc(int argc, char **argv, t_file *file);
 void	here_doc_sub(char *argv);
 char	*get_path_sub(char *path, char *c, char *path_cmd, char *commend);
+void	file_zero(t_file *file);
+int		ft_strcmp(const char *str1, const char *str2);
 
 #endif

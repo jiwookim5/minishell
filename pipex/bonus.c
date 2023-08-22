@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 20:01:48 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/22 17:15:18 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/22 21:04:17 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,7 @@ int	file_open(char *argv, int i)
 	{
 		infile = open(argv, O_RDONLY);
 		if (infile == -1)
-		{
-			printf("sdf\n");
 			ft_error();
-		}
 		return (infile);
 	}
 	else
@@ -47,11 +44,14 @@ void	get_pipe(char *cmd, char **envp)
 	{
 		close(pipefd[1]);
 		dup2(pipefd[0], STDIN_FILENO);
+		close(pipefd[0]);
+		waitpid(pid, NULL, 0);
 	}
 	else
 	{
 		close(pipefd[0]);
 		dup2(pipefd[1], STDOUT_FILENO);
+		close(pipefd[1]);
 		get_cmd(cmd, envp);
 	}
 }
@@ -85,20 +85,21 @@ void	handle_args(int argc, char **argv, char **envp, t_file file)
 		write(1, "argc error\n", 10);
 }
 
+// int	main()
 int	main(int argc, char **argv, char **envp)
 {
 	int		i;
 	t_file	file;
 
+	// if (argc != 5)
+		// return(0);
 	i = 3;
 	file_zero(&file);
-	if (ft_strncmp(argv[1], "here_doc\0", 9) == 0)
+	if (ft_strcmp(argv[1], "here_doc") == 0)
 	{
 		here_doc(argc, argv, &file);
 		file.j++;
 	}
-	if (ft_strncmp(argv[1], "here_doc\0", 9) != 0)
-		printf("fucksdfasd\n");
 	else
 	{
 		file.infile = file_open(argv[1], 1);
@@ -106,7 +107,5 @@ int	main(int argc, char **argv, char **envp)
 	}
 	unlink(".here_doc_tmp");
 	handle_args(argc, argv, envp, file);
-	close(file.infile);
-	close(file.outfile);
 	return (0);
 }
