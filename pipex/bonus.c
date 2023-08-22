@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 20:01:48 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/15 14:24:33 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/22 17:15:18 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ int	file_open(char *argv, int i)
 	{
 		infile = open(argv, O_RDONLY);
 		if (infile == -1)
+		{
+			printf("sdf\n");
 			ft_error();
+		}
 		return (infile);
 	}
 	else
@@ -89,11 +92,13 @@ int	main(int argc, char **argv, char **envp)
 
 	i = 3;
 	file_zero(&file);
-	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
+	if (ft_strncmp(argv[1], "here_doc\0", 9) == 0)
 	{
 		here_doc(argc, argv, &file);
 		file.j++;
 	}
+	if (ft_strncmp(argv[1], "here_doc\0", 9) != 0)
+		printf("fucksdfasd\n");
 	else
 	{
 		file.infile = file_open(argv[1], 1);

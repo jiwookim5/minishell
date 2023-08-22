@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:52:58 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/15 16:44:50 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/17 17:08:20 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,26 @@ char	*path_join(char *path, char *cmd)
 	return (c);
 }
 
+char	*get_path_sub(char *path, char *c, char *path_cmd, char *commend)
+{
+	int	i;
+
+	i = 0;
+	if (ft_str_chr(path, '\0'))
+	{
+		c = ft_str_dup(path, ft_str_chr(path, '\0'));
+		path_cmd = path_join(c, commend);
+		if (access(path_cmd, X_OK) == 0)
+		{
+			free(c);
+			return (path_cmd);
+		}
+		free(path_cmd);
+		free(c);
+	}
+	return (commend);
+}
+
 char	*get_path(char *commend, char **envp, int i)
 {
 	char	*path;
@@ -63,18 +83,8 @@ char	*get_path(char *commend, char **envp, int i)
 		free(path_cmd);
 		free(c);
 	}
-	if (ft_str_chr(path, '\0'))
-	{
-		c = ft_str_dup(path, ft_str_chr(path, '\0'));
-		path_cmd = path_join(c, commend);
-		if (access(path_cmd, X_OK) == 0)
-		{
-			free(c);
-			return (path_cmd);
-		}
-		free(path_cmd);
-		free(c);
-	}
+	if (path_cmd == get_path_sub(path, c, path_cmd, commend))
+		return (path_cmd);
 	return (commend);
 }
 

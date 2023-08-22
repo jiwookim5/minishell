@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:59:51 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/15 16:49:54 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/17 17:08:40 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	get_pipe(char *cmd, char **envp);
 int		file_open(char *argv, int i);
 void	ft_error(void);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
-char	*ft_route(char *path);
 int		ft_str_chr(char *str, char c);
 char	*path_join(char *path, char *cmd);
 char	*ft_str_dup(char *str, int n);
@@ -57,5 +56,6 @@ char	*ft_add(int fd, char *buff, char *add);
 char	*get_next_line(int fd);
 void	here_doc(int argc, char **argv, t_file *file);
 void	here_doc_sub(char *argv);
+char	*get_path_sub(char *path, char *c, char *path_cmd, char *commend);
 
 #endif

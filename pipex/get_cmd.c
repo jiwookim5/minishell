@@ -6,11 +6,38 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 20:34:39 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/15 16:49:21 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/17 17:14:09 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	file_zero(t_file *file)
+{
+	file->infile = 0;
+	file->outfile = 0;
+	file->j = 0;
+}
+
+char	*get_path_sub(char *path, char *c, char *path_cmd, char *commend)
+{
+	int	i;
+
+	i = 0;
+	if (ft_str_chr(path, '\0'))
+	{
+		c = ft_str_dup(path, ft_str_chr(path, '\0'));
+		path_cmd = path_join(c, commend);
+		if (access(path_cmd, X_OK) == 0)
+		{
+			free(c);
+			return (path_cmd);
+		}
+		free(path_cmd);
+		free(c);
+	}
+	return (commend);
+}
 
 char	*get_path(char *commend, char **envp, int i)
 {
@@ -34,18 +61,8 @@ char	*get_path(char *commend, char **envp, int i)
 		free(path_cmd);
 		free(c);
 	}
-	if (ft_str_chr(path, '\0'))
-	{
-		c = ft_str_dup(path, ft_str_chr(path, '\0'));
-		path_cmd = path_join(c, commend);
-		if (access(path_cmd, X_OK) == 0)
-		{
-			free(c);
-			return (path_cmd);
-		}
-		free(path_cmd);
-		free(c);
-	}
+	if (path_cmd == get_path_sub(path, c, path_cmd, commend))
+		return (path_cmd);
 	return (commend);
 }
 

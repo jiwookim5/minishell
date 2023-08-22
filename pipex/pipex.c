@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 16:17:52 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/15 16:37:39 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/17 17:13:54 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_file	file;
 
+	file_zero(&file);
 	if (argc == 5)
 	{
 		file.infile = file_open(argv[1], 1);

@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:51:36 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/15 12:25:39 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/22 17:25:45 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,30 +36,6 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		a++;
 	}
 	return (a1[a] - a2[a]);
-}
-
-char	*ft_route(char *path)
-{
-	int		i;
-	char	*c;
-	int		j;
-
-	i = 0;
-	j = 0;
-	while (path[i] == ':')
-		i++;
-	c = (char *)malloc(sizeof(char) * i + 1);
-	if (!c)
-		return (0);
-	c[i] = '\0';
-	i = 0;
-	while (path[j] != ':')
-	{
-		c[i] = path[j];
-		i++;
-		j++;
-	}
-	return (c);
 }
 
 int	ft_str_chr(char *str, char c)
