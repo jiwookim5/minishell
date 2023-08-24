@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:59:51 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/22 20:54:16 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/24 20:08:17 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <termios.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 # define BUFFER_SIZE 42
 

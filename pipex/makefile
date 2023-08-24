@@ -6,12 +6,12 @@
 #    By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 20:20:58 by jiwkim2           #+#    #+#              #
-#    Updated: 2023/08/22 21:35:11 by jiwkim2          ###   ########seoul.kr   #
+#    Updated: 2023/08/24 21:58:17 by jiwkim2          ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
 NAME = pipex
 BONUS_NAME = pipex2
 SRCS = pipex.c pipex_utils.c get_cmd.c ft_split.c
