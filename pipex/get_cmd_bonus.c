@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bonus_get_cmd.c                                    :+:      :+:    :+:   */
+/*   get_cmd_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 13:52:58 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/22 17:48:36 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/26 19:38:29 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,26 @@ void	get_cmd(char *cmd, char **envp)
 		write(2, cmd, ft_strlen(cmd));
 		write(2, "\n", 1);
 		exit (1);
+	}
+}
+
+void	ft_cheak(int argc, char **argv)
+{
+	int	j;
+
+	j = 2;
+	if ((argc < 5))
+	{
+		write(2, "argc error\n", 10);
+		exit(0);
+	}
+	while (j < argc - 1)
+	{
+		if (ft_strlen(argv[j]) == 0)
+		{
+			write(2, "argc error\n", 10);
+			exit(0);
+		}
+		j++;
 	}
 }

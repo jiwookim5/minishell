@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:59:51 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/24 20:08:17 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/26 19:37:12 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <termios.h>
-# include <sys/types.h>
-# include <sys/wait.h>
 
 # define BUFFER_SIZE 42
 
@@ -61,5 +59,6 @@ void	here_doc_sub(char *argv);
 char	*get_path_sub(char *path, char *c, char *path_cmd, char *commend);
 void	file_zero(t_file *file);
 int		ft_strcmp(const char *str1, const char *str2);
+void	ft_cheak(int argc, char **argv);
 
 #endif

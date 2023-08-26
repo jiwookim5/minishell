@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 16:17:52 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/08/24 21:05:05 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/08/26 18:48:34 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	get_pipe(char *cmd, char **envp)
 		close(pipefd[1]);
 		dup2(pipefd[0], STDIN_FILENO);
 		close(pipefd[0]);
-		// waitpid(pid, NULL, 0);
 	}
 	else
 	{
@@ -73,13 +72,15 @@ int	main(int argc, char **argv, char **envp)
 		file.outfile = file_open(argv[4], 2);
 		dup2(file.infile, STDIN_FILENO);
 		dup2(file.outfile, STDOUT_FILENO);
+		if (ft_strlen(argv[2]) == 0 || ft_strlen(argv[3]) == 0)
+		{
+			write(2, "argc error\n", 10);
+			exit(0);
+		}
 		get_pipe(argv[2], envp);
 		get_cmd(argv[3], envp);
 	}
 	else
-		write(1, "argc error\n", 10);
-	while (waitpid(-1,0,0))
-		;
+		write(2, "argc error\n", 10);
 	return (0);
 }
-
