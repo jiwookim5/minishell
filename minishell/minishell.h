@@ -15,6 +15,11 @@ typedef	struct	s_list
 	struct s_list	*next;
 }				t_list;
 
+typedef struct	s_cmd
+{
+	char	**program;
+}				t_cmd;
+
 typedef struct	s_parsing
 {
 	int		p_i;
@@ -22,6 +27,8 @@ typedef struct	s_parsing
 	int		j;
 	char	quote;
 	t_list	*head;
+	t_cmd	*content;
+	char *buff;
 }				t_parsing;
 
 
