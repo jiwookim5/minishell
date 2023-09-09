@@ -6,35 +6,12 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 19:44:03 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/09/09 18:25:48 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/09/09 18:30:12 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-size_t	ft_strlen(const char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i] != '\0')
-		i++;
-	return (i);
-}
-
-
-t_list	*ft_lstnew(void *content)
-{
-	t_list	*res;
-
-	res = (t_list *)malloc(sizeof(t_list));
-	if (res == 0)
-		return (0);
-	res->content = content;
-	res->next = NULL;
-	return (res);
-}
 
 int			space_count(char *str)
 {
@@ -77,84 +54,6 @@ void set_quote(t_parsing *info, char quot, char buffer)
 	info->buff[info->j++] = buffer;
 }
 
-void	ft_bzero(void *s, size_t n)
-{
-	size_t i;
-
-	i = 0;
-	while (i < n)
-	{
-		*(char*)(s + i) = '\0';
-		i++;
-	}
-}
-
-char	*ft_strdup(const char *s1)
-{
-	int		size;
-	int		index;
-	char	*str;
-
-	size = 0;
-	while (s1[size])
-		size++;
-	if (!(str = malloc(sizeof(*s1) * size + 1)))
-		return ((char*)0);
-	index = 0;
-	while (s1[index])
-	{
-		str[index] = s1[index];
-		index++;
-	}
-	str[index] = '\0';
-	return (str);
-}
-
-t_list	*ft_lstlast(t_list *lst)
-{
-	while (lst && lst->next != NULL)
-		lst = lst->next;
-	return (lst);
-}
-
-void	ft_lstadd_back(t_list **lst, t_list *new)
-{
-	t_list	*last;
-
-	if (!*lst)
-	{
-		*lst = new;
-		return ;
-	}
-	last = ft_lstlast(*lst);
-	last->next = new;
-}
-char	*ft_strcpy(char *dest, char *src)
-{
-	int	i;
-
-	i = 0;
-	while (*(src + i) != '\0')
-	{
-		*(dest + i) = *(src + i);
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
-
-char	*ft_strchr(const char *s, int c)
-{
-	while (*s)
-	{
-		if (*s == c)
-			return ((char *)s);
-		s++;
-	}
-	if (c == '\0')
-		return ((char*)s);
-	return (0);
-}
 
 static void	push_program(t_parsing *info)
 {
@@ -170,41 +69,6 @@ static void	push_program(t_parsing *info)
 }
 
 
-int			check_next_is_space(char *str)
-{
-	int		index;
-	int		count;
-
-	index = ft_strlen(str) - 1;
-	count = 0;
-	while ((0 <= index) && (str[index] == ' '))
-	{
-		if (ft_strchr(";|><", str[index]))
-			break ;
-		count++;
-		index--;
-	}
-	if (index <= 0)
-		count = 0;
-	return (count);
-}
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	char	*p;
-	size_t	i;
-
-	i = 0;
-	p = (char *)malloc(size * count);
-	if (p == NULL)
-		return (NULL);
-	while (i < size * count)
-	{
-		p[i] = 0;
-		i++;
-	}
-	return ((void *)p);
-}
 char	*ft_strtok(char *str, char sepa)
 {
 	static char	*stock = NULL;
