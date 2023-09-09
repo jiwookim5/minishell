@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/09 18:05:03 by jiwkim2           #+#    #+#             */
+/*   Updated: 2023/09/09 18:22:38 by jiwkim2          ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -7,7 +19,10 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <readline/readline.h>
+# include <readline/history.h>
 
+// # define PIPE 1
+// # define SEMICOLON 0
 
 typedef	struct	s_list
 {
@@ -21,6 +36,7 @@ typedef struct	s_cmd
 	char	**program;
 }				t_cmd;
 
+//p_i parsing index, j = buff index, i = line index
 typedef struct	s_parsing
 {
 	int		p_i;

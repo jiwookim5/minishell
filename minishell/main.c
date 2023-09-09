@@ -6,11 +6,12 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 19:44:03 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/09/08 19:52:14 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/09/09 18:21:11 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 
 size_t	ft_strlen(const char *str)
 {
@@ -21,6 +22,7 @@ size_t	ft_strlen(const char *str)
 		i++;
 	return (i);
 }
+
 
 t_list	*ft_lstnew(void *content)
 {
@@ -260,6 +262,8 @@ int		count_token(char *input)
 //data == info, head == node;
 void	set_content(t_parsing *info, char *line, t_list *node, int i)
 {
+	if (line[info->i + 1] == '>' || line[info->i + 1] == '<')
+		info->i++;
 	printf("info->buff : %s\n", info->buff);
 	info->content->flag = i;
 	printf("flagflag : %d\n", info->content->flag);
@@ -271,9 +275,9 @@ void	set_content(t_parsing *info, char *line, t_list *node, int i)
 	else
 	{
 		ft_lstadd_back(&node, ft_lstnew(info->content));
-		printf("1           %d\n", info->content->flag);
+		printf("FLAG1 : %d\n", info->content->flag);
 		info->content = ft_calloc(1, sizeof(t_cmd));
-		printf("2           %d\n", info->content->flag);
+		printf("FLAG2 : %d\n", info->content->flag);
 		info->content->program = ft_calloc(count_token(line) + 1, sizeof(char *));
 		info->head = ft_lstlast(node);
 	}
@@ -281,6 +285,65 @@ void	set_content(t_parsing *info, char *line, t_list *node, int i)
 	// printf("node : %d\n", *(int*)(node->content));
 	// printf("line : %s\n", line);
 	// printf("empty info->buff : %s\n", info->buff);
+}
+
+void		put_program(t_parsing *info)
+{
+	if (*(info->buff) == 0)
+	{
+		printf("Sdfds\n");
+		return ;
+	}
+	info->content->program[(info->p_i)] = ft_strdup(info->buff);
+	info->content->program[(info->p_i) + 1] = NULL;
+	(info->p_i)++;
+	ft_bzero(info->buff, ft_strlen(info->buff) + 1);
+	info->j = 0;
+}
+
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	int		i;
+	char	*res;
+
+	if (len == 0)
+	{
+		res = malloc(sizeof(char));
+		*res = 0;
+		return (res);
+	}
+	if ((res = (char *)malloc(sizeof(char) * (len + 1))) == 0)
+		return (0);
+	i = 0;
+	if (start < (unsigned int)ft_strlen(s))
+	{
+		while (len--)
+			res[i++] = s[start++];
+	}
+	res[i] = '\0';
+	return (res);
+}
+
+
+char	*ft_strtrim(char const *s1, char const *set)
+{
+	size_t	start;
+	size_t	end;
+	char	*res;
+
+	start = 0;
+	if (s1 == 0 || set == 0)
+		return (0);
+	end = ft_strlen(s1);
+	while (s1[start] && ft_strchr(set, s1[start]))
+			start++;
+	while (s1[end - 1] && ft_strchr(set, s1[end - 1]))
+			end--;
+	if (start > end)
+		return (ft_strdup(""));
+	res = ft_substr(s1, start, end - start);
+	return (res);
 }
 
 void parsing_check(char *line, t_parsing *info, t_list *node)
@@ -297,13 +360,21 @@ void parsing_check(char *line, t_parsing *info, t_list *node)
 		set_content(info, line, node, 0);
 	else if (info->quote == 0 && line[info->i] == ' ')
 	{
-		if (*(info->buff))
-			push_buff(info);
+		put_program(info);
 	}
+	else if (info->quote == 0 && line[info->i] == '>' && line[info->i + 1] != '>')
+		set_content(info, line, node, 2);
+	else if (info->quote == 0 && line[info->i] == '>' && line[info->i] == '>')
+		set_content(info, line, node, 3);
+	else if (info->quote == 0 && line[info->i] == '<' && line[info->i + 1] != '<')
+		set_content(info, line, node, 4);
+	else if (info->quote == 0 && line[info->i] == '<' && line[info->i + 1] == '<')
+		set_content(info, line, node, 5);
 	else
+	{
 		info->buff[info->j++] = line[info->i];
+	}
 	printf("buff : %s\n", info->buff);
-	printf("program1111: %s\n", info->content->program[0]);
 
 }
 
@@ -311,22 +382,51 @@ t_list *parsing(char *line)
 {
 	t_list *node;
 	t_parsing info;
+	char *cmd;
 
+	cmd = ft_strtrim(line, " ");
 	init(&node, &info, line);
-	while (line[info.i])
+	while (cmd[info.i])
 	{
-		parsing_check(line, &info, node);
+		parsing_check(cmd, &info, node);
 		printf("%d\n", info.content->flag);
 		info.i++;
 	}
-	printf("node1 : %s\n", node->content);
+	if (*(info.buff))
+		put_program(&info);
+	printf("program: %s\n", info.content->program[0]);
+	printf("FLAG1 : %d\n", info.content->flag);
 	if (info.quote != 0)
 	{
 		printf("fuck\n");
 		exit(0);
 	}
+	if (info.p_i)
+		ft_lstadd_back(&node, ft_lstnew(info.content));
+	//result
+	t_list *current = node;
+    int node_num = 1;
+
+    while (current != NULL)
+	{
+        t_cmd *cmd = (t_cmd *)current->content;
+        printf("Node %d:\n", node_num);
+
+        if (cmd != NULL) 
+		{
+            for (int i = 0; cmd->program[i] != NULL; i++)
+			{
+                printf("  program: %s\n", cmd->program[i]);
+            }
+            printf("  Command Type: %d\n", cmd->flag);
+
+        }
+        current = current->next;
+        node_num++;
+    }
 	return(node);
 }
+
 
 int		minishell(void)
 {
@@ -338,6 +438,7 @@ int		minishell(void)
 	{
 		line = readline("minishell $ ");
 		// printf("%s\n", line);
+		add_history(line);
 		if (!line)
 		{
 			printf("error\n");
@@ -345,6 +446,7 @@ int		minishell(void)
 		}
 		cmd_list = parsing(line);
 		free(line);
+
 	}
 }
 
