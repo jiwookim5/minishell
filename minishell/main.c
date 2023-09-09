@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 19:44:03 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/09/09 18:21:11 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/09/09 18:25:48 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,7 +259,7 @@ int		count_token(char *input)
 	free(p);
 	return (count_token);
 }
-//data == info, head == node;
+
 void	set_content(t_parsing *info, char *line, t_list *node, int i)
 {
 	if (line[info->i + 1] == '>' || line[info->i + 1] == '<')
