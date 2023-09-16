@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 18:05:03 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/09/09 18:31:08 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/09/16 19:29:41 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,19 @@
 
 // # define PIPE 1
 // # define SEMICOLON 0
+
+// enum e_type
+// {
+// 	WORD,
+	// REDIR_IN,
+	// REDIR_OUT,
+// 	HEREDOC,
+// 	APPEND;
+// };
+// ls / < infile / -al / > outfile
+// WORD / REDIR_IN / WORD / REDIR_OUT
+// {"ls", "-al"}
+
 
 typedef	struct	s_list
 {
@@ -43,14 +56,14 @@ typedef struct	s_parsing
 	int		i;
 	int		j;
 	char	quote;
+	char 	*buff;
 	t_list	*head;
 	t_cmd	*content;
-	char *buff;
 }				t_parsing;
 
 
-int		main(int argc, char **argv);
-int		minishell(void);
+int		main(int argc, char **argv, char **env);
+int		minishell(char **env);
 void	prompt(void);
 
 //libft

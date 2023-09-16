@@ -6,7 +6,7 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 18:28:34 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/09/09 18:29:20 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/09/16 18:58:57 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,26 @@
 
 char	*ft_strdup(const char *s1)
 {
-	int		size;
-	int		index;
-	char	*str;
+	char	*p;
+	int		i;
+	int		len;
 
-	size = 0;
-	while (s1[size])
-		size++;
-	if (!(str = malloc(sizeof(*s1) * size + 1)))
-		return ((char*)0);
-	index = 0;
-	while (s1[index])
+	if (s1 == 0)
+		return (0);
+	len = 0;
+	while (s1[len])
+		len++;
+	p = (char *)malloc(sizeof(char) * (len + 1));
+	if (p == NULL)
+		return (NULL);
+	i = 0;
+	while (s1[i])
 	{
-		str[index] = s1[index];
-		index++;
+		p[i] = s1[i];
+		i++;
 	}
-	str[index] = '\0';
-	return (str);
+	p[i] = '\0';
+	return (p);
 }
 char	*ft_strcpy(char *dest, char *src)
 {

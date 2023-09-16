@@ -6,12 +6,47 @@
 /*   By: jiwkim2 <jiwkim2@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 19:44:03 by jiwkim2           #+#    #+#             */
-/*   Updated: 2023/09/09 18:30:12 by jiwkim2          ###   ########seoul.kr  */
+/*   Updated: 2023/09/16 19:29:20 by jiwkim2          ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 
+
+void	*ft_memset(void *b, int c, size_t len)
+{
+	unsigned char	*p;
+	size_t			i;
+
+	i = 0;
+	p = (unsigned char *)b;
+	while (i < len)
+	{
+		*p = (unsigned char)c;
+		p++;
+		i++;
+	}
+	return ((void *)b);
+}
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t			a;
+	unsigned char	*a1;
+	unsigned char	*a2;
+
+	a1 = (unsigned char *) s1;
+	a2 = (unsigned char *) s2;
+	if (n <= 0)
+		return (0);
+	a = 0;
+	while (a1[a] != '\0' && a2[a] != '\0' && a < n - 1)
+	{
+		if (a1[a] != a2[a])
+			break ;
+		a++;
+	}
+	return (a1[a] - a2[a]);
+}
 
 int			space_count(char *str)
 {
@@ -40,6 +75,7 @@ void init(t_list **node, t_parsing *info, char *line)
 	info->buff = (char *)malloc((ft_strlen(line) + 1) * sizeof(char));
 	info->content = (t_cmd *)malloc(sizeof(t_cmd));
 	info->content->program = (char **)malloc((space_count(line) + 2) * sizeof(char*));
+	printf("ilko: %d\n", (space_count(line) + 2));
 }
 
 void set_buff (t_parsing *info, char *line)
@@ -149,6 +185,7 @@ void	set_content(t_parsing *info, char *line, t_list *node, int i)
 	// printf("node : %d\n", *(int*)(node->content));
 	// printf("line : %s\n", line);
 	// printf("empty info->buff : %s\n", info->buff);
+	
 }
 
 void		put_program(t_parsing *info)
@@ -158,6 +195,7 @@ void		put_program(t_parsing *info)
 		printf("Sdfds\n");
 		return ;
 	}
+	printf("here\n");
 	info->content->program[(info->p_i)] = ft_strdup(info->buff);
 	info->content->program[(info->p_i) + 1] = NULL;
 	(info->p_i)++;
@@ -238,11 +276,37 @@ void parsing_check(char *line, t_parsing *info, t_list *node)
 	{
 		info->buff[info->j++] = line[info->i];
 	}
-	printf("buff : %s\n", info->buff);
+	// printf("buff : %s\n", info->buff);
 
 }
 
-t_list *parsing(char *line)
+void change_quote(t_parsing *info, char **env)
+{
+    int i = 0;
+    char *name;
+    char *value;
+
+    name = ft_strdup(&(info->buff[2]));
+    name[ft_strlen(name) - 1] = '\0';
+
+    while (env[i])
+    {
+        if (ft_strncmp(env[i], name, ft_strlen(name)) == 0)
+        {
+            value = ft_strchr(env[i], '=');
+            if (value)
+            {
+                ft_strcpy(info->buff, value + 1);
+                break;
+            }
+        }
+        i++;
+    }
+	// printf("buffffff :%s\n", info->buff);
+    free(name);
+}
+
+t_list *parsing(char *line, char **env)
 {
 	t_list *node;
 	t_parsing info;
@@ -253,11 +317,27 @@ t_list *parsing(char *line)
 	while (cmd[info.i])
 	{
 		parsing_check(cmd, &info, node);
-		printf("%d\n", info.content->flag);
 		info.i++;
 	}
+	info.buff[info.i] = '\0';
+	printf("buffffff :%s\n", info.buff);
+	if (info.buff[0] == '\"' && info.buff[ft_strlen(info.buff) - 1] == '\"')
+	{
+    	printf("SDfsdfsdfds\n");
+    	change_quote(&info, env);
+    	printf("buff : %s\n", info.buff);
+	}
+	// info.content->program = malloc(8);
 	if (*(info.buff))
-		put_program(&info);
+	{
+		// printf("buffffff :%s\n", info.buff);
+		printf("ASDfasd\n");
+		printf("%d\n", info.p_i);
+		info.content->program[(info.p_i)] = ft_strdup(info.buff);
+		printf("ASDfasssssssssd\n");
+		info.content->program[(info.p_i) + 1] = NULL;
+		info.p_i++;
+	}
 	printf("program: %s\n", info.content->program[0]);
 	printf("FLAG1 : %d\n", info.content->flag);
 	if (info.quote != 0)
@@ -292,11 +372,12 @@ t_list *parsing(char *line)
 }
 
 
-int		minishell(void)
+int		minishell(char **env)
 {
 	t_list	*cmd_list;
 	char	*line;
 
+	// printf("%s\n", *env);
 	line = NULL;
 	while (1)
 	{
@@ -308,16 +389,16 @@ int		minishell(void)
 			printf("error\n");
 			exit(0);
 		}
-		cmd_list = parsing(line);
+		cmd_list = parsing(line, env);
 		free(line);
 
 	}
 }
 
-int		main(int argc, char **argv)
+int		main(int argc, char **argv, char **env)
 {
 	(void)argc;
 	(void)argv;
-	minishell();
+	minishell(env);
 }
 
