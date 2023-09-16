@@ -64,19 +64,26 @@ int			space_count(char *str)
 	return (count);
 }
 
-void init(t_list **node, t_parsing *info, char *line)
-{
-	info->p_i = 0;
-	info->i = 0;
-	info->quote = 0;
-	info->j = 0;
-	*node = ft_lstnew(NULL);
-	info->head = *node;
-	info->buff = (char *)malloc((ft_strlen(line) + 1) * sizeof(char));
-	info->content = (t_cmd *)malloc(sizeof(t_cmd));
-	info->content->program = (char **)malloc((space_count(line) + 2) * sizeof(char*));
-	printf("ilko: %d\n", (space_count(line) + 2));
-}
+// void init(t_list **node, t_parsing *info, char *line, char **env)
+// {
+// 	int i = 0;
+// 	info->p_i = 0;
+// 	info->i = 0;
+// 	info->j = 0;
+// 	info->quote = 0;
+// 	*node = ft_lstnew(NULL);
+// 	info->buff = (char *)malloc((ft_strlen(line) + 1) * sizeof(char));
+// 	info->head = *node;
+// 	info->content = (t_cmd *)malloc(sizeof(t_cmd));
+// 	if (ft_strchr(line, '$'))
+// 	{
+// 		change_quote(info, env);
+// 		i = ft_strlen(info->buff);
+// 		info->content->program = (char **)malloc((i + 1) * sizeof(char*));
+// 	}
+// 	else
+// 		info->content->program = (char **)malloc((space_count(line) + 2) * sizeof(char*));
+// }
 
 void set_buff (t_parsing *info, char *line)
 {
@@ -192,7 +199,6 @@ void		put_program(t_parsing *info)
 {
 	if (*(info->buff) == 0)
 	{
-		printf("Sdfds\n");
 		return ;
 	}
 	printf("here\n");
@@ -306,6 +312,26 @@ void change_quote(t_parsing *info, char **env)
     free(name);
 }
 
+void init(t_list **node, t_parsing *info, char *line)
+{
+	info->p_i = 0;
+	info->i = 0;
+	info->j = 0;
+	info->quote = 0;
+	*node = ft_lstnew(NULL);
+	info->buff = (char *)malloc((ft_strlen(line) + 1) * sizeof(char));
+	info->head = *node;
+	info->content = (t_cmd *)malloc(sizeof(t_cmd));
+	// if (ft_strchr(line, '$'))
+	// {
+	// 	change_quote(info, env);
+	// 	i = ft_strlen(info->buff);
+	// 	info->content->program = (char **)malloc((i + 1) * sizeof(char*));
+	// }
+	// else
+		info->content->program = (char **)malloc((ft_strlen(line) + 2) * sizeof(char*));
+}
+
 t_list *parsing(char *line, char **env)
 {
 	t_list *node;
@@ -320,19 +346,18 @@ t_list *parsing(char *line, char **env)
 		info.i++;
 	}
 	info.buff[info.i] = '\0';
-	printf("buffffff :%s\n", info.buff);
+	// printf("buffffff :%s\n", info.buff);
 	if (info.buff[0] == '\"' && info.buff[ft_strlen(info.buff) - 1] == '\"')
 	{
     	printf("SDfsdfsdfds\n");
     	change_quote(&info, env);
     	printf("buff : %s\n", info.buff);
 	}
-	// info.content->program = malloc(8);
+	// info.content->program = malloc(100);
 	if (*(info.buff))
 	{
-		// printf("buffffff :%s\n", info.buff);
+		printf("buffffff :%s\n", info.buff);
 		printf("ASDfasd\n");
-		printf("%d\n", info.p_i);
 		info.content->program[(info.p_i)] = ft_strdup(info.buff);
 		printf("ASDfasssssssssd\n");
 		info.content->program[(info.p_i) + 1] = NULL;
