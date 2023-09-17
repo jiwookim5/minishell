@@ -282,35 +282,9 @@ void parsing_check(char *line, t_parsing *info, t_list *node)
 	{
 		info->buff[info->j++] = line[info->i];
 	}
-	// printf("buff : %s\n", info->buff);
 
 }
 
-void change_quote(t_parsing *info, char **env)
-{
-    int i = 0;
-    char *name;
-    char *value;
-
-    name = ft_strdup(&(info->buff[2]));
-    name[ft_strlen(name) - 1] = '\0';
-
-    while (env[i])
-    {
-        if (ft_strncmp(env[i], name, ft_strlen(name)) == 0)
-        {
-            value = ft_strchr(env[i], '=');
-            if (value)
-            {
-                ft_strcpy(info->buff, value + 1);
-                break;
-            }
-        }
-        i++;
-    }
-	// printf("buffffff :%s\n", info->buff);
-    free(name);
-}
 
 void init(t_list **node, t_parsing *info, char *line)
 {
@@ -322,14 +296,75 @@ void init(t_list **node, t_parsing *info, char *line)
 	info->buff = (char *)malloc((ft_strlen(line) + 1) * sizeof(char));
 	info->head = *node;
 	info->content = (t_cmd *)malloc(sizeof(t_cmd));
-	// if (ft_strchr(line, '$'))
-	// {
-	// 	change_quote(info, env);
-	// 	i = ft_strlen(info->buff);
-	// 	info->content->program = (char **)malloc((i + 1) * sizeof(char*));
-	// }
-	// else
-		info->content->program = (char **)malloc((ft_strlen(line) + 2) * sizeof(char*));
+	info->token_count = 0;
+	info->content->program = (char **)malloc((count_token(line) + 2) * sizeof(char*));
+}
+
+char *change_quote(char **program, char **env)
+{
+    int i = 0;
+    char *name;
+    char *value;
+
+    name = ft_strdup(&(program[i][2]));
+    name[ft_strlen(name) - 1] = '\0';
+	printf("namee   :  %s\n", name);
+    while (env[i])
+    {
+        if (ft_strncmp(env[i], name, ft_strlen(name)) == 0)
+        {
+            value = ft_strchr(env[i], '=');
+            if (value)
+            {
+                free(name); // 먼저 name 메모리를 해제해야 합니다.
+                return ft_strdup(value + 1);
+            }
+        }
+        i++;
+    }
+	printf("progggsagas : %s\n", program[i]);
+    free(name);
+	   return NULL;
+}
+
+void exec_pipe(char **program, char **env)
+{
+	char *change;
+	printf("111111\n");
+    if (program[0][0] == '\"' && program[0][ft_strlen(program[0]) - 1] == '\"')
+    {
+        printf("SDfsdfsdfds\n");
+        change = change_quote(program, env);
+		 if (change)
+        {
+            free(program[0]);
+            program[0] = change;
+        }
+		printf("programmmm : %s\n", change);
+    }
+	printf("222222\n");
+}
+
+void parsing_second(t_list *head, char **env)
+{
+    t_list *crr;
+    t_cmd *cmd;
+
+	cmd = NULL;
+
+	    crr = head->next;
+		while (crr != NULL)
+    	{
+        	cmd = crr->content;
+        	if (cmd->program[0])
+        	{
+				printf("Sdafa31241234s\n");
+            	exec_pipe(cmd->program, env);
+				printf("Sdafa312423412342341234s\n");
+
+        	}
+        	crr = crr->next;
+    	}
 }
 
 t_list *parsing(char *line, char **env)
@@ -346,14 +381,6 @@ t_list *parsing(char *line, char **env)
 		info.i++;
 	}
 	info.buff[info.i] = '\0';
-	// printf("buffffff :%s\n", info.buff);
-	if (info.buff[0] == '\"' && info.buff[ft_strlen(info.buff) - 1] == '\"')
-	{
-    	printf("SDfsdfsdfds\n");
-    	change_quote(&info, env);
-    	printf("buff : %s\n", info.buff);
-	}
-	// info.content->program = malloc(100);
 	if (*(info.buff))
 	{
 		printf("buffffff :%s\n", info.buff);
@@ -373,6 +400,27 @@ t_list *parsing(char *line, char **env)
 	if (info.p_i)
 		ft_lstadd_back(&node, ft_lstnew(info.content));
 	//result
+	// t_list *current = node;
+    // int node_num = 1;
+
+    // while (current != NULL)
+	// {
+    //     t_cmd *cmd = (t_cmd *)current->content;
+    //     printf("Node %d:\n", node_num);
+
+    //     if (cmd != NULL) 
+	// 	{
+    //         for (int i = 0; cmd->program[i] != NULL; i++)
+	// 		{
+    //             printf("  program: %s\n", cmd->program[i]);
+    //         }
+    //         printf("  Command Type: %d\n", cmd->flag);
+
+    //     }
+    //     current = current->next;
+    //     node_num++;
+    // }
+	parsing_second(node, env);
 	t_list *current = node;
     int node_num = 1;
 

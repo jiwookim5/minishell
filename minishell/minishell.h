@@ -55,6 +55,7 @@ typedef struct	s_parsing
 	int		p_i;
 	int		i;
 	int		j;
+	int		token_count;
 	char	quote;
 	char 	*buff;
 	t_list	*head;
@@ -78,3 +79,41 @@ t_list	*ft_lstlast(t_list *lst);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 
 #endif
+
+// void exec_pipe(t_cmd *cmd, char **env)
+// {
+//     char *change;
+//     printf("111111\n");
+//     if (cmd->program[0][0] == '\"' && cmd->program[0][ft_strlen(cmd->program[0]) - 1] == '\"')
+//     {
+//         printf("SDfsdfsdfds\n");
+//         change = change_quote(cmd->program, env);
+//         if (change)
+//         {
+//             free(cmd->program[0]);
+//             cmd->program[0] = change;
+//         }
+//         printf("programmmm : %s\n", change);
+//     }
+//     printf("222222\n");
+// }
+
+// void parsing_second(t_list *head, char **env)
+// {
+//     t_list *crr;
+//     t_cmd *cmd;
+
+//     cmd = NULL;
+//     crr = head->next;
+//     while (crr != NULL)
+//     {
+//         cmd = crr->content;
+//         if (cmd->program[0])
+//         {
+//             printf("Sdafa31241234s\n");
+//             exec_pipe(cmd, env);
+//             printf("Sdafa312423412342341234s\n");
+//         }
+//         crr = crr->next;
+//     }
+// }
