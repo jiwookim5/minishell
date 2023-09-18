@@ -80,40 +80,42 @@ void	ft_lstadd_back(t_list **lst, t_list *new);
 
 #endif
 
-// void exec_pipe(t_cmd *cmd, char **env)
-// {
-//     char *change;
-//     printf("111111\n");
-//     if (cmd->program[0][0] == '\"' && cmd->program[0][ft_strlen(cmd->program[0]) - 1] == '\"')
-//     {
-//         printf("SDfsdfsdfds\n");
-//         change = change_quote(cmd->program, env);
-//         if (change)
-//         {
-//             free(cmd->program[0]);
-//             cmd->program[0] = change;
-//         }
-//         printf("programmmm : %s\n", change);
-//     }
-//     printf("222222\n");
-// }
 
-// void parsing_second(t_list *head, char **env)
+
+// void parsing_second(t_list *node, char **env)
 // {
 //     t_list *crr;
 //     t_cmd *cmd;
 
 //     cmd = NULL;
-//     crr = head->next;
+
+//     crr = node->next;
 //     while (crr != NULL)
 //     {
 //         cmd = crr->content;
 //         if (cmd->program[0])
 //         {
 //             printf("Sdafa31241234s\n");
-//             exec_pipe(cmd, env);
+//             ft_change(cmd->program, env);
 //             printf("Sdafa312423412342341234s\n");
+
 //         }
 //         crr = crr->next;
+//     }
+    
+//     // 처리된 프로그램 출력
+//     int i = 0;
+//     while (cmd->program[i] != NULL)
+//     {
+//         printf("program[%d]: %s\n", i, cmd->program[i]);
+//         i++;
+//     }
+    
+//     // 모든 프로그램에 대해 따옴표 및 환경 변수 처리
+//     i = 0;
+//     while (cmd->program[i] != NULL)
+//     {
+//         remove_quotes(cmd->program[i]);
+//         i++;
 //     }
 // }

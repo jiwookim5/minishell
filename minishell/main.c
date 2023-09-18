@@ -100,6 +100,7 @@ void set_quote(t_parsing *info, char quot, char buffer)
 
 static void	push_program(t_parsing *info)
 {
+	printf("sdfasd\n");
 	if (*(info->buff) == 0)
 		return ;
 	printf("%d\n", info->p_i);
@@ -176,7 +177,6 @@ void	set_content(t_parsing *info, char *line, t_list *node, int i)
 	printf("flagflag : %d\n", info->content->flag);
 	if (*(info->buff))
 		push_program(info);
-	printf("program: %s\n", info->content->program[0]);
 	if ((info->content->program)[0] == 0 && info->content->flag <= 1)
 		exit(0);
 	else
@@ -284,6 +284,43 @@ void parsing_check(char *line, t_parsing *info, t_list *node)
 	}
 
 }
+static void	*ft_move(void *dst, const void *src, size_t len, size_t i)
+{
+	unsigned char	*a;
+	unsigned char	*b;
+
+	a = (unsigned char *)dst;
+	b = (unsigned char *)src;
+	if (dst < src)
+	{
+		while (i < len)
+		{
+			a[i] = b[i];
+			i++;
+		}
+	}
+	else
+	{
+		i = len;
+		while (i)
+		{
+			a [i - 1] = b [i - 1];
+			i--;
+		}
+	}
+	return (dst);
+}
+
+void	*ft_memmove(void *dst, const void *src, size_t len)
+{
+	size_t	i;
+
+	i = 0;
+	if (dst == 0 && src == 0)
+		return (dst);
+	return (ft_move(dst, src, len, i));
+}
+
 
 
 void init(t_list **node, t_parsing *info, char *line)
@@ -311,23 +348,24 @@ char *change_quote(char **program, char **env)
 	printf("namee   :  %s\n", name);
     while (env[i])
     {
+		// printf("progggsagas : %s\n", program[0]);
         if (ft_strncmp(env[i], name, ft_strlen(name)) == 0)
         {
             value = ft_strchr(env[i], '=');
             if (value)
             {
-                free(name); // 먼저 name 메모리를 해제해야 합니다.
-                return ft_strdup(value + 1);
+                free(name);
+                return (ft_strdup(value + 1));
             }
         }
         i++;
     }
-	printf("progggsagas : %s\n", program[i]);
+	// printf("progggsagas : %s\n", program[i]);
     free(name);
 	   return NULL;
 }
 
-void exec_pipe(char **program, char **env)
+void ft_change(char **program, char **env)
 {
 	char *change;
 	printf("111111\n");
@@ -345,26 +383,40 @@ void exec_pipe(char **program, char **env)
 	printf("222222\n");
 }
 
-void parsing_second(t_list *head, char **env)
+void remove_quotes(char *str)
+{
+    int len = strlen(str);
+   if (len >= 2 && ((str[0] == '\"' && str[len - 1] == '\"') ||
+   		 (str[0] == '\'' && str[len - 1] == '\'')))
+	{
+        ft_memmove(str, str + 1, len - 2);
+        str[len - 2] = '\0';
+    }
+}
+
+void parsing_second(t_list *node, char **env)
 {
     t_list *crr;
     t_cmd *cmd;
+	int i;
 
 	cmd = NULL;
 
-	    crr = head->next;
-		while (crr != NULL)
+	    crr = node->next;
+		while (crr != NULL )
     	{
         	cmd = crr->content;
-        	if (cmd->program[0])
-        	{
-				printf("Sdafa31241234s\n");
-            	exec_pipe(cmd->program, env);
-				printf("Sdafa312423412342341234s\n");
-
-        	}
+			i = 0;
+        	while (cmd->program[i] != NULL)
+    		{
+				ft_change(&cmd->program[i], env);
+        		remove_quotes(cmd->program[i]);
+        		i++;
+    		}
         	crr = crr->next;
     	}
+	printf("program[0] : %s\n", cmd->program[0]);
+	printf("program[1] : %s\n", cmd->program[1]);
 }
 
 t_list *parsing(char *line, char **env)
@@ -420,34 +472,38 @@ t_list *parsing(char *line, char **env)
     //     current = current->next;
     //     node_num++;
     // }
+	printf("head- content : %s\n", info.head->content);
 	parsing_second(node, env);
+
 	t_list *current = node;
     int node_num = 1;
 
     while (current != NULL)
 	{
         t_cmd *cmd = (t_cmd *)current->content;
-        printf("Node %d:\n", node_num);
-
+        printf("Node %d :\n", node_num);
         if (cmd != NULL) 
 		{
+			printf("  flag : %d\n", cmd->flag);
             for (int i = 0; cmd->program[i] != NULL; i++)
 			{
-                printf("  program: %s\n", cmd->program[i]);
+                printf("  program : %s\n", cmd->program[i]);
             }
-            printf("  Command Type: %d\n", cmd->flag);
-
+            printf("  flag : %d\n", cmd->flag);
         }
         current = current->next;
         node_num++;
     }
-	return(node);
+	// t_list *current = node->next; 
+	//  t_cmd *cmda = (t_cmd *)current->content;
+	// if (cmd != NULL)
+	// 	printf("  flag : %d\n",cmda->flag);
+	return(NULL);
 }
 
 
 int		minishell(char **env)
 {
-	t_list	*cmd_list;
 	char	*line;
 
 	// printf("%s\n", *env);
@@ -462,7 +518,7 @@ int		minishell(char **env)
 			printf("error\n");
 			exit(0);
 		}
-		cmd_list = parsing(line, env);
+		parsing(line, env);
 		free(line);
 
 	}
