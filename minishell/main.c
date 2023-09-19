@@ -141,14 +141,6 @@ char	*ft_strtok(char *str, char sepa)
 	return (p);
 }
 
-void		push_buff(t_parsing *info)
-{
-	info->content->program[(info->p_i)] = ft_strdup(info->buff);
-	info->content->program[(info->p_i) + 1] = NULL;
-	(info->p_i)++;
-	ft_bzero(info->buff, ft_strlen(info->buff) + 1);
-	info->j = 0;
-}
 
 int		count_token(char *input)
 {
@@ -337,7 +329,7 @@ void init(t_list **node, t_parsing *info, char *line)
 	info->content->program = (char **)malloc((count_token(line) + 2) * sizeof(char*));
 }
 
-char *change_quote(char **program, char **env)
+char *change_quote_small(char **program, char **env)
 {
     int i = 0;
     char *name;
@@ -351,6 +343,38 @@ char *change_quote(char **program, char **env)
 		// printf("progggsagas : %s\n", program[0]);
         if (ft_strncmp(env[i], name, ft_strlen(name)) == 0)
         {
+			printf("090909090900\n");
+            value = ft_strchr(env[i], '=');
+            if (value)
+            {
+                free(name);
+                return (ft_strdup(value));
+            }
+        }
+        i++;
+    }
+	// printf("progggsagas : %s\n", program[i]);
+    free(name);
+	return NULL;
+}
+
+char *change_quote(char **program, char **env)
+{
+    int i = 0;
+    char *name;
+    char *value;
+
+    name = ft_strdup(&(program[i][2]));
+    name[ft_strlen(name) - 1] = '\0';
+	printf("namee   :  %s\n", name);
+	printf("namee   :  %s\n", name);
+    while (env[i])
+    {
+		// printf("progggsagas : %s\n", program[0]);
+        if (ft_strncmp(env[i], name, ft_strlen(name)) == 0)
+        {
+			printf("name len : %zu\n", ft_strlen(name));
+			printf("090909090900\n");
             value = ft_strchr(env[i], '=');
             if (value)
             {
@@ -360,63 +384,112 @@ char *change_quote(char **program, char **env)
         }
         i++;
     }
+	printf("jiwkim222\n");
 	// printf("progggsagas : %s\n", program[i]);
     free(name);
-	   return NULL;
+	return (NULL);
 }
+void remove_quotes(char *str)
+{
+    int len ;
+    int i;
+	int j;
+
+	len = ft_strlen(str);
+    j = 0;
+	i = 0;
+    while (i < len)
+    {
+        if (str[i] != '\"')
+        {
+            str[j++] = str[i];
+        }
+		i++;
+    }
+    str[j] = '\0';
+}
+
+/// 다시해
 
 void ft_change(char **program, char **env)
 {
 	char *change;
+	int i;
+
+	i = 0;
 	printf("111111\n");
     if (program[0][0] == '\"' && program[0][ft_strlen(program[0]) - 1] == '\"')
     {
         printf("SDfsdfsdfds\n");
         change = change_quote(program, env);
-		 if (change)
+		printf("change ::::: %s\n", change);
+		if (change)
         {
             free(program[0]);
             program[0] = change;
         }
+		remove_quotes(program[0]);
+		printf("23343344334434334           243\n");
+		if (program[0][0] == '\'' && program[0][ft_strlen(program[0]) - 1] == '\'')
+		{
+			change = change_quote_small(program, env);
+			change[0] = '\'';
+			change[ft_strlen(change)] = '\'';
+			program[0] = change;
+		}
 		printf("programmmm : %s\n", change);
+    }
+	else if (program[0][0] == '\'' && program[0][ft_strlen(program[0]) - 1] == '\'')
+    {
+        ft_memmove(program[0], program[0] + 1, ft_strlen(program[0]) - 2);
+        program[0][ft_strlen(program[0]) - 2] = '\0';
     }
 	printf("222222\n");
 }
 
-void remove_quotes(char *str)
-{
-    int len = strlen(str);
-   if (len >= 2 && ((str[0] == '\"' && str[len - 1] == '\"') ||
-   		 (str[0] == '\'' && str[len - 1] == '\'')))
-	{
-        ft_memmove(str, str + 1, len - 2);
-        str[len - 2] = '\0';
-    }
-}
+// void remove_quotes(char *str)
+// {
+//     int len = strlen(str);
+//    if (len >= 2 && ((str[0] == '\"' && str[len - 1] == '\"') ||
+//    		 (str[0] == '\'' && str[len - 1] == '\'')))
+// 	{
+//         ft_memmove(str, str + 1, len - 2);
+//         str[len - 2] = '\0';
+//     }
+// }
 
 void parsing_second(t_list *node, char **env)
 {
     t_list *crr;
     t_cmd *cmd;
 	int i;
+	// int j;
 
 	cmd = NULL;
-
-	    crr = node->next;
-		while (crr != NULL )
+    crr = node->next;
+	// j = 0;
+	while (crr != NULL )
+    {
+       	cmd = crr->content;
+		// printf("jiwookim1005 : %c", cmd->program[i][j]);
+		i = 0;
+     	while (cmd->program[i] != NULL)
     	{
-        	cmd = crr->content;
-			i = 0;
-        	while (cmd->program[i] != NULL)
-    		{
-				ft_change(&cmd->program[i], env);
-        		remove_quotes(cmd->program[i]);
-        		i++;
-    		}
-        	crr = crr->next;
+			ft_change(&cmd->program[i], env);
+				// remove_quotes(cmd->program[i]);
+				// if (cmd->program[i][0] == '\"' && cmd->program[i][ft_strlen(cmd->program[i] - 1)])
+				// {
+				// 	ft_change(&cmd->program[i], env);
+        		// 	remove_quotes(cmd->program[i]);
+				// }
+				// else if ( )
+				
+			i++;
     	}
-	printf("program[0] : %s\n", cmd->program[0]);
-	printf("program[1] : %s\n", cmd->program[1]);
+    	crr = crr->next;
+    }
+	// printf("program[0] : %s\n", cmd->program[0]);
+	// printf("program[1] : %s\n", cmd->program[1]);
 }
 
 t_list *parsing(char *line, char **env)
@@ -433,6 +506,7 @@ t_list *parsing(char *line, char **env)
 		info.i++;
 	}
 	info.buff[info.i] = '\0';
+	info.buff = ft_strtrim(info.buff, " ");
 	if (*(info.buff))
 	{
 		printf("buffffff :%s\n", info.buff);
@@ -442,6 +516,24 @@ t_list *parsing(char *line, char **env)
 		info.content->program[(info.p_i) + 1] = NULL;
 		info.p_i++;
 	}
+	if (*(info.buff))
+// {
+//     // 여기서 info.buff가 공백일 경우에는 삭제하지 않도록 처리
+//     char *trimmed_buff = ft_strtrim(info.buff, " ");
+// 	printf("trimmed_buff : %s\n", trimmed_buff);
+//     if (*trimmed_buff)
+//     {
+//         // info.buff가 공백이 아닌 경우 처리
+//         info.content->program[(info.p_i)] = ft_strdup(trimmed_buff);
+//         info.content->program[(info.p_i) + 1] = NULL;
+//         info.p_i++;
+//     }
+//     else
+//     {
+//         // info->buff가 공백인 경우 처리 (예를 들어, 모두 공백 문자열인 경우)
+//         free(trimmed_buff); // 동적 할당된 문자열 메모리 해제
+//     }
+// }
 	printf("program: %s\n", info.content->program[0]);
 	printf("FLAG1 : %d\n", info.content->flag);
 	if (info.quote != 0)

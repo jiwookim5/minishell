@@ -81,41 +81,38 @@ void	ft_lstadd_back(t_list **lst, t_list *new);
 #endif
 
 
-
-// void parsing_second(t_list *node, char **env)
+// char *change_quote(char **program, char **env)
 // {
-//     t_list *crr;
-//     t_cmd *cmd;
-
-//     cmd = NULL;
-
-//     crr = node->next;
-//     while (crr != NULL)
-//     {
-//         cmd = crr->content;
-//         if (cmd->program[0])
-//         {
-//             printf("Sdafa31241234s\n");
-//             ft_change(cmd->program, env);
-//             printf("Sdafa312423412342341234s\n");
-
-//         }
-//         crr = crr->next;
-//     }
-    
-//     // 처리된 프로그램 출력
 //     int i = 0;
-//     while (cmd->program[i] != NULL)
+//     char *name;
+//     char *value;
+
+//     // program[i]에서 $ 문자를 만날 때까지 문자열을 복사합니다.
+//     int j = 0;
+//     while (program[i][j] != '\0' && program[i][j] != '$')
 //     {
-//         printf("program[%d]: %s\n", i, cmd->program[i]);
+//         j++;
+//     }
+//     name = ft_strdup(program[i] + j);
+//     // $ 문자가 있었다면 해당 문자열의 마지막 문자를 제거합니다.
+//     if (j > 0)
+//     {
+//         name[j - 1] = '\0';
+//     }
+
+//     while (env[i])
+//     {
+//         if (ft_strncmp(env[i], name, ft_strlen(name)) == 0)
+//         {
+//             value = ft_strchr(env[i], '=');
+//             if (value)
+//             {
+//                 free(name);
+//                 return (ft_strdup(value + 1));
+//             }
+//         }
 //         i++;
 //     }
-    
-//     // 모든 프로그램에 대해 따옴표 및 환경 변수 처리
-//     i = 0;
-//     while (cmd->program[i] != NULL)
-//     {
-//         remove_quotes(cmd->program[i]);
-//         i++;
-//     }
+//     free(name);
+//     return (NULL);
 // }
