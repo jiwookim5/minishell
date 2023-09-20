@@ -58,7 +58,7 @@ typedef struct	s_parsing
 	int		token_count;
 	char	quote;
 	char 	*buff;
-	t_list	*head;
+	// t_list	*head;
 	t_cmd	*content;
 }				t_parsing;
 
@@ -81,38 +81,39 @@ void	ft_lstadd_back(t_list **lst, t_list *new);
 #endif
 
 
-// char *change_quote(char **program, char **env)
+// void ft_change(char **program, char **env)
 // {
-//     int i = 0;
-//     char *name;
-//     char *value;
-
-//     // program[i]에서 $ 문자를 만날 때까지 문자열을 복사합니다.
+//     char *bup;
+//     char *cat;
+//     int i;
 //     int j = 0;
-//     while (program[i][j] != '\0' && program[i][j] != '$')
-//     {
-//         j++;
-//     }
-//     name = ft_strdup(program[i] + j);
-//     // $ 문자가 있었다면 해당 문자열의 마지막 문자를 제거합니다.
-//     if (j > 0)
-//     {
-//         name[j - 1] = '\0';
-//     }
 
-//     while (env[i])
+//     i = 0;
+
+//     if (program[0][i])
 //     {
-//         if (ft_strncmp(env[i], name, ft_strlen(name)) == 0)
+//         while (program[0][j] != '\"')
+//             j++;
+//         bup = ft_strchr_plus(program[i], '$');
+//         bup = ft_strtrim(bup, "\"");
+//         cat = change_quote(bup, env);
+
+//         if (cat != NULL)
 //         {
-//             value = ft_strchr(env[i], '=');
-//             if (value)
+//             // "aaa" + cat + "aa"를 생성
+//             int new_length = strlen(cat) + 7; // 3 + cat + 2 + 2
+//             char *new_program = (char *)malloc(new_length);
+
+//             if (new_program != NULL)
 //             {
-//                 free(name);
-//                 return (ft_strdup(value + 1));
+//                 strcpy(new_program, "aaa");
+//                 strcat(new_program, cat);
+//                 strcat(new_program, "aa");
+
+//                 // 기존 program[0] 메모리를 해제하고 새로운 문자열을 할당
+//                 free(program[0]);
+//                 program[0] = new_program;
 //             }
 //         }
-//         i++;
 //     }
-//     free(name);
-//     return (NULL);
 // }
