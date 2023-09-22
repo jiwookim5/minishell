@@ -64,26 +64,6 @@ int			space_count(char *str)
 	return (count);
 }
 
-// void init(t_list **node, t_parsing *info, char *line, char **env)
-// {
-// 	int i = 0;
-// 	info->p_i = 0;
-// 	info->i = 0;
-// 	info->j = 0;
-// 	info->quote = 0;
-// 	*node = ft_lstnew(NULL);
-// 	info->buff = (char *)malloc((ft_strlen(line) + 1) * sizeof(char));
-// 	info->head = *node;
-// 	info->content = (t_cmd *)malloc(sizeof(t_cmd));
-// 	if (ft_strchr(line, '$'))
-// 	{
-// 		change_quote(info, env);
-// 		i = ft_strlen(info->buff);
-// 		info->content->program = (char **)malloc((i + 1) * sizeof(char*));
-// 	}
-// 	else
-// 		info->content->program = (char **)malloc((space_count(line) + 2) * sizeof(char*));
-// }
 
 void set_buff (t_parsing *info, char *line)
 {
@@ -178,13 +158,8 @@ void	set_content(t_parsing *info, char *line, t_list *node, int i)
 		info->content = ft_calloc(1, sizeof(t_cmd));
 		printf("FLAG2 : %d\n", info->content->flag);
 		info->content->program = ft_calloc(count_token(line) + 1, sizeof(char *));
-		// info->head = ft_lstlast(node);
 	}
 	info->p_i = 0;
-	// printf("node : %d\n", *(int*)(node->content));
-	// printf("line : %s\n", line);
-	// printf("empty info->buff : %s\n", info->buff);
-	
 }
 
 void		put_program(t_parsing *info)
@@ -248,8 +223,6 @@ char	*ft_strtrim(char const *s1, char const *set)
 
 void parsing_check(char *line, t_parsing *info, t_list *node)
 {
-	// printf("line[i] : %c\n", line[info->i]);
-	// printf("info->quote : %d\n", info->quote);
 	if (line[info->i] == info->quote)
 		set_quote(info, 0, line[info->i]);
 	else if (info->quote == 0 && (line[info->i] == '\'' || line[info->i] == '\"'))
@@ -274,7 +247,6 @@ void parsing_check(char *line, t_parsing *info, t_list *node)
 	{
 		info->buff[info->j++] = line[info->i];
 	}
-
 }
 static void	*ft_move(void *dst, const void *src, size_t len, size_t i)
 {
@@ -323,7 +295,6 @@ void init(t_list **node, t_parsing *info, char *line)
 	info->quote = 0;
 	*node = ft_lstnew(NULL);
 	info->buff = (char *)malloc((ft_strlen(line) + 1) * sizeof(char));
-	// info->head = *node;
 	info->content = (t_cmd *)malloc(sizeof(t_cmd));
 	info->token_count = 0;
 	info->content->program = (char **)malloc((count_token(line) + 2) * sizeof(char*));
@@ -340,7 +311,6 @@ char *change_quote_small(char **program, char **env)
 	printf("namee   :  %s\n", name);
     while (env[i])
     {
-		// printf("progggsagas : %s\n", program[0]);
         if (ft_strncmp(env[i], name, ft_strlen(name)) == 0)
         {
 			printf("090909090900\n");
@@ -353,7 +323,6 @@ char *change_quote_small(char **program, char **env)
         }
         i++;
     }
-	// printf("progggsagas : %s\n", program[i]);
     free(name);
 	return NULL;
 }
@@ -366,7 +335,6 @@ char *change_quote(char *program, char **env)
 	int j = 0;
 
     name = ft_strdup(&(program[i]));
-    // name[ft_strlen(name) - 1] = '\0';
 	 while (name[j])
     {
         if (name[j] == '\"' || name[j] == '\'')
@@ -384,7 +352,6 @@ char *change_quote(char *program, char **env)
 	printf("namee   :  %s\n", name);
     while (env[i])
     {
-		// printf("progggsagas : %s\n", program[0]);
         if (ft_strncmp(env[i], name, ft_strlen(name)) == 0)
         {
 			printf("name len : %zu\n", ft_strlen(name));
@@ -399,7 +366,6 @@ char *change_quote(char *program, char **env)
         i++;
     }
 	printf("jiwkim222\n");
-	// printf("progggsagas : %s\n", program[i]);
     free(name);
 	return (NULL);
 }
@@ -437,50 +403,6 @@ void remove_quotes(char *str, int flag)
     str[j] = '\0';
 }
 
-/// 다시해
-
-// void ft_change(char **program, char **env)
-// {
-// 	char *change;
-// 	int i;
-// 	int j;
-
-// 	j = 0;
-// 	i = 0;
-// 	printf("111111\n");
-// 	while (program[0][j])
-// 	{
-//     if (program[0][j] == '\"' && program[j][ft_strlen(program[0]) - 1] == '\"')
-//     {
-//         printf("SDfsdfsdfds\n");
-//         change = change_quote(program, env);
-// 		printf("change ::::: %s\n", change);
-// 		if (change)
-//         {
-//             free(program[0]);
-//             program[0] = change;
-//         }
-// 		remove_quotes(program[0]);
-// 		printf("23343344334434334           243\n");
-// 		if (program[0][0] == '\'' && program[0][ft_strlen(program[0]) - 1] == '\'')
-// 		{
-// 			change = change_quote_small(program, env);
-// 			change[0] = '\'';
-// 			change[ft_strlen(change)] = '\'';
-// 			program[0] = change;
-// 		}
-// 		printf("programmmm : %s\n", change);
-//     }
-// 	else if (program[0][0] == '\'' && program[0][ft_strlen(program[0]) - 1] == '\'')
-//     {
-//         ft_memmove(program[0], program[0] + 1, ft_strlen(program[0]) - 2);
-//         program[0][ft_strlen(program[0]) - 2] = '\0';
-//     }
-// 	printf("222222\n");
-// 	j++;
-// 	}
-// }
-
 char	*ft_strchr_plus(const char *s, int c)
 {
 	while (*s)
@@ -498,51 +420,26 @@ char	*ft_strchr_plus(const char *s, int c)
 }
 
 
-char *ft_strcat(char *str1,char *str2)
+
+
+char	*ft_strcat(char *dest, char *src)
 {
-    size_t len1 = ft_strlen(str1);
-    size_t len2 = ft_strlen(str2);
+	int		a;
+	int		b;
 
- 
-    char *result = (char *)malloc(len1 + len2 + 1); 
-
-    if (result != NULL)
-    {
-        ft_strcpy(result, str1);
-        ft_strcpy(result + len1, str2);
-    }
-
-    return result;
+	a = 0;
+	b = 0;
+	while (dest[a] != '\0')
+			a++;
+	while (src[b] != '\0')
+	{
+				dest[a] = src[b];
+				a++;
+				b++;
+	}
+			dest[a] = '\0';
+	return (dest);
 }
-
-// int check_program(char **program) 
-// {
-//     int i = 0;
-//     int j = 0;
-
-//     while (program[i] != NULL) 
-// 	{       
-// 		j = 0;
-//         while (program[i][j] != '\0') 
-// 		{ 
-//             while (program[i][j] == '\'') 
-// 			{
-//                 j++;
-//                 if (program[i][j] == '\"') 
-// 				{
-// 					printf("fault\n");
-// 					printf("RETURM");
-//                     return(0); 
-//                 }
-//             }
-//             j++;
-//         }
-//         i++;
-//     }
-// 	printf("RETURM235235");
-//     return(1);
-// }
-
 
 //다시 해야지
 void ft_change(char **program, char **env)
@@ -558,23 +455,14 @@ void ft_change(char **program, char **env)
 	char *end = NULL;
 	char *re_end;
 	printf("env %s\n", *env);
-	// if (ft_strchr_plus(program[i], '$');)
 	i = 0;
-	// if (check_program(&program[i]) == 1)
-	// {
-	// 	remove_quotes(program[i], 0);
-	// }
 	f = 0;
 	first = (char *)malloc(strlen(program[0]) + 1);
 	mid = (char *)malloc(strlen(program[0]) + 1);
     end = (char *)malloc(strlen(program[0]) + 1);
 	re_end = (char *)malloc(strlen(program[0]) + 1);
-	first[0] = '\0'; // 초기화
+	first[0] = '\0';
 	end[0] = '\0';
-	// if (ft_strchr(program[i], '\''))
-	// {
-
-	// }
 	if (!ft_strchr(program[i], '$'))
 		return  ;
 	while (program[0][i] != '\"')
@@ -598,20 +486,10 @@ void ft_change(char **program, char **env)
 	printf("jiwkim3ersjiw,dsklfjjiwkim3 : %c\n", program[0][i]);
 	printf("jiwkim3ersjiw,dsklfjjiwkim3 : %c\n", program[0][i + 1]);
 	int k = 0;
-	// if (!ft_strchr(program[k], '\"'))
-	// {
-	// 	while(program[0][i] != '\0')
-	// 	{
-	// 		end[k] = program[0][i];
-	// 		i++;
-	// 		k++;
-	// 	}
-	// }
 	if (ft_strchr(program[k], '\''))
 	{
 		while(program[0][i] != '\'')
 			i--;
-		// i++;
 		while(program[0][i] != '\"')
 		{
 			re_end[k] = program[0][i];
@@ -620,16 +498,15 @@ void ft_change(char **program, char **env)
 		}
 	}
 	k = 0;
-	if (program[0][i] == '\"')
+	printf("aaaaaa : %c\n", program[0][i]);
+	while(program[0][i] != '\0')
 	{
-		while(program[0][i] != '\0')
-		{
-			end[k] = program[0][i];
-			i++;
-			k++;
-		}
-		remove_quotes(end, 1);
+		end[k] = program[0][i];
+		i++;
+		k++;
 	}
+	remove_quotes(end, 1);
+
 	i = 0;
 	printf("first : %s\n", first);
 	printf("mid : %s\n", mid);
@@ -644,53 +521,35 @@ void ft_change(char **program, char **env)
 		printf("programmmmmmmmczxvbnmcxn, : %s\n", bup);
 		if (ft_strchr(program[i], '\''))
 		{
-			// bup = ft_strtrim(bup, "\'");
 			printf("bupppppppppp, : %s\n", bup);
 		}
 		cat = change_quote(bup, env);
 		if (cat == NULL)
 		{
-			new_len = ft_strlen(first) + ft_strlen(mid) + 1;
+			new_len = ft_strlen(first) + ft_strlen(mid) + ft_strlen(end)+ 1;
             new_program = (char *)malloc(new_len);
 			ft_strcpy(new_program, first);
-			strcat(new_program, mid);
+			ft_strcat(new_program, mid);
+			ft_strcat(new_program, end);
 			program[0] = new_program;
 			return ;
 		}
 		printf("prog423524524452, : %s\n", cat);
 		if (cat != NULL)
 		{
-			// new_len = ft_strlen(cat);
-			// new_program = (char *)malloc(new_len);
-			// // ft_strcpy(new_program, first);
-			// // strcat(new_program, cat);
-			// // strcat(new_program, end);
-			// // program[0] = new_program;
-			// program[0] = first;
 			new_len = ft_strlen(first) + ft_strlen(mid) + ft_strlen(cat) + ft_strlen(re_end) + ft_strlen(end) + 1;
             new_program = (char *)malloc(new_len);
             ft_strcpy(new_program, first);
-			strcat(new_program, mid);
-            strcat(new_program, cat);
-			strcat(new_program, re_end);
-            strcat(new_program, end);
+			ft_strcat(new_program, mid);
+            ft_strcat(new_program, cat);
+			ft_strcat(new_program, re_end);
+            ft_strcat(new_program, end);
             program[0] = new_program;
 			printf("progggggrrrraaaammm : %s\n", program[1]);
 		}
 	}
 
 }
-
-// void remove_quotes(char *str)
-// {
-//     int len = strlen(str);
-//    if (len >= 2 && ((str[0] == '\"' && str[len - 1] == '\"') ||
-//    		 (str[0] == '\'' && str[len - 1] == '\'')))
-// 	{
-//         ft_memmove(str, str + 1, len - 2);
-//         str[len - 2] = '\0';
-//     }
-// }
 
 void parsing_second(t_list *node, char **env)
 {
@@ -705,7 +564,7 @@ void parsing_second(t_list *node, char **env)
 	while (crr != NULL )
     {
        	cmd = crr->content;
-		// printf("jiwookim1005 : %c", cmd->program[i][j]);
+
 		i = 0;
      	while (cmd->program[i] != NULL)
     	{
@@ -723,20 +582,10 @@ void parsing_second(t_list *node, char **env)
             }
 			printf("shititiiti\n");
 			ft_change(&cmd->program[i], env);
-				// remove_quotes(cmd->program[i]);
-				// if (cmd->program[i][0] == '\"' && cmd->program[i][ft_strlen(cmd->program[i] - 1)])
-				// {
-				// 	ft_change(&cmd->program[i], env);
-        		// 	remove_quotes(cmd->program[i]);
-				// }
-				// else if ( )
-				
 			i++;
     	}
     	crr = crr->next;
     }
-	// printf("program[0] : %s\n", cmd->program[0]);
-	// printf("program[1] : %s\n", cmd->program[1]);
 }
 
 t_list *parsing(char *line, char **env)
@@ -763,24 +612,6 @@ t_list *parsing(char *line, char **env)
 		info.content->program[(info.p_i) + 1] = NULL;
 		info.p_i++;
 	}
-	// if (*(info.buff))
-// {
-//     // 여기서 info.buff가 공백일 경우에는 삭제하지 않도록 처리
-//     char *trimmed_buff = ft_strtrim(info.buff, " ");
-// 	printf("trimmed_buff : %s\n", trimmed_buff);
-//     if (*trimmed_buff)
-//     {
-//         // info.buff가 공백이 아닌 경우 처리
-//         info.content->program[(info.p_i)] = ft_strdup(trimmed_buff);
-//         info.content->program[(info.p_i) + 1] = NULL;
-//         info.p_i++;
-//     }
-//     else
-//     {
-//         // info->buff가 공백인 경우 처리 (예를 들어, 모두 공백 문자열인 경우)
-//         free(trimmed_buff); // 동적 할당된 문자열 메모리 해제
-//     }
-// }
 	printf("program: %s\n", info.content->program[0]);
 	printf("FLAG1 : %d\n", info.content->flag);
 	if (info.quote != 0)
@@ -791,34 +622,7 @@ t_list *parsing(char *line, char **env)
 	if (info.p_i)
 		ft_lstadd_back(&node, ft_lstnew(info.content));
 	//result
-	// t_list *current = node;
-    // int node_num = 1;
-
-    // while (current != NULL)
-	// {
-    //     t_cmd *cmd = (t_cmd *)current->content;
-    //     printf("Node %d:\n", node_num);
-
-    //     if (cmd != NULL) 
-	// 	{
-    //         for (int i = 0; cmd->program[i] != NULL; i++)
-	// 		{
-    //             printf("  program: %s\n", cmd->program[i]);
-    //         }
-    //         printf("  Command Type: %d\n", cmd->flag);
-
-    //     }
-    //     current = current->next;
-    //     node_num++;
-    // }
-	// printf("head- content : %s\n", info.head->content);
 	parsing_second(node, env);
-	// int p = 0;
-	// while (info.content->program[p])
-	// {
-	// 	remove_quotes(info.content->program[p], 1);
-	// 	p++;
-	// }
 	t_list *current = node;
     int node_num = 1;
 
@@ -837,10 +641,6 @@ t_list *parsing(char *line, char **env)
         current = current->next;
         node_num++;
     }
-	// t_list *current = node->next; 
-	//  t_cmd *cmda = (t_cmd *)current->content;
-	// if (cmd != NULL)
-	// 	printf("  flag : %d\n",cmda->flag);
 	return(NULL);
 }
 
@@ -849,12 +649,10 @@ int		minishell(char **env)
 {
 	char	*line;
 
-	// printf("%s\n", *env);
 	line = NULL;
 	while (1)
 	{
 		line = readline("minishell $ ");
-		// printf("%s\n", line);
 		add_history(line);
 		if (!line)
 		{
