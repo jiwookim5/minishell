@@ -369,7 +369,7 @@ char *change_quote(char *program, char **env)
     // name[ft_strlen(name) - 1] = '\0';
 	 while (name[j])
     {
-        if (name[j] == '\"')
+        if (name[j] == '\"' || name[j] == '\'')
         {
             while (name[j])
             {
@@ -403,7 +403,7 @@ char *change_quote(char *program, char **env)
     free(name);
 	return (NULL);
 }
-void remove_quotes(char *str)
+void remove_quotes(char *str, int flag)
 {
     int len ;
     int i;
@@ -412,14 +412,28 @@ void remove_quotes(char *str)
 	len = ft_strlen(str);
     j = 0;
 	i = 0;
-    while (i < len)
-    {
-        if (str[i] != '\"')
-        {
-            str[j++] = str[i];
-        }
-		i++;
-    }
+	if (flag == 1)
+	{
+		while (i < len )
+    	{
+        	if (str[i] != '\"')
+     		{
+            	str[j++] = str[i];
+        	}
+			i++;
+   		}
+	}
+	if (flag == 0)
+	{
+		while (i < len)
+    	{
+     		if (str[i] != '\'')
+        	{
+    			str[j++] = str[i];
+        	}
+			i++;
+    	}
+	}
     str[j] = '\0';
 }
 
@@ -501,10 +515,39 @@ char *ft_strcat(char *str1,char *str2)
     return result;
 }
 
+// int check_program(char **program) 
+// {
+//     int i = 0;
+//     int j = 0;
+
+//     while (program[i] != NULL) 
+// 	{       
+// 		j = 0;
+//         while (program[i][j] != '\0') 
+// 		{ 
+//             while (program[i][j] == '\'') 
+// 			{
+//                 j++;
+//                 if (program[i][j] == '\"') 
+// 				{
+// 					printf("fault\n");
+// 					printf("RETURM");
+//                     return(0); 
+//                 }
+//             }
+//             j++;
+//         }
+//         i++;
+//     }
+// 	printf("RETURM235235");
+//     return(1);
+// }
+
+
 //다시 해야지
 void ft_change(char **program, char **env)
 {
-	char *bup ;
+	char *bup;
 	char *cat;
 	int i;
 	int f;
@@ -513,15 +556,25 @@ void ft_change(char **program, char **env)
 	char *first = NULL;
 	char *mid;
 	char *end = NULL;
+	char *re_end;
 	printf("env %s\n", *env);
 	// if (ft_strchr_plus(program[i], '$');)
 	i = 0;
+	// if (check_program(&program[i]) == 1)
+	// {
+	// 	remove_quotes(program[i], 0);
+	// }
 	f = 0;
 	first = (char *)malloc(strlen(program[0]) + 1);
 	mid = (char *)malloc(strlen(program[0]) + 1);
     end = (char *)malloc(strlen(program[0]) + 1);
+	re_end = (char *)malloc(strlen(program[0]) + 1);
 	first[0] = '\0'; // 초기화
-	end[0] = '\0'; 
+	end[0] = '\0';
+	// if (ft_strchr(program[i], '\''))
+	// {
+
+	// }
 	if (!ft_strchr(program[i], '$'))
 		return  ;
 	while (program[0][i] != '\"')
@@ -542,24 +595,68 @@ void ft_change(char **program, char **env)
 	while(program[0][i] != '\"')
 		i--;
 	i++;
+	printf("jiwkim3ersjiw,dsklfjjiwkim3 : %c\n", program[0][i]);
+	printf("jiwkim3ersjiw,dsklfjjiwkim3 : %c\n", program[0][i + 1]);
 	int k = 0;
-	while(program[0][i] != '\0')
+	// if (!ft_strchr(program[k], '\"'))
+	// {
+	// 	while(program[0][i] != '\0')
+	// 	{
+	// 		end[k] = program[0][i];
+	// 		i++;
+	// 		k++;
+	// 	}
+	// }
+	if (ft_strchr(program[k], '\''))
 	{
-		end[k] = program[0][i];
-		i++;
-		k++;
+		while(program[0][i] != '\'')
+			i--;
+		// i++;
+		while(program[0][i] != '\"')
+		{
+			re_end[k] = program[0][i];
+			i++;
+			k++;
+		}
+	}
+	k = 0;
+	if (program[0][i] == '\"')
+	{
+		while(program[0][i] != '\0')
+		{
+			end[k] = program[0][i];
+			i++;
+			k++;
+		}
+		remove_quotes(end, 1);
 	}
 	i = 0;
 	printf("first : %s\n", first);
 	printf("mid : %s\n", mid);
+	printf("re_end : %s\n", re_end);
 	printf("end : %s\n", end);
 	if (program[0][i])
 	{
 		bup = ft_strchr_plus(program[i], '$');
-		bup = ft_strtrim(bup, "\"");
-
+		printf("bubububububup : %s\n", bup);
+		// bup = ft_strdel(bup, '\'');
+		printf("bubububububup33 : %s\n", bup);
 		printf("programmmmmmmmczxvbnmcxn, : %s\n", bup);
+		if (ft_strchr(program[i], '\''))
+		{
+			// bup = ft_strtrim(bup, "\'");
+			printf("bupppppppppp, : %s\n", bup);
+		}
 		cat = change_quote(bup, env);
+		if (cat == NULL)
+		{
+			new_len = ft_strlen(first) + ft_strlen(mid) + 1;
+            new_program = (char *)malloc(new_len);
+			ft_strcpy(new_program, first);
+			strcat(new_program, mid);
+			program[0] = new_program;
+			return ;
+		}
 		printf("prog423524524452, : %s\n", cat);
 		if (cat != NULL)
 		{
@@ -570,14 +667,15 @@ void ft_change(char **program, char **env)
 			// // strcat(new_program, end);
 			// // program[0] = new_program;
 			// program[0] = first;
-			 new_len = strlen(first) + strlen(cat) + strlen(end) + 1;
+			new_len = ft_strlen(first) + ft_strlen(mid) + ft_strlen(cat) + ft_strlen(re_end) + ft_strlen(end) + 1;
             new_program = (char *)malloc(new_len);
             ft_strcpy(new_program, first);
 			strcat(new_program, mid);
             strcat(new_program, cat);
+			strcat(new_program, re_end);
             strcat(new_program, end);
             program[0] = new_program;
-			printf("progggggrrrraaaammm : %s\n", program[0]);
+			printf("progggggrrrraaaammm : %s\n", program[1]);
 		}
 	}
 
@@ -599,11 +697,11 @@ void parsing_second(t_list *node, char **env)
     t_list *crr;
     t_cmd *cmd;
 	int i;
-	// int j;
+	int j;
 
 	cmd = NULL;
     crr = node->next;
-	// j = 0;
+	j = 0;
 	while (crr != NULL )
     {
        	cmd = crr->content;
@@ -611,6 +709,19 @@ void parsing_second(t_list *node, char **env)
 		i = 0;
      	while (cmd->program[i] != NULL)
     	{
+			while (cmd->program[i][j])
+            {
+				if (cmd->program[i][j] == '\"')
+					break;
+				if (cmd->program[i][j] == '\'')
+				{
+					printf("fucucucucuck\n");
+					remove_quotes(cmd->program[i], 0);
+             		return;
+				}
+				j++;
+            }
+			printf("shititiiti\n");
 			ft_change(&cmd->program[i], env);
 				// remove_quotes(cmd->program[i]);
 				// if (cmd->program[i][0] == '\"' && cmd->program[i][ft_strlen(cmd->program[i] - 1)])
@@ -652,7 +763,7 @@ t_list *parsing(char *line, char **env)
 		info.content->program[(info.p_i) + 1] = NULL;
 		info.p_i++;
 	}
-	if (*(info.buff))
+	// if (*(info.buff))
 // {
 //     // 여기서 info.buff가 공백일 경우에는 삭제하지 않도록 처리
 //     char *trimmed_buff = ft_strtrim(info.buff, " ");
@@ -702,12 +813,12 @@ t_list *parsing(char *line, char **env)
     // }
 	// printf("head- content : %s\n", info.head->content);
 	parsing_second(node, env);
-	int p = 0;
-	while (info.content->program[p])
-	{
-		remove_quotes(info.content->program[p]);
-		p++;
-	}
+	// int p = 0;
+	// while (info.content->program[p])
+	// {
+	// 	remove_quotes(info.content->program[p], 1);
+	// 	p++;
+	// }
 	t_list *current = node;
     int node_num = 1;
 
