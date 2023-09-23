@@ -79,3 +79,37 @@ t_list	*ft_lstlast(t_list *lst);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 
 #endif
+
+
+// int minishell(char **env)
+// {
+//     char *line;
+
+//     while (1)
+//     {
+//         line = readline("minishell $ ");
+//         add_history(line);
+//         if (!line)
+//         {
+//             printf("error\n");
+//             exit(0);
+//         }
+
+//         int i = 1; // i 초기화를 여기로 옮깁니다.
+//         while (line[i])
+//         {
+            // if (line[i] == '$' && line[i - 1] == '\"')
+            // {
+            //     char *new_line = (char *)malloc(strlen(line) + 2); // +2 for the extra space and null terminator
+            //     strncpy(new_line, line, i - 1); // Copy everything before $
+            //     new_line[i - 1] = ' '; // Add a space before "
+            //     strcpy(new_line + i, line + i - 1); // Copy the rest of the string
+            //     free(line);
+            //     line = new_line;
+            // }
+//             i++;
+//         }
+//         parsing(line, env);
+//         free(line);
+//     }
+// }

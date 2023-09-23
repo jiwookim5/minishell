@@ -457,6 +457,20 @@ void ft_change(char **program, char **env)
 	printf("env %s\n", *env);
 	i = 0;
 	f = 0;
+	if (!ft_strchr(program[i], '\"'))
+	{
+		printf("11081005 : %s\n", program[i]);
+    	i = 0;
+    	int len = ft_strlen(program[i]);
+    	char *new_program = (char *)malloc(len + 4); // 현재 문자열 길이 + 2(큰따옴표 두 개) + 1(널 문자)
+    	new_program[0] = '\"';
+		new_program[1] = '$';
+    	ft_strcpy(new_program + 1, program[i]);
+    	new_program[len + 1] = '\"';
+    	new_program[len + 2] = '\0';
+   		program[i] = new_program;
+		printf("1108100511081005 : %s\n", program[i]);
+	}
 	first = (char *)malloc(strlen(program[0]) + 1);
 	mid = (char *)malloc(strlen(program[0]) + 1);
     end = (char *)malloc(strlen(program[0]) + 1);
@@ -464,7 +478,10 @@ void ft_change(char **program, char **env)
 	first[0] = '\0';
 	end[0] = '\0';
 	if (!ft_strchr(program[i], '$'))
+	{
+		remove_quotes(program[i], 1);
 		return  ;
+	}
 	while (program[0][i] != '\"')
 	{
 		first[i] = program[0][i];
@@ -568,20 +585,23 @@ void parsing_second(t_list *node, char **env)
 		i = 0;
      	while (cmd->program[i] != NULL)
     	{
+			j = 0;
 			while (cmd->program[i][j])
             {
 				if (cmd->program[i][j] == '\"')
+				{
+					ft_change(&cmd->program[i], env);
 					break;
-				if (cmd->program[i][j] == '\'')
+				}
+				else if (cmd->program[i][j] == '\'')
 				{
 					printf("fucucucucuck\n");
 					remove_quotes(cmd->program[i], 0);
-             		return;
 				}
 				j++;
             }
 			printf("shititiiti\n");
-			ft_change(&cmd->program[i], env);
+	
 			i++;
     	}
     	crr = crr->next;
@@ -644,6 +664,23 @@ t_list *parsing(char *line, char **env)
 	return(NULL);
 }
 
+char	*ft_strncpy(char *dest, char *src, unsigned int n)
+{
+	unsigned int	a;
+
+	a = 0;
+	while (src[a] != '\0' && a < n)
+	{
+		dest[a] = src[a];
+		a++;
+	}
+	while (a < n)
+	{
+		dest[a] = '\0';
+			a++;
+	}
+	return (dest);
+}
 
 int		minishell(char **env)
 {
@@ -659,11 +696,28 @@ int		minishell(char **env)
 			printf("error\n");
 			exit(0);
 		}
+		int i = 0;
+        while (line[i] != '\0') {
+            if ((line[i] == '\"' && line[i + 1] == '$') || (line[i] == '\'' && line[i + 1] == '$'))
+			{
+                char *new_line = (char *)malloc(strlen(line) + 2);
+                ft_strncpy(new_line, line, i);
+                new_line[i] = ' ';
+                ft_strcpy(new_line + i + 1, line + i);
+                free(line);
+                line = new_line;
+                i++;
+            }
+            i++;
+        }
+		printf("lline : %s\n",line);
 		parsing(line, env);
 		free(line);
 
 	}
 }
+
+
 
 int		main(int argc, char **argv, char **env)
 {
@@ -672,3 +726,10 @@ int		main(int argc, char **argv, char **env)
 	minishell(env);
 }
 
+/**
+ * $USER 확장
+ * "$USER"'$USER' -> segfault
+ * "$USER""$USER" -> jiwkim2
+ * '$USER'"$USER" -> $USER$USER
+ * $$, $? 처리
+*/
