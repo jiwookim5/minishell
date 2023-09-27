@@ -41,13 +41,13 @@ typedef	struct	s_list
 {
 	void			*content;
 	struct s_list	*next;
-}				t_list;
+}	t_list;
 
 typedef struct	s_cmd
 {
 	int		flag;
 	char	**program;
-}				t_cmd;
+}	t_cmd;
 
 //p_i parsing index, j = buff index, i = line index
 typedef struct	s_parsing
@@ -60,7 +60,7 @@ typedef struct	s_parsing
 	char 	*buff;
 	// t_list	*head;
 	t_cmd	*content;
-}				t_parsing;
+}	t_parsing;
 
 
 int		main(int argc, char **argv, char **env);
