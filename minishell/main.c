@@ -441,135 +441,16 @@ char	*ft_strcat(char *dest, char *src)
 	return (dest);
 }
 
-//다시 해야지
-void ft_change(char **program, char **env)
+
+int	ft_isalnum(int c)
 {
-	char *bup;
-	char *cat;
-	int i;
-	int f;
-	int new_len;
-	char *new_program;
-	char *first = NULL;
-	char *mid;
-	char *end = NULL;
-	char *re_end;
-	printf("env %s\n", *env);
-	i = 0;
-	f = 0;
-	if (!ft_strchr(program[i], '\"'))
-	{
-		printf("11081005 : %s\n", program[i]);
-    	i = 0;
-    	int len = ft_strlen(program[i]);
-    	char *new_program = (char *)malloc(len + 4); // 현재 문자열 길이 + 2(큰따옴표 두 개) + 1(널 문자)
-    	new_program[0] = '\"';
-		new_program[1] = '$';
-    	ft_strcpy(new_program + 1, program[i]);
-    	new_program[len + 1] = '\"';
-    	new_program[len + 2] = '\0';
-   		program[i] = new_program;
-		printf("1108100511081005 : %s\n", program[i]);
-	}
-	first = (char *)malloc(strlen(program[0]) + 1);
-	mid = (char *)malloc(strlen(program[0]) + 1);
-    end = (char *)malloc(strlen(program[0]) + 1);
-	re_end = (char *)malloc(strlen(program[0]) + 1);
-	first[0] = '\0';
-	end[0] = '\0';
-	if (!ft_strchr(program[i], '$'))
-	{
-		remove_quotes(program[i], 1);
-		return  ;
-	}
-	while (program[0][i] != '\"')
-	{
-		first[i] = program[0][i];
-		i++;
-	}
-	i++;
-	while (program[0][i] != '$')
-	{
-		mid[f] = program[0][i];
-		i++;
-		f++;
-	}
-	i = ft_strlen(program[0]);
-	while(program[0][i] != '\0')
-		i++;
-	while(program[0][i] != '\"')
-		i--;
-	i++;
-	// printf("jiwkim3ersjiw,dsklfjjiwkim3 : %c\n", program[0][i]);
-	// printf("jiwkim3ersjiw,dsklfjjiwkim3 : %c\n", program[0][i + 1]);
-	int k = 0;
-	printf("i : %d\n", i);
-	if (ft_strchr(program[k], '\''))
-	{
-		while(program[0][i] != '\'')
-			i--;
-		printf("segg\n");
-		// while(program[0][i] != '\"' || program[0][i] != '\'')
-		// {
-		// 	re_end[k] = program[0][i];
-		// 	i++;
-		// 	k++;
-		// }
-	}
-	k = 0;
-	printf("aaaaaa : %c\n", program[0][i]);
-	while(program[0][i] != '\0')
-	{
-		end[k] = program[0][i];
-		i++;
-		k++;
-	}
-	remove_quotes(end, 1);
-
-	i = 0;
-	printf("first : %s\n", first);
-	printf("mid : %s\n", mid);
-	printf("re_end : %s\n", re_end);
-	printf("end : %s\n", end);
-	printf("program4442324 = %s\n", program[i]);
-	if (program[0][i])
-	{
-		bup = ft_strchr_plus(program[i], '$');
-		printf("bubububububup : %s\n", bup);
-		// bup = ft_strdel(bup, '\'');
-		printf("bubububububup33 : %s\n", bup);
-		printf("programmmmmmmmczxvbnmcxn, : %s\n", bup);
-		if (ft_strchr(program[i], '\''))
-		{
-			printf("bupppppppppp, : %s\n", bup);
-		}
-		cat = change_quote(bup, env);
-		if (cat == NULL)
-		{
-			new_len = ft_strlen(first) + ft_strlen(mid) + ft_strlen(end)+ 1;
-            new_program = (char *)malloc(new_len);
-			ft_strcpy(new_program, first);
-			ft_strcat(new_program, mid);
-			ft_strcat(new_program, end);
-			program[0] = new_program;
-			return ;
-		}
-		printf("prog423524524452, : %s\n", cat);
-		if (cat != NULL)
-		{
-			new_len = ft_strlen(first) + ft_strlen(mid) + ft_strlen(cat) + ft_strlen(re_end) + ft_strlen(end) + 1;
-            new_program = (char *)malloc(new_len);
-            ft_strcpy(new_program, first);
-			ft_strcat(new_program, mid);
-            ft_strcat(new_program, cat);
-			ft_strcat(new_program, re_end);
-            ft_strcat(new_program, end);
-            program[0] = new_program;
-			printf("progggggrrrraaaammm : %s\n", program[1]);
-		}
-	}
-
+	if (((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
+		|| ((c >= '0') && (c <= '9')))
+		return (1);
+	else
+		return (0);
 }
+
 
 void remove_space(char *str)
 {
@@ -591,52 +472,142 @@ void remove_space(char *str)
     str[j] = '\0';
 }
 
+char		*find_env(char *str, int *i)
+{
+	char	*ret;
+	int		start;
+	int		idx;
+
+	idx = *i + 1;
+	start = *i + 1;
+	while (str[idx])
+		if (ft_isalnum(str[idx]) || str[idx] == '_')
+			idx++;
+		else
+		{
+			idx--;
+			break ;
+		}
+	*i = idx;
+	ret = ft_substr(str, start, idx - start + 1);
+	return (ret);
+}
+
+
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
+{
+	size_t	a;
+	size_t	b;
+	char	*c;
+
+	a = 0;
+	b = 0;
+	c = (char *)src;
+	if (dstsize == 0)
+		return (ft_strlen(src) + dstsize);
+	while (dst[a] != '\0')
+		a++;
+	while (c[b] != '\0' && a + b + 1 < dstsize)
+	{
+		dst[a + b] = c[b];
+		b++;
+	}
+	dst[a + b] = '\0';
+	if (dstsize <= ft_strlen(dst))
+		return (ft_strlen(src) + dstsize);
+	else
+		return (ft_strlen(src) + a);
+}
+
+
+int			check_unset(char *str, char *envv)
+{
+	int		i;
+
+	i = 0;
+	while (str[i] && envv[i] && (str[i] == envv[i]) && (envv[i] != '='))
+		i++;
+	if ((str[i] == '\0') && (envv[i] == '='))
+		return (1);
+	return (0);
+}
+
+int			set_env_to_buf(char **envv, char *env, char *buf)
+{
+	int		i;
+
+	i = -1;
+	while (envv[++i])
+	{
+		if (check_unset(env, (char*)envv[i]))
+		{
+			ft_strlcat(buf,
+						(char*)envv[i] + ft_strlen(env) + 1,
+						ft_strlen(envv[i]) + ft_strlen(buf));
+			break ;
+		}
+	}
+	free(env);
+	return ((int)ft_strlen(buf));
+}
+
+void		check_split(int *j, int z, int *idx, char quote)
+{
+	*j = z;
+	if (quote != '\"')
+		*idx = 1;
+}
+
 void parsing_second(t_list *node, char **env)
 {
     t_list *crr;
     t_cmd *cmd;
 	int i;
+	char buff[100000];
 	int j;
-	int flag;
+	int quote;
+	int k = 0;
+	int idx = -1;
 
+	ft_memset(buff, 0, 100000);
+	(void)env;
 	cmd = NULL;
     crr = node->next;
-	j = 0;
 	while (crr != NULL )
     {
        	cmd = crr->content;
-
+		quote = 0;
 		i = 0;
-     	while (cmd->program[i] != NULL)
+		j = 0;
+     	while (cmd->program[i][j])
     	{
-			flag = 0;
-			j = 0;
-			while (cmd->program[i][j])
-            {
-				if (cmd->program[i][j] == '\"' || cmd->program[i][j] == '$')
-				{
-					ft_change(&cmd->program[i], env);
-					flag++;
-					break;
-				}
-				else if (cmd->program[i][j] == '\'')
-				{
-					printf("fucucucucuck\n");
-					remove_quotes(cmd->program[i], 0);
-					printf("fuckcukccccccc%s\n", cmd->program[i]);
-					if (flag == 0)
-						break ;
-				}
-				j++;
-            }
-			printf("shititiiti\n");
-			if (cmd->program[i][j])
-		{
-			remove_space(cmd->program[i]);
-		}
+			if (cmd->program[i][j] == quote)
+				quote = 0;
+			else if (quote == 0 && (cmd->program[i][j] == '\'' || cmd->program[i][j] == '\"'))
+			{
+				printf("22222\n");
+				quote = cmd->program[i][j];
+			}
+			else if (quote == 0 )
+			{
+				printf("j1211111111\n");
+				buff[k++] = cmd->program[i][j];
+			}
+			else if (quote != '\'' && cmd->program[i][j] == '$' && cmd->program[i][j + 1])
+			{
+				check_split( &k, set_env_to_buf(env,
+						find_env(cmd->program[i], &j), buff), &idx ,quote);
+			}
+			else
+				buff[k++] = cmd->program[i][j];
+
+		if (cmd->program[i][j] == '\0')
 			i++;
-    	}
-    	crr = crr->next;
+		j++;
+		}
+		printf("bufffffffff =  = %s\n", buff);
+    	cmd->program[i] = buff;
+		crr = crr->next;
     }
 }
 
@@ -666,8 +637,6 @@ t_list *parsing(char *line, char **env)
 		info.p_i++;
 	}
 	printf("program: %s\n", info.content->program[0]);
-	// remove_space(info.content->program[0]);
-	// printf("program: %s\n", info.content->program[0]);
 	printf("FLAG1 : %d\n", info.content->flag);
 	if (info.quote != 0)
 	{
@@ -740,76 +709,6 @@ int		minishell(char **env)
 			printf("error\n");
 			exit(0);
 		}
-		int i = 0;
-		while (line[i] != '\0')
-		{
-			if (line[i] == '\"')
-				k++;
-			i++;
-		}
-		if (k == 2)
-			k++;
-		i = 0;
-		printf("kkkkk = %d\n",k);
-		while (line[i] != '\0')
-        {
-			printf("s = %d , b = %d\n", quot_s, quot_b);
-			// printf("lililililililililine : %s\n",line);
-			if (line[i] == '\'')
-			{
-				
-				if (quot_s == 0)
-                {
-					printf("WHYYYY??\n");
-                    quot_s = 1; 
-                }
-				else
-                {
-                    quot_s = 0; // 작은따옴표를 두 번 만나면 quot_s를 0으로 설정
-                }
-				if (quot_s == 1 && quot_b == 1)
-					{
-						printf("s = %d , b = %d\n", quot_s, quot_b);
-						char *new_line_a = (char *)malloc(strlen(line) + 3);
-   						ft_strncpy(new_line_a, line, i);
-    					printf("new_line_a = %s\n", new_line_a);
-						new_line_a[i] = '\"';
-    					new_line_a[i + 1] = ' '; 
-    					new_line_a[i + 2] = '\"';
-						printf("new_line_a = %s\n", new_line_a);
-    					ft_strcpy(new_line_a + i + 3, line + i);
-    					free(line);
-    					line = new_line_a;
-    					i += 3;
-						
-						if (y == k - 1)
-							quot_b = 0;
-						printf("yyyyyyy = '%d\n", y);
-					}
-				
-			}
-            if (line[i] == '\"')
-            {
-				y++;
-                if (quot_b == 0)
-                {
-                    quot_b = 1;
-                }
-                else
-                {
-                    quot_b = 0; // 두 번째 큰따옴표를 만나면 quot_b를 0으로 설정
-                    char *new_line = (char *)malloc(strlen(line) + 2);
-                    ft_strncpy(new_line, line, i + 1); // 큰따옴표까지 복사
-                    new_line[i + 1] = ' '; // 큰따옴표 뒤에 공백 추가
-                    ft_strcpy(new_line + i + 2, line + i + 1); // 나머지 복사
-                    free(line);
-                    line = new_line;
-                    i++;
-                }
-            }
-            i++;
-        }
-
 
 		printf("lline : %s\n",line);
 		parsing(line, env);
@@ -838,149 +737,3 @@ int		main(int argc, char **argv, char **env)
 */
 
 
-
-
-// int		minishell(char **env)
-// {
-// 	char	*line;
-// 	char quot_b;
-// 	char quot_s;
-
-// 	line = NULL;
-// 	while (1)
-// 	{
-// 		quot_s = 0;
-// 		quot_b = 0;
-// 		line = readline("minishell $ ");
-// 		add_history(line);
-// 		if (!line)
-// 		{
-// 			printf("error\n");
-// 			exit(0);
-// 		}
-// 		int i = 0;
-// 		while (line[i] != '\0')
-// 		{
-// 			if (line[i] == '\"' || line[i] == '\'')
-// 			{
-// 				if (quot_s == 0 && quot_b == 0)
-// 				{
-// 					//"'$USER'""$USER"
-// 					printf("11111\n");
-// 					char *new_line = (char *)malloc(strlen(line) + 2);
-//                 	ft_strncpy(new_line, line, i);
-//                 	new_line[i] = ' ';
-//                 	ft_strcpy(new_line + i + 1, line + i);
-//                 	free(line);
-//                 	line = new_line;
-//                 	i++;
-// 					if (line[i] == '\'')
-// 						quot_s = '\'';
-// 					if (line[i] == '\"')
-// 						quot_b = '\"';
-// 					i++;
-// 				}
-// 				if ((quot_s == '\"') && (line[i] == '\"'))
-// 				{
-// 					printf("222222\n");
-// 					// printf("lline : %s\n",line);
-// 					char *new_line_a = (char *)malloc(strlen(line) + 2);
-//                 	ft_strncpy(new_line_a, line, i + 1);
-//                 	new_line_a[i + 1] = ' ';
-//                 	ft_strcpy(new_line_a + i + 2, line + i + 1);
-//                 	free(line);
-//                 	line = new_line_a;
-//                 	i++;
-// 					quot_b = 0;
-// 				}
-// 				if ((quot_s == '\'') && (line[i] == '\''))
-// 				{
-// 					printf("333333\n");
-// 					// printf("lline : %s\n",line);
-// 					char *new_line_a = (char *)malloc(strlen(line) + 2);
-//                 	ft_strncpy(new_line_a, line, i + 1);
-//                 	new_line_a[i + 1] = ' ';
-//                 	ft_strcpy(new_line_a + i + 2, line + i + 1);
-//                 	free(line);
-//                 	line = new_line_a;
-//                 	i++;
-// 					quot_s = 0;
-// 				}
-// 				// "$USER'$USER'" -> "$USER" "'$USER'"
-// 				//"$USER" "'$USER" "'"
-// 				if (((quot_b == '\"') && (line[i] == '\'')))
-// 				{
-// 					printf("444444\n");
-// 					    char *new_line_a = (char *)malloc(strlen(line) + 3);
-//    						ft_strncpy(new_line_a, line, i);
-//     					printf("new_line_a = %s\n", new_line_a);
-// 						new_line_a[i] = '\"';
-//     					new_line_a[i + 1] = ' '; 
-//     					new_line_a[i + 2] = '\"';
-// 						printf("new_line_a = %s\n", new_line_a);
-//     					ft_strcpy(new_line_a + i + 3, line + i);
-//     					free(line);
-//     					line = new_line_a;
-//     					// i += 3;
-// 						if(line[i] == '\"')
-//     						quot_b = '\"';
-// 						else
-// 							quot_b = 0;
-// 						i++;
-// 				}
-// 				// if (((quot_s == '\'') && (line[i] == '$')))
-// 				// {
-// 				// 	 char *new_line_a = (char *)malloc(strlen(line) + 3);
-//    				// 		ft_strncpy(new_line_a, line, i);
-//     			// 		printf("new_line_a = %s\n", new_line_a);
-// 				// 		new_line_a[i] = '\"';
-//     			// 		new_line_a[i + 1] = ' '; 
-//     			// 		new_line_a[i + 2] = '\"';
-// 				// 		printf("new_line_a = %s\n", new_line_a);
-//     			// 		ft_strcpy(new_line_a + i + 3, line + i);
-//     			// 		free(line);
-//     			// 		line = new_line_a;
-//     			// 		i += 3;
-//     			// 		quot_s = '\'';
-// 				// }
-// 			}
-// 			i++;
-// 		}
-
-// 		printf("lline : %s\n",line);
-// 		parsing(line, env);
-// 		free(line);
-
-// 	}
-// }
-
-// int df = 0;
-// int sf = 0;
-		// int i = 0;
-		// while (line[i] != '\0')
-		// {
-		// 	if (df == 0 && sf == 0 && (line[i] == '\"' || line[i] == '\''))
-		// 	{
-		// 		if (line[i] == '\"')
-		// 			df = 1;
-		// 		else
-		// 			sf = 1;
-		// 	}
-		// 	else if (df == 1 && sf == 0)
-		// 	{
-		// 		if (line[i] == '$')
-		// 		{
-		// 			env = getenv(line[i]가 문자또는 숫자일때까지 + 달러를 뺀);
-		// 			printf("%s", env);
-		// 		}
-		// 		else
-		// 			printf("%c", line[i]);
-		// 	}
-		// 	else if (sf == 1)
-		// 	{
-		// 		if (line[i] == '\'')
-		// 			sf = 0;
-		// 		else
-		// 			printf("%c", line[i]);
-		// 	}
-		// 	i++;

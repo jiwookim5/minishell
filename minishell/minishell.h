@@ -81,35 +81,34 @@ void	ft_lstadd_back(t_list **lst, t_list *new);
 #endif
 
 
-// int minishell(char **env)
+// char		*word_parsing_splitting(char **prgm, int *idx,
+// 									const char **envp, char *buf)
 // {
-//     char *line;
+// 	char	quote;
+// 	int		j;
+// 	int		i;
 
-//     while (1)
-//     {
-//         line = readline("minishell $ ");
-//         add_history(line);
-//         if (!line)
-//         {
-//             printf("error\n");
-//             exit(0);
-//         }
-
-//         int i = 1; // i 초기화를 여기로 옮깁니다.
-//         while (line[i])
-//         {
-            // if (line[i] == '$' && line[i - 1] == '\"')
-            // {
-            //     char *new_line = (char *)malloc(strlen(line) + 2); // +2 for the extra space and null terminator
-            //     strncpy(new_line, line, i - 1); // Copy everything before $
-            //     new_line[i - 1] = ' '; // Add a space before "
-            //     strcpy(new_line + i, line + i - 1); // Copy the rest of the string
-            //     free(line);
-            //     line = new_line;
-            // }
-//             i++;
-//         }
-//         parsing(line, env);
-//         free(line);
-//     }
+// 	init_word_parsing(&quote, &j, &i);
+// 	printf("sss: %s\n", prgm[0]);
+// 	while (prgm[0][++i])
+// 		if (prgm[0][i] == quote)
+// 			quote = 0;
+// 		else if (quote == 0 && (prgm[0][i] == '\'' || prgm[0][i] == '\"'))
+// 			quote = prgm[0][i];
+// 		else if (quote == '\"' && prgm[0][i] == '\\' && prgm[0][i + 1] &&
+// 				double_quote_escape(prgm[0][i + 1]))
+// 			buf[j++] = prgm[0][++i];
+// 		else if (quote == 0 && prgm[0][i] == '\\' && prgm[0][i + 1])
+// 			buf[j++] = prgm[0][++i];
+// 		else if (quote != '\'' && prgm[0][i] == '$' && prgm[0][i + 1])
+// 			// if (prgm[0][i + 1] == '?' && (i += 2))
+// 			// 	set_exit_status_to_buf(buf, &j, &i);
+// 			// else
+				// check_split(&j, set_env_to_buf(envp,
+				// 		find_env(prgm[0], &i), buf), idx, quote);
+// 		else
+// 			buf[j++] = prgm[0][i];
+// 	free(prgm[0]);
+// 	return (ft_strdup(buf));
 // }
+
