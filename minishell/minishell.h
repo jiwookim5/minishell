@@ -21,8 +21,12 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+# define SEMICOLON_NONE 0
 # define PIPE 1
-# define SEMICOLON 0
+# define SINGLE_REDIRECTION_RIGHT 2
+# define DOUBLE_REDIRECTION_RIGHT 3
+# define SINGLE_REDIRECTION_LEFT 4
+# define DOUBLE_REDIRECTION_LEFT 5
 
 // enum e_type
 // {

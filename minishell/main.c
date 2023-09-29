@@ -48,21 +48,6 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (a1[a] - a2[a]);
 }
 
-int			space_count(char *str)
-{
-	int		count;
-	int		i;
-
-	count = 0;
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == ' ')
-			count++;
-		i++;
-	}
-	return (count);
-}
 
 
 void set_buff (t_parsing *info, char *line)
@@ -228,21 +213,21 @@ void parsing_check(char *line, t_parsing *info, t_list *node)
 	else if (info->quote == 0 && (line[info->i] == '\'' || line[info->i] == '\"'))
 		set_quote(info, line[info->i], line[info->i]);
 	else if (info->quote == 0 && line[info->i] == '|')
-		set_content(info, line, node, 1);
+		set_content(info, line, node, PIPE);
 	else if (info->quote == 0 && line[info->i] == ';')
-		set_content(info, line, node, 0);
+		set_content(info, line, node, SEMICOLON_NONE);
 	else if (info->quote == 0 && line[info->i] == ' ')
 	{
 		put_program(info);
 	}
 	else if (info->quote == 0 && line[info->i] == '>' && line[info->i + 1] != '>')
-		set_content(info, line, node, 2);
+		set_content(info, line, node, SINGLE_REDIRECTION_RIGHT);
 	else if (info->quote == 0 && line[info->i] == '>' && line[info->i] == '>')
-		set_content(info, line, node, 3);
+		set_content(info, line, node, DOUBLE_REDIRECTION_RIGHT);
 	else if (info->quote == 0 && line[info->i] == '<' && line[info->i + 1] != '<')
-		set_content(info, line, node, 4);
+		set_content(info, line, node, SINGLE_REDIRECTION_LEFT);
 	else if (info->quote == 0 && line[info->i] == '<' && line[info->i + 1] == '<')
-		set_content(info, line, node, 5);
+		set_content(info, line, node, DOUBLE_REDIRECTION_LEFT);
 	else
 	{
 		info->buff[info->j++] = line[info->i];
@@ -300,127 +285,6 @@ void init(t_list **node, t_parsing *info, char *line)
 	info->content->program = (char **)malloc((count_token(line) + 2) * sizeof(char*));
 }
 
-char *change_quote_small(char **program, char **env)
-{
-    int i = 0;
-    char *name;
-    char *value;
-
-    name = ft_strdup(&(program[i][2]));
-    name[ft_strlen(name) - 1] = '\0';
-	printf("namee   :  %s\n", name);
-    while (env[i])
-    {
-        if (ft_strncmp(env[i], name, ft_strlen(name)) == 0)
-        {
-			printf("090909090900\n");
-            value = ft_strchr(env[i], '=');
-            if (value)
-            {
-                free(name);
-                return (ft_strdup(value));
-            }
-        }
-        i++;
-    }
-    free(name);
-	return NULL;
-}
-
-char *change_quote(char *program, char **env)
-{
-    int i = 0;
-    char *name;
-    char *value;
-	int j = 0;
-
-    name = ft_strdup(&(program[i]));
-	 while (name[j])
-    {
-        if (name[j] == '\"' || name[j] == '\'')
-        {
-            while (name[j])
-            {
-                name[j] = '\0';
-                j++;
-            }
-            break;
-        }
-        j++;
-    }
-	printf("namee   :  %s\n", name);
-	printf("namee   :  %s\n", name);
-    while (env[i])
-    {
-        if (ft_strncmp(env[i], name, ft_strlen(name)) == 0)
-        {
-			printf("name len : %zu\n", ft_strlen(name));
-			printf("090909090900\n");
-            value = ft_strchr(env[i], '=');
-            if (value)
-            {
-                free(name);
-                return (ft_strdup(value + 1));
-            }
-        }
-        i++;
-    }
-	printf("jiwkim222\n");
-    free(name);
-	return (NULL);
-}
-void remove_quotes(char *str, int flag)
-{
-    int len ;
-    int i;
-	int j;
-
-	len = ft_strlen(str);
-    j = 0;
-	i = 0;
-	if (flag == 1)
-	{
-		while (i < len )
-    	{
-        	if (str[i] != '\"')
-     		{
-            	str[j++] = str[i];
-        	}
-			i++;
-   		}
-	}
-	if (flag == 0)
-	{
-		while (i < len)
-    	{
-     		if (str[i] != '\'')
-        	{
-    			str[j++] = str[i];
-        	}
-			i++;
-    	}
-	}
-    str[j] = '\0';
-}
-
-char	*ft_strchr_plus(const char *s, int c)
-{
-	while (*s)
-	{
-		if (*s == c)
-		{
-			s++;
-			return ((char *)s);
-		}
-		s++;
-	}
-	if (c == '\0')
-		return ((char*)s);
-	return (0);
-}
-
-
-
 
 char	*ft_strcat(char *dest, char *src)
 {
@@ -449,27 +313,6 @@ int	ft_isalnum(int c)
 		return (1);
 	else
 		return (0);
-}
-
-
-void remove_space(char *str)
-{
-    int len ;
-    int i;
-	int j;
-
-	len = ft_strlen(str);
-    j = 0;
-	i = 0;
-	while (i < len)
-    	{
-    	if (str[i] != ' ')
-    	{
-    		str[j++] = str[i];
-    	}
-		i++;
-    }
-    str[j] = '\0';
 }
 
 char		*find_env(char *str, int *i)
@@ -569,19 +412,15 @@ void parsing_second(t_list *node, char **env)
     int k = 0;
     int idx = -1;
 
-    (void)env;
-    // ft_memset(buff, 0, 100000);
     cmd = NULL;
     crr = node->next;
     while (crr != NULL)
     {
         cmd = crr->content;
         quote = 0;
-        i = 0; // cmd->program 배열의 인덱스를 초기화
+        i = 0;
 		while (cmd->program[i])
         {
-			// ft_memset(buff, 0, sizeof(buff));
-			// ft_memset(buff, 0, 100000);
 			printf("buvvvvvv = %s\n", buff);
 			printf("bubu : %s\n", cmd->program[i]);
             j = 0;
@@ -654,8 +493,6 @@ t_list *parsing(char *line, char **env)
 		info.p_i++;
 	}
 	printf("program: %s\n", info.content->program[0]);
-	// remove_space(info.content->program[0]);
-	// printf("program: %s\n", info.content->program[0]);
 	printf("FLAG1 : %d\n", info.content->flag);
 	if (info.quote != 0)
 	{
@@ -685,24 +522,6 @@ t_list *parsing(char *line, char **env)
         node_num++;
     }
 	return(NULL);
-}
-
-char	*ft_strncpy(char *dest, char *src, unsigned int n)
-{
-	unsigned int	a;
-
-	a = 0;
-	while (src[a] != '\0' && a < n)
-	{
-		dest[a] = src[a];
-		a++;
-	}
-	while (a < n)
-	{
-		dest[a] = '\0';
-			a++;
-	}
-	return (dest);
 }
 
 
