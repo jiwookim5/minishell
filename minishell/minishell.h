@@ -21,8 +21,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-// # define PIPE 1
-// # define SEMICOLON 0
+# define PIPE 1
+# define SEMICOLON 0
 
 // enum e_type
 // {
@@ -104,11 +104,10 @@ void	ft_lstadd_back(t_list **lst, t_list *new);
 // 			// if (prgm[0][i + 1] == '?' && (i += 2))
 // 			// 	set_exit_status_to_buf(buf, &j, &i);
 // 			// else
-				// check_split(&j, set_env_to_buf(envp,
-				// 		find_env(prgm[0], &i), buf), idx, quote);
+// 				check_split(&j, set_env_to_buf(envp,
+// 						find_env(prgm[0], &i), buf), idx, quote);
 // 		else
 // 			buf[j++] = prgm[0][i];
 // 	free(prgm[0]);
 // 	return (ft_strdup(buf));
 // }
-

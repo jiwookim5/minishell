@@ -562,53 +562,70 @@ void parsing_second(t_list *node, char **env)
 {
     t_list *crr;
     t_cmd *cmd;
-	int i;
-	char buff[100000];
-	int j;
-	int quote;
-	int k = 0;
-	int idx = -1;
+    int i;
+    char buff[100000];
+    int j;
+    int quote;
+    int k = 0;
+    int idx = -1;
 
-	ft_memset(buff, 0, 100000);
-	(void)env;
-	cmd = NULL;
+    (void)env;
+    // ft_memset(buff, 0, 100000);
+    cmd = NULL;
     crr = node->next;
-	while (crr != NULL )
+    while (crr != NULL)
     {
-       	cmd = crr->content;
-		quote = 0;
-		i = 0;
-		j = 0;
-     	while (cmd->program[i][j])
-    	{
-			if (cmd->program[i][j] == quote)
-				quote = 0;
-			else if (quote == 0 && (cmd->program[i][j] == '\'' || cmd->program[i][j] == '\"'))
-			{
-				printf("22222\n");
-				quote = cmd->program[i][j];
-			}
-			else if (quote == 0 )
-			{
-				printf("j1211111111\n");
-				buff[k++] = cmd->program[i][j];
-			}
-			else if (quote != '\'' && cmd->program[i][j] == '$' && cmd->program[i][j + 1])
-			{
-				check_split( &k, set_env_to_buf(env,
-						find_env(cmd->program[i], &j), buff), &idx ,quote);
-			}
-			else
-				buff[k++] = cmd->program[i][j];
-
-		if (cmd->program[i][j] == '\0')
-			i++;
-		j++;
-		}
-		printf("bufffffffff =  = %s\n", buff);
-    	cmd->program[i] = buff;
-		crr = crr->next;
+        cmd = crr->content;
+        quote = 0;
+        i = 0; // cmd->program 배열의 인덱스를 초기화
+		while (cmd->program[i])
+        {
+			// ft_memset(buff, 0, sizeof(buff));
+			// ft_memset(buff, 0, 100000);
+			printf("buvvvvvv = %s\n", buff);
+			printf("bubu : %s\n", cmd->program[i]);
+            j = 0;
+			k = 0;
+            while (cmd->program[i][j])
+            {
+                if (cmd->program[i][j] == quote)
+                    quote = 0;
+                else if (quote == 0 && (cmd->program[i][j] == '\'' || cmd->program[i][j] == '\"'))
+                {
+                    printf("22222\n");
+                    quote = cmd->program[i][j];
+                }
+                else if (quote == '\"' && cmd->program[i][j] == '\\' && cmd->program[i][j + 1] )
+                {
+                    buff[k++] = cmd->program[i][++j];
+                }
+                else if (quote == 0 && cmd->program[i][j] == '\\' && cmd->program[i][j + 1])
+                {
+                    printf("j1211111111\n");
+                    buff[k++] = cmd->program[i][j];
+                }
+                else if (quote != '\'' && cmd->program[i][j] == '$' && cmd->program[i][j + 1])
+                {
+                    check_split(&k, set_env_to_buf(env, find_env(cmd->program[i], &j), buff), &idx, quote);
+                }
+                else
+				{
+					printf("435\n");
+                    buff[k] = cmd->program[i][j];
+					printf("bufppppppppppp =  = %c\n", cmd->program[i][j]);
+					printf("bukkkkkkkk =  = %c\n", buff[k]);
+					k++;
+				}
+				j++;
+            }
+            printf("bufffffffff =  = %s\n", buff);
+            cmd->program[i] = ft_strdup(buff);
+            i++;
+			ft_memset(buff, 0, 100000);
+        }
+        crr = crr->next;
     }
+    printf("11081005\n");
 }
 
 t_list *parsing(char *line, char **env)
@@ -637,6 +654,8 @@ t_list *parsing(char *line, char **env)
 		info.p_i++;
 	}
 	printf("program: %s\n", info.content->program[0]);
+	// remove_space(info.content->program[0]);
+	// printf("program: %s\n", info.content->program[0]);
 	printf("FLAG1 : %d\n", info.content->flag);
 	if (info.quote != 0)
 	{
@@ -709,6 +728,7 @@ int		minishell(char **env)
 			printf("error\n");
 			exit(0);
 		}
+
 
 		printf("lline : %s\n",line);
 		parsing(line, env);
